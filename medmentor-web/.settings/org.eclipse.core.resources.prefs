@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+encoding//src/main/java/br/com/medmentor/config/ApplicationConfig.java=UTF-8
+encoding//src/main/java/br/com/medmentor/controller/AuthController.java=UTF-8
+encoding//src/main/java/br/com/medmentor/filter/CorsPreflightFilter.java=UTF-8
+encoding//src/main/java/br/com/medmentor/filter/CorsResponseFilter.java=UTF-8
+encoding//src/main/java/br/com/medmentor/mobile/controller/AuthController.java=UTF-8

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>br.com.medmentor</groupId>
+        <artifactId>medmentor</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>medmentor-web</artifactId>
+    <packaging>war</packaging>
+	
+	<properties>
+		
+	</properties>
+
+    <dependencies>
+        <!-- Depende do módulo API para DTOs e interfaces de serviço (para injeção) -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>medmentor-api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Depende do módulo EJB para as implementações de serviço (que serão injetadas) -->
+        <!-- O type 'ejb' é crucial para que o WAR consiga referenciar os EJBs do EJB JAR no EAR -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>medmentor-ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+            <scope>provided</scope> <!-- Como o EJB estará no EAR, ele é "provided" para o WAR em tempo de compilação -->
+        </dependency>
+
+        <!-- APIs Jakarta EE para WEB (JAX-RS, CDI) -->
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+			
+		<!-- JJWT (JSON Web Token) -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+	
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>          
+            </plugin>
+        </plugins>
+    </build>
+</project>

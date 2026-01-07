@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+  <name>medmentor-ear</name>
+  <comment>NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+  <projects>
+    <project>medmentor-web</project>
+    <project>medmentor-ejb</project>
+    <project>medmentor-api</project>
+  </projects>
+  <buildSpec/>
+  <natures/>
+</projectDescription>
