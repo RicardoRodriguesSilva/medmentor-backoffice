@@ -111,7 +111,6 @@ public class EmpresaProfissionalDAOImpl implements EmpresaProfissionalDAO {
 				}
 			}			
 			
-			conn.commit(); 
 			return empresaProfissional;
 		} catch (SQLException e) {
 			if (conn != null) {
