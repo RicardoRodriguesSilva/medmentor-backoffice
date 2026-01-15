@@ -53,8 +53,8 @@ public class CadastroController {
 	}  
 	
 	@PUT
-	@Path("/medico")
-    public Response alterarMedico(Integer id, MedicoDTO medicoDTO) {
+	@Path("/medico/{id}")
+    public Response alterarMedico(@PathParam("id") Integer id, MedicoDTO medicoDTO) {
         try {
             if (id == null || medicoDTO.getId() == null) {
                 return Response.status(Response.Status.BAD_REQUEST)
