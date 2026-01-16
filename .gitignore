@@ -1,1 +1,29 @@
 /.metadata/
+=======
+### Eclipse ###
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+# Arquivos de projeto específicos do Eclipse
+.project
+.classpath
+
+# Plugins específicos (ex: PyDev, Mylyn)
+.pydevproject
+.buildpath
+.target
+.factorypath
+
+# Saída de compilação do Maven/Gradle (comum no Eclipse)
+*/target/
+build/
+.gradle/

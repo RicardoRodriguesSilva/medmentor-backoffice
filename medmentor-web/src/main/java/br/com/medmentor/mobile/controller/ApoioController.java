@@ -27,7 +27,7 @@ public class ApoioController {
     private UnidadeFederacaoService unidadeFederacaoService;    
 
     @GET
-    @Path("/cidade//{id}")
+    @Path("/cidade/{id}")
     public Response recuperarCidadePorId(@PathParam("id") Integer id) {
         try {
             if (id == null) {

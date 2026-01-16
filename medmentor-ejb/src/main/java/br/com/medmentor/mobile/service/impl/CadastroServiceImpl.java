@@ -17,6 +17,7 @@ import br.com.medmentor.service.EmpresaProfissionalService;
 import br.com.medmentor.service.ProfissionalRegistroService;
 import br.com.medmentor.service.ProfissionalService;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 public class CadastroServiceImpl implements CadastroService {
 	

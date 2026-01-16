@@ -53,8 +53,8 @@ public class CadastroController {
 	}  
 	
 	@PUT
-	@Path("/medico")
-    public Response alterarMedico(Integer id, MedicoDTO medicoDTO) {
+	@Path("/medico/{id}")
+    public Response alterarMedico(@PathParam("id") Integer id, MedicoDTO medicoDTO) {
         try {
             if (id == null || medicoDTO.getId() == null) {
                 return Response.status(Response.Status.BAD_REQUEST)
@@ -107,8 +107,8 @@ public class CadastroController {
 	}  
 	
 	@PUT
-	@Path("/registro")
-    public Response alterarRegistro(Integer id, RegistroDTO registroDTO) {
+	@Path("/registro/{id}")
+    public Response alterarRegistro(@PathParam("id") Integer id, RegistroDTO registroDTO) {
         try {
             if (id == null || registroDTO.getId() == null) {
                 return Response.status(Response.Status.BAD_REQUEST)
@@ -161,8 +161,8 @@ public class CadastroController {
 	}  
 	
 	@PUT
-	@Path("/empresa")
-    public Response alterarEmpresa(Integer id, EmpresaDTO empresaDTO) {
+	@Path("/empresa/{id}")
+    public Response alterarEmpresa(@PathParam("id") Integer id, EmpresaDTO empresaDTO) {
         try {
             if (id == null || empresaDTO.getId() == null) {
                 return Response.status(Response.Status.BAD_REQUEST)
@@ -215,8 +215,8 @@ public class CadastroController {
 	}  
 	
 	@PUT
-	@Path("/dadosBancarios")
-    public Response alterarDadosBancarios(Integer id, DadosBancariosDTO dadosBancariosDTO) {
+	@Path("/dadosBancarios/{id}")
+    public Response alterarDadosBancarios(@PathParam("id") Integer id, DadosBancariosDTO dadosBancariosDTO) {
         try {
             if (id == null || dadosBancariosDTO.getId() == null) {
                 return Response.status(Response.Status.BAD_REQUEST)
