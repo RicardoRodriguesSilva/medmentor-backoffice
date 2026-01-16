@@ -41,11 +41,13 @@ public class AuthController {
 		if (userAuthenticator.authenticate(authRequest.getUsername(), authRequest.getPassword())) {
 			try {
 				Map<String, Object> claims = new HashMap<>();
-				claims.put("user_menus",
-						objectMapper.writeValueAsString(userAuthenticator.getMenusForUser(authRequest.getUsername())));
+				claims.put("user", authRequest.getUsername());
 				
-				claims.put("user_profile",
-						objectMapper.writeValueAsString(userAuthenticator.getProfileForUser(authRequest.getUsername())));
+				claims.put("user_name", userAuthenticator.getNomePessoaUsuario(authRequest.getUsername()));
+				
+				claims.put("user_menus", objectMapper.writeValueAsString(userAuthenticator.getMenusForUser(authRequest.getUsername())));
+				
+				claims.put("user_profile", userAuthenticator.getProfileForUser(authRequest.getUsername()));
 
 				String jwt = jwtUtil.generateToken(authRequest.getUsername(), claims);
 				LOGGER.info("User authenticated successfully: " + authRequest.getUsername());

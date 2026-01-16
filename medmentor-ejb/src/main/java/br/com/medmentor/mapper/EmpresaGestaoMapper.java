@@ -48,7 +48,7 @@ public class EmpresaGestaoMapper {
 
     	EmpresaGestao empresaGestao = new EmpresaGestao();
     	empresaGestao.setId(dto.getId());
-    	empresaGestao.setEmpresa(empresaMapper.toEntity(dto.getEmpresaDTO()));    	
+    	empresaGestao.setEmpresa(empresaMapper.toEntity(dto.getEmpresaDTO()));
 
         return empresaGestao;
     }

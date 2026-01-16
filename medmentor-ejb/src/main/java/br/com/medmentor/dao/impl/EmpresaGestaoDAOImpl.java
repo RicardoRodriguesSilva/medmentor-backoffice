@@ -103,7 +103,7 @@ public class EmpresaGestaoDAOImpl implements EmpresaGestaoDAO {
 			String sql = "update \"MED\".empresagestao set idempresagestao = ? where idempresagestao = ?";
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 				stmt.setInt(1, empresaGestao.getId()); 
-				stmt.setInt(2, empresaGestao.getId()); 
+				stmt.setInt(3, empresaGestao.getId()); 
 				stmt.executeUpdate();
 			}
 
@@ -173,7 +173,7 @@ public class EmpresaGestaoDAOImpl implements EmpresaGestaoDAO {
     			+ "	pes.descricaocomplemento, pes.descricaobairro, pes.numerocep, pes.idcidade, "
     			+ "	pes.numerocelular, pes.descricaoemail, "
     			+ "	pju.idpessoajuridica, pju.nomerazaosocial, pju.numerocnpj, "
-    			+ "	emp.idempresa, ges.idempresagestao, emp.nomefantasia, "
+    			+ "	emp.idempresa, ges.idempresagestao, emp.nomeresponsavel, emp.nomefantasia, "
     			+ "	cid.nomecidade, ufu.idunidadefederacao, ufu.nomeunidadefederacao, ufu.siglaunidadefederacao "
     			+ "from "
     			+ "	\"MED\".pessoa pes "
@@ -218,7 +218,8 @@ public class EmpresaGestaoDAOImpl implements EmpresaGestaoDAO {
 		
 		Empresa empresa = new Empresa();
 		empresa.setId(rs.getInt("idempresa"));
-		empresa.setNomeFantasia(rs.getString("nomefantasia"));					
+		empresa.setNomeFantasia(rs.getString("nomefantasia"));
+		empresa.setNomeResponsavel(rs.getString("nomeresponsavel"));
 		empresa.setPessoaJuridica(pessoaJuridica);	
 		
 		EmpresaGestao empresaGestao = new EmpresaGestao();

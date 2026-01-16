@@ -1,7 +1,7 @@
 package br.com.medmentor.dao;
 
 import java.sql.SQLException;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import br.com.medmentor.model.EscalaTrabalho;
@@ -16,7 +16,11 @@ public interface EscalaTrabalhoDAO {
 	
 	void delete(Integer id) throws SQLException;
 	
+	void deleteAllByEmpresaUndidadeGestaoEData(Integer idEmpresaUnidadeGestao, LocalDate data) throws SQLException;
+	
 	List<EscalaTrabalho> findAll() throws SQLException;
 	
-	List<EscalaTrabalho> findByDataInicioEDataFim(Date dataInicio, Date DataFim) throws SQLException;
+	List<EscalaTrabalho> findByFiltros(Integer idEmpresaProfissional, Integer idEmpresaUnidadeGestao, LocalDate dataInicio, LocalDate dataFim) throws SQLException;
+	
+	Boolean isEscalaTrabalhoByEmpresaUndidadeGestaoEData(Integer idEmpresaUnidadeGestao, LocalDate data) throws SQLException;
 }

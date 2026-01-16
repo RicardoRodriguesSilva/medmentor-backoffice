@@ -1,12 +1,11 @@
-// src/main/java/br/com/medmentor/model/CodTipoPessoa.java
 package br.com.medmentor.enums;
 
 public enum Parametro {
-    EMAIL(1),
-    USER_EMAIL(2),
-	PASS_EMAIL(3),
-	HOST_EMAIL(4),
-    PORT_EMAIL(5);
+    ADMIN_EMAIL(1),
+	PASS_EMAIL(2),
+	HOST_EMAIL(3),
+    PORT_EMAIL(4),
+    QTD_HORAS_PLANTONISTA_DIA(5);
 
     private final int codigo;
 

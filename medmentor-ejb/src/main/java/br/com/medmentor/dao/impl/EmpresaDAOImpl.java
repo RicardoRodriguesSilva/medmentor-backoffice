@@ -41,10 +41,11 @@ public class EmpresaDAOImpl implements EmpresaDAO {
 		PessoaJuridica pjCriada = pessoaJuridicaDAO.create(empresa.getPessoaJuridica());
 		empresa.setPessoaJuridica(pjCriada);
 
-		String sql = "insert into \"MED\".empresa (idempresa, nomefantasia) values (?, ?) returning idempresa";
+		String sql = "insert into \"MED\".empresa (idempresa, nomefantasia, nomeresponsavel) values (?, ?, ?) returning idempresa";
 		try (PreparedStatement stmt = dataSource.getConnection().prepareStatement(sql)) {
 			stmt.setInt(1, empresa.getPessoaJuridica().getId());
 			stmt.setString(2, empresa.getNomeFantasia());
+			stmt.setString(3, empresa.getNomeResponsavel());
 
 			try (ResultSet rs = stmt.executeQuery()) {
 				if (rs.next()) {
@@ -76,10 +77,11 @@ public class EmpresaDAOImpl implements EmpresaDAO {
 	public Empresa update(Empresa empresa) throws SQLException {
 		pessoaJuridicaDAO.update(empresa.getPessoaJuridica());
 
-		String sql = "update \"MED\".empresa set nomefantasia = ? where idempresa = ?";
+		String sql = "update \"MED\".empresa set nomefantasia = ?, nomeresponsavel = ? where idempresa = ?";
 		try (PreparedStatement stmt = dataSource.getConnection().prepareStatement(sql)) {
 			stmt.setString(1, empresa.getNomeFantasia());
-			stmt.setInt(2, empresa.getId());
+			stmt.setString(2, empresa.getNomeResponsavel());
+			stmt.setInt(3, empresa.getId());
 			int affectedRows = stmt.executeUpdate();
 			if (affectedRows == 0) {
 				throw new SQLException(
@@ -136,7 +138,7 @@ public class EmpresaDAOImpl implements EmpresaDAO {
     			+ "	pes.descricaocomplemento, pes.descricaobairro, pes.numerocep, pes.idcidade, "
     			+ "	pes.numerocelular, pes.descricaoemail, "
     			+ "	pju.idpessoajuridica, pju.nomerazaosocial, pju.numerocnpj, "
-    			+ "	emp.idempresa, "
+    			+ "	emp.idempresa, emp.nomeresponsavel, emp.nomefantasia, "
     			+ "	cid.nomecidade, ufu.idunidadefederacao, ufu.nomeunidadefederacao, ufu.siglaunidadefederacao "
     			+ "from "
     			+ "	\"MED\".pessoa pes "

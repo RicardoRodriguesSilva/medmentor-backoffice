@@ -100,6 +100,7 @@ public class UsuarioPerfilDAOImpl implements UsuarioPerfilDAO {
     public List<UsuarioPerfil> findAll() throws SQLException {
         List<UsuarioPerfil> listaUsuarioPerfil = new ArrayList<>();
         String sql = this.recuperaUsuarioPerfilSQL();
+        sql = sql + " ORDER BY usu.nomeusuario, per.nomeperfil ";
 		try (Connection conn = dataSource.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);
 				ResultSet rs = stmt.executeQuery()) {
@@ -111,9 +112,35 @@ public class UsuarioPerfilDAOImpl implements UsuarioPerfilDAO {
         return listaUsuarioPerfil;
     }
     
+	@Override
+	public List<UsuarioPerfil> findByFiltros(Integer idUsuario, Integer idPerfil) throws SQLException {
+        List<UsuarioPerfil> listaUsuarioPerfil = new ArrayList<>();
+        String sql = this.recuperaUsuarioPerfilSQL();
+        sql = sql + " WHERE 1 = 1 ";
+        
+        if ((idUsuario!=null)&&(idUsuario!=0)) {
+        	sql = sql + " AND usp.idusuario =  " + idUsuario;
+        }
+        
+        if ((idPerfil!=null)&&(idPerfil!=0)) {
+        	sql = sql + " AND usp.idperfil =  " + idPerfil;
+        }
+        
+        sql = sql + " ORDER BY usu.nomeusuario, per.nomeperfil ";
+		try (Connection conn = dataSource.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql);
+				ResultSet rs = stmt.executeQuery()) {
+			while (rs.next()) {
+				UsuarioPerfil usuarioPerfil = this.recuperaUsuarioPerfil(rs);
+				listaUsuarioPerfil.add(usuarioPerfil);
+			}
+		}
+        return listaUsuarioPerfil;
+	}     
+    
     private String recuperaUsuarioPerfilSQL() {
     	String sql = "select "
-    			+ "	usu.idusuario, usu.idpessoafisica, usu.nomeusuario, usu.senhausuario, usu.bolativo, "
+    			+ "	usu.idusuario, usu.idpessoa, usu.nomeusuario, usu.senhausuario, usu.bolativo, "
     			+ "	pfi.idpessoafisica, pfi.numerocpf, pfi.datanascimento, "
     			+ "	pes.idpessoa, pes.nomepessoa, pes.codtipopessoa, pes.descricaoendereco, pes.descricaocomplemento, "
     			+ "	pes.descricaobairro, pes.numerocep, pes.idcidade, "
@@ -122,7 +149,7 @@ public class UsuarioPerfilDAOImpl implements UsuarioPerfilDAO {
     			+ " per.idperfil, per.nomeperfil "
     			+ "from "
     			+ "	\"MED\".usuario usu "
-    			+ "	inner join \"MED\".pessoafisica pfi 	on usu.idpessoafisica = pfi.idpessoafisica "
+    			+ "	inner join \"MED\".pessoafisica pfi 	on usu.idpessoa = pfi.idpessoafisica "
     			+ "	inner join \"MED\".pessoa pes 			on pes.idpessoa = pfi.idpessoafisica "
     			+ "	inner join \"MED\".cidade cid 			on cid.idcidade = pes.idcidade "
     			+ "	inner join \"MED\".unidadefederacao ufu on ufu.idunidadefederacao = cid.idunidadefederacao "
@@ -180,5 +207,5 @@ public class UsuarioPerfilDAOImpl implements UsuarioPerfilDAO {
 		usuarioPerfil.setUsuario(usuario);
 		
 		return usuarioPerfil;
-	}    
+	}   
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.medmentor.dto.UsuarioPerfilDTO;
 import br.com.medmentor.exception.MedmentorException;
+import br.com.medmentor.filtro.dto.FiltroUsuarioPerfilDTO;
 import jakarta.ejb.Local;
 
 @Local
@@ -18,5 +19,7 @@ public interface UsuarioPerfilService extends GenericService {
     UsuarioPerfilDTO recuperarUsuarioPerfilPorId(Integer id) throws MedmentorException;
     
     List<UsuarioPerfilDTO> recuperarListaUsuarioPerfil() throws MedmentorException;
+    
+    List<UsuarioPerfilDTO> recuperarListaUsuarioPerfilPorFiltro(FiltroUsuarioPerfilDTO filtroUsuarioPerfilDTO) throws MedmentorException;
     
 }

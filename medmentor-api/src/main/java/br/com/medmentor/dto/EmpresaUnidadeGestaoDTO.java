@@ -7,6 +7,8 @@ public class EmpresaUnidadeGestaoDTO extends GenericDTO {
     private Integer id;   
     private EmpresaDTO empresaDTO;
     private EmpresaGestaoDTO empresaGestoraDTO;
+    private Integer numeroPlantonistaDia;
+    private Integer numeroPlantonistaPeriodo;
     
 	public Integer getId() {
 		return id;
@@ -32,9 +34,26 @@ public class EmpresaUnidadeGestaoDTO extends GenericDTO {
 		this.empresaGestoraDTO = empresaGestoraDTO;
 	}
 
+	public Integer getNumeroPlantonistaDia() {
+		return numeroPlantonistaDia;
+	}
+
+	public void setNumeroPlantonistaDia(Integer numeroPlantonistaDia) {
+		this.numeroPlantonistaDia = numeroPlantonistaDia;
+	}
+
+	public Integer getNumeroPlantonistaPeriodo() {
+		return numeroPlantonistaPeriodo;
+	}
+
+	public void setNumeroPlantonistaPeriodo(Integer numeroPlantonistaPeriodo) {
+		this.numeroPlantonistaPeriodo = numeroPlantonistaPeriodo;
+	}
+
 	@Override
 	public String toString() {
 		return "EmpresaUnidadeGestaoDTO [id=" + id + ", empresaDTO=" + empresaDTO + ", empresaGestoraDTO="
-				+ empresaGestoraDTO + "]";
+				+ empresaGestoraDTO + ", numeroPlantonistaDia=" + numeroPlantonistaDia + ", numeroPlantonistaPeriodo="
+				+ numeroPlantonistaPeriodo + "]";
 	}
 }

@@ -16,4 +16,6 @@ public interface UsuarioPerfilDAO {
     void delete(Integer id) throws SQLException;
     
     List<UsuarioPerfil> findAll() throws SQLException;	
+    
+    List<UsuarioPerfil> findByFiltros(Integer idUsuario, Integer idPerfil) throws SQLException;
 }

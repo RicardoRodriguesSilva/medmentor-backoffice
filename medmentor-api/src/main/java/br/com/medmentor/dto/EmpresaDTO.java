@@ -7,12 +7,15 @@ public class EmpresaDTO extends GenericDTO {
     private Integer id; 
     private PessoaJuridicaDTO pessoaJuridicaDTO;
     private String nomeFantasia;
+    private String nomeResponsavel;
 
     public EmpresaDTO() {}
 
-    public EmpresaDTO(PessoaJuridicaDTO pessoaJuridicaDTO, String nomeFantasia) {
+    public EmpresaDTO(PessoaJuridicaDTO pessoaJuridicaDTO, String nomeFantasia, 
+    		String nomeResponsavel) {
         this.pessoaJuridicaDTO = pessoaJuridicaDTO;
         this.nomeFantasia = nomeFantasia;
+        this.nomeResponsavel = nomeResponsavel;
     }
 
     public Integer getId() {
@@ -39,12 +42,18 @@ public class EmpresaDTO extends GenericDTO {
 		this.nomeFantasia = nomeFantasia;
 	}
 
+	public String getNomeResponsavel() {
+		return nomeResponsavel;
+	}
+
+	public void setNomeResponsavel(String nomeResponsavel) {
+		this.nomeResponsavel = nomeResponsavel;
+	}
+
 	@Override
-    public String toString() {
-        return "Empresa{" +
-               "id=" + id +
-               ", idPessoaJuridica=" + (pessoaJuridicaDTO != null ? pessoaJuridicaDTO.getId() : "null") +
-               ", nomeFantasia='" + nomeFantasia + '\'' +
-               '}';
-    }
+	public String toString() {
+		return "EmpresaDTO [id=" + id + ", pessoaJuridicaDTO=" + pessoaJuridicaDTO + ", nomeFantasia=" + nomeFantasia
+				+ ", nomeResponsavel=" + nomeResponsavel + "]";
+	}
+
 }

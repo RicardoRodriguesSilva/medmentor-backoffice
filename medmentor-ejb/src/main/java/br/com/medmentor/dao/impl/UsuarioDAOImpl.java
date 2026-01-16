@@ -11,18 +11,15 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import br.com.medmentor.dao.PessoaFisicaDAO; // Assumido
 import br.com.medmentor.dao.UsuarioDAO;
+import br.com.medmentor.enums.TipoPessoa; // Assumido para PessoaFisica mapear TipoPessoa
 import br.com.medmentor.model.Cidade;
 import br.com.medmentor.model.Pessoa; // Assumido para PessoaFisica ter um objeto Pessoa
 import br.com.medmentor.model.PessoaFisica; // Assumido
 import br.com.medmentor.model.UnidadeFederacao;
 import br.com.medmentor.model.Usuario;
-import br.com.medmentor.enums.TipoPessoa; // Assumido para PessoaFisica mapear TipoPessoa
-
 import jakarta.annotation.Resource;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named
@@ -32,19 +29,14 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	@Resource(lookup = "java:/jdbc/medmentorDS")
 	private DataSource dataSource;
 
-	@Inject
-	private PessoaFisicaDAO pessoaFisicaDAO; 
-
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 
 	@Override
 	public Usuario create(Usuario usuario) throws SQLException {
-		PessoaFisica pfCriada = pessoaFisicaDAO.create(usuario.getPessoaFisica());
-		usuario.setPessoaFisica(pfCriada);
-
-		String sql = "insert into \"med\".usuario (idpessoafisica, nomeusuario, senhausuario, bolativo) values (?, ?, ?, ?) returning idusuario";
+		
+		String sql = "insert into \"MED\".usuario (idpessoa, nomeusuario, senhausuario, bolativo) values (?, ?, ?, ?) returning idusuario";
 		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setInt(1, usuario.getPessoaFisica().getId());
 			stmt.setString(2, usuario.getNomeUsuario());
@@ -94,8 +86,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 	@Override
 	public Usuario update(Usuario usuario) throws SQLException {
-		pessoaFisicaDAO.update(usuario.getPessoaFisica());
-		String sql = "update \"med\".usuario set nomeusuario = ?, senhausuario = ?, bolativo = ?, idpessoafisicia = ? where idusuario = ?";
+		String sql = "update \"MED\".usuario set nomeusuario = ?, senhausuario = ?, bolativo = ?, idpessoa = ? where idusuario = ?";
 		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setString(1, usuario.getNomeUsuario());
 			stmt.setString(2, usuario.getSenhaUsuario());
@@ -118,13 +109,11 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			return;
 		}
 
-		String sql = "delete from \"med\".usuario where idusuario = ?";
+		String sql = "delete from \"MED\".usuario where idusuario = ?";
 		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setInt(1, id);
 			stmt.executeUpdate();
 		}
-
-		pessoaFisicaDAO.delete(usuario.getPessoaFisica().getId());
 	}
 
 	@Override
@@ -159,7 +148,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	
 	private String recuperaUsuarioSQL() {
     	String sql = "select "
-    			+ "	usu.idusuario, usu.idpessoafisica, usu.nomeusuario, usu.senhausuario, usu.bolativo, "
+    			+ "	usu.idusuario, usu.idpessoa, usu.nomeusuario, usu.senhausuario, usu.bolativo, "
     			+ "	pfi.idpessoafisica, pfi.numerocpf, pfi.datanascimento, "
     			+ "	pes.idpessoa, pes.nomepessoa, pes.codtipopessoa, pes.descricaoendereco, pes.descricaocomplemento, "
     			+ "	pes.descricaobairro, pes.numerocep, pes.idcidade, "
@@ -167,7 +156,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     			+ "	cid.nomecidade, ufu.idunidadefederacao, ufu.nomeunidadefederacao, ufu.siglaunidadefederacao "
     			+ "from "
     			+ "	\"MED\".usuario usu "
-    			+ "	inner join \"MED\".pessoafisica pfi 		on usu.idpessoafisica = pfi.idpessoafisica "
+    			+ "	left join \"MED\".pessoafisica pfi 		on usu.idpessoa = pfi.idpessoafisica "
+    			+ "	left join \"MED\".pessoajuridica pju 	on usu.idpessoa = pju.idpessoajuridica "
     			+ "	inner join \"MED\".pessoa pes 			on pes.idpessoa = pfi.idpessoafisica "
     			+ "	inner join \"MED\".cidade cid 			on cid.idcidade = pes.idcidade "
     			+ "	inner join \"MED\".unidadefederacao ufu 	on ufu.idunidadefederacao = cid.idunidadefederacao ";

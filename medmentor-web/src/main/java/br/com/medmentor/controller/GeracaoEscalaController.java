@@ -3,10 +3,10 @@ package br.com.medmentor.controller;
 import java.net.URI;
 import java.util.List;
 
-import br.com.medmentor.dto.UsuarioPerfilDTO;
+import br.com.medmentor.dto.GeracaoEscalaDTO;
 import br.com.medmentor.exception.MedmentorException;
-import br.com.medmentor.filtro.dto.FiltroUsuarioPerfilDTO;
-import br.com.medmentor.service.UsuarioPerfilService;
+import br.com.medmentor.filtro.dto.FiltroGeracaoEscalaDTO;
+import br.com.medmentor.service.GeracaoEscalaService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Consumes;
@@ -20,30 +20,30 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/usuario-perfil") 
+@Path("/geracao-escala") 
 @Produces(MediaType.APPLICATION_JSON) 
 @Consumes(MediaType.APPLICATION_JSON) 
-public class UsuarioPerfilController {
+public class GeracaoEscalaController {
 
     @Inject
-    private UsuarioPerfilService usuarioPerfilService;
+    private GeracaoEscalaService geracaoEscalaService;
 
     @POST
-    public Response incluirUsuarioPerfil(UsuarioPerfilDTO usuarioPerfilDTO) {
+    public Response incluirGeracaoEscala(GeracaoEscalaDTO geracaoEscalaDTO) {
         try {
-            if (usuarioPerfilDTO == null) {
+            if (geracaoEscalaDTO == null) {
                 return Response.status(Response.Status.BAD_REQUEST)
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            UsuarioPerfilDTO novoUsuarioPerfil = usuarioPerfilService.incluirUsuarioPerfil(usuarioPerfilDTO);
-            return Response.created(URI.create("/api/usuario-perfis/" + novoUsuarioPerfil.getId()))
-                           .entity(novoUsuarioPerfil)
+            GeracaoEscalaDTO novaEscala = geracaoEscalaService.incluirGeracaoEscala(geracaoEscalaDTO);
+            return Response.created(URI.create("/api/escala-trabalho/" + novaEscala.getId()))
+                           .entity(novaEscala)
                            .build();
         } catch (MedmentorException e) {
-            System.err.println("Erro ao incluir Usu�rio Perfil: " + e.getMessage());
+            System.err.println("Erro ao incluir Escala de Trabalho: " + e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                           .entity("Erro interno do servidor ao incluir usu�rio perfil: " + e.getMessage())
+                           .entity("Erro interno do servidor ao incluir escala: " + e.getMessage())
                            .build();
         } catch (Exception e) {
             System.err.println("Erro inesperado ao processar requisi��o de inclus�o: " + e.getMessage());
@@ -55,25 +55,25 @@ public class UsuarioPerfilController {
 
     @GET
     @Path("/{id}")
-    public Response recuperarUsuarioPerfilPorId(@PathParam("id") Integer id) {
+    public Response recuperarGeracaoEscalaPorId(@PathParam("id") Integer id) {
         try {
             if (id == null) {
                 return Response.status(Response.Status.BAD_REQUEST)
-                               .entity("O ID do usu�rio perfil n�o pode ser nulo.")
+                               .entity("O ID da escala n�o pode ser nulo.")
                                .build();
             }
-            UsuarioPerfilDTO usuarioPerfil = usuarioPerfilService.recuperarUsuarioPerfilPorId(id);
-            if (usuarioPerfil != null) {
-                return Response.ok(usuarioPerfil).build();
+            GeracaoEscalaDTO geracaoEscala = geracaoEscalaService.recuperarGeracaoEscalaPorId(id);
+            if (geracaoEscala != null) {
+                return Response.ok(geracaoEscala).build();
             } else {
                 return Response.status(Response.Status.NOT_FOUND)
-                               .entity("Usu�rio Perfil com ID " + id + " n�o encontrado.")
+                               .entity("Escala de Trabalho com ID " + id + " n�o encontrada.")
                                .build();
             }
         } catch (MedmentorException e) {
-            System.err.println("Erro ao recuperar Usu�rio Perfil por ID (" + id + "): " + e.getMessage());
+            System.err.println("Erro ao recuperar Escala de Trabalho por ID (" + id + "): " + e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                           .entity("Erro interno do servidor ao buscar usu�rio perfil: " + e.getMessage())
+                           .entity("Erro interno do servidor ao buscar escala: " + e.getMessage())
                            .build();
         } catch (Exception e) {
             System.err.println("Erro inesperado ao processar requisi��o de recupera��o: " + e.getMessage());
@@ -84,19 +84,19 @@ public class UsuarioPerfilController {
     }
 
     @GET
-    @Path("/por-filtros")
-    public Response recuperarListaUsuarioPerfilPorFiltro(@BeanParam FiltroUsuarioPerfilDTO filtroUsuarioPerfilDTO) {
+    @Path("todas")
+    public Response recuperarListaGeracaoEscala() {
         try {
-            List<UsuarioPerfilDTO> usuarioPerfis = usuarioPerfilService.recuperarListaUsuarioPerfilPorFiltro(filtroUsuarioPerfilDTO);
-            if (usuarioPerfis.isEmpty()) {
+            List<GeracaoEscalaDTO> escalas = geracaoEscalaService.recuperarListaGeracaoEscala();
+            if (escalas.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
-                return Response.ok(usuarioPerfis).build(); 
+                return Response.ok(escalas).build(); 
             }
         } catch (MedmentorException e) {
-            System.err.println("Erro ao listar todos os Usu�rios Perfis: " + e.getMessage());
+            System.err.println("Erro ao listar todas as Escalas de Trabalho: " + e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                           .entity("Erro interno do servidor ao listar usu�rios perfis: " + e.getMessage())
+                           .entity("Erro interno do servidor ao listar escalas: " + e.getMessage())
                            .build();
         } catch (Exception e) {
             System.err.println("Erro inesperado ao processar requisi��o de listagem: " + e.getMessage());
@@ -107,18 +107,20 @@ public class UsuarioPerfilController {
     }
     
     @GET
-    public Response recuperarListaUsuarioPerfil() {
+    @Path("/por-filtros")
+    public Response recuperarListaGeracaoEscalaPorFiltro(@BeanParam FiltroGeracaoEscalaDTO filtroGeracaoEscalaDTO) {
         try {
-            List<UsuarioPerfilDTO> usuarioPerfis = usuarioPerfilService.recuperarListaUsuarioPerfil();
-            if (usuarioPerfis.isEmpty()) {
+            List<GeracaoEscalaDTO> escalas = geracaoEscalaService.
+            		recuperarListaGeracaoEscalaPorFiltro(filtroGeracaoEscalaDTO);
+            if (escalas.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
-                return Response.ok(usuarioPerfis).build(); 
+                return Response.ok(escalas).build(); 
             }
         } catch (MedmentorException e) {
-            System.err.println("Erro ao listar todos os Usu�rios Perfis: " + e.getMessage());
+            System.err.println("Erro ao listar todas as Escalas de Trabalho: " + e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                           .entity("Erro interno do servidor ao listar usu�rios perfis: " + e.getMessage())
+                           .entity("Erro interno do servidor ao listar escalas: " + e.getMessage())
                            .build();
         } catch (Exception e) {
             System.err.println("Erro inesperado ao processar requisi��o de listagem: " + e.getMessage());
@@ -129,19 +131,19 @@ public class UsuarioPerfilController {
     }    
 
     @PUT
-    public Response alterarUsuarioPerfil(UsuarioPerfilDTO usuarioPerfilDTO) {
+    public Response alterarGeracaoEscala(GeracaoEscalaDTO geracaoEscalaDTO) {
         try {
-            if (usuarioPerfilDTO == null || usuarioPerfilDTO.getId() == null) {
+            if (geracaoEscalaDTO == null || geracaoEscalaDTO.getId() == null) {
                 return Response.status(Response.Status.BAD_REQUEST)
-                               .entity("O corpo da requisi��o e o ID do usu�rio perfil n�o podem ser vazios.")
+                               .entity("O corpo da requisi��o e o ID da escala n�o podem ser vazios.")
                                .build();
             }
-            usuarioPerfilService.alterarUsuarioPerfil(usuarioPerfilDTO);
-            return Response.ok().entity("Usu�rio Perfil atualizado com sucesso.").build();
+            geracaoEscalaService.alterarGeracaoEscala(geracaoEscalaDTO);
+            return Response.ok().entity(geracaoEscalaDTO).build();
         } catch (MedmentorException e) {
-            System.err.println("Erro ao alterar Usu�rio Perfil com ID " + usuarioPerfilDTO.getId() + ": " + e.getMessage());
+            System.err.println("Erro ao alterar Escala de Trabalho com ID " + geracaoEscalaDTO.getId() + ": " + e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                           .entity("Erro interno do servidor ao atualizar usu�rio perfil: " + e.getMessage())
+                           .entity("Erro interno do servidor ao atualizar escala: " + e.getMessage())
                            .build();
         } catch (Exception e) {
             System.err.println("Erro inesperado ao processar requisi��o de altera��o: " + e.getMessage());
@@ -153,27 +155,27 @@ public class UsuarioPerfilController {
 
     @DELETE
     @Path("/{id}")
-    public Response excluirUsuarioPerfil(@PathParam("id") Integer id) {
+    public Response excluirGeracaoEscala(@PathParam("id") Integer id) {
         try {
             if (id == null) {
                 return Response.status(Response.Status.BAD_REQUEST)
-                               .entity("O ID do usu�rio perfil n�o pode ser nulo para exclus�o.")
+                               .entity("O ID da escala n�o pode ser nulo para exclus�o.")
                                .build();
             }
 
-            UsuarioPerfilDTO usuarioPerfilExistente = usuarioPerfilService.recuperarUsuarioPerfilPorId(id);
-            if (usuarioPerfilExistente == null) {
+            GeracaoEscalaDTO escalaExistente = geracaoEscalaService.recuperarGeracaoEscalaPorId(id);
+            if (escalaExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
-                               .entity("Usu�rio Perfil com ID " + id + " n�o encontrado para exclus�o.")
+                               .entity("Escala de Trabalho com ID " + id + " n�o encontrada para exclus�o.")
                                .build();
-            } 
+            }
 
-            usuarioPerfilService.excluirUsuarioPerfil(id);
+            geracaoEscalaService.excluirGeracaoEscala(id);
             return Response.noContent().build(); 
         } catch (MedmentorException e) {
-            System.err.println("Erro ao excluir Usu�rio Perfil por ID (" + id + "): " + e.getMessage());
+            System.err.println("Erro ao excluir Escala de Trabalho por ID (" + id + "): " + e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                           .entity("Erro interno do servidor ao excluir usu�rio perfil: " + e.getMessage())
+                           .entity("Erro interno do servidor ao excluir escala: " + e.getMessage())
                            .build();
         } catch (Exception e) {
             System.err.println("Erro inesperado ao processar requisi��o de exclus�o: " + e.getMessage());

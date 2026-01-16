@@ -25,6 +25,7 @@ public class EmpresaGestaoDTO extends GenericDTO {
 
 	@Override
 	public String toString() {
-		return "EmpresaGestaoDTO [id=" + id + ", empresaDTO=" + empresaDTO + "]";
-	}  
+		return "EmpresaGestaoDTO [id=" + id + ", empresaDTO=" + empresaDTO
+				+ "]";
+	}
 }

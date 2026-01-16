@@ -28,6 +28,8 @@ public class EmpresaUnidadeGestaoMapper {
         dto.setId(empresaUnidadeGestao.getId());
         dto.setEmpresaDTO(empresaMapper.toDto(empresaUnidadeGestao.getEmpresa()));
         dto.setEmpresaGestoraDTO(empresaGestaoMapper.toDto(empresaUnidadeGestao.getEmpresaGestora()));
+        dto.setNumeroPlantonistaDia(empresaUnidadeGestao.getNumeroPlantonistaDia());
+        dto.setNumeroPlantonistaPeriodo(empresaUnidadeGestao.getNumeroPlantonistaPeriodo());
         
         return dto;
     }
@@ -52,6 +54,8 @@ public class EmpresaUnidadeGestaoMapper {
     	empresaUnidadeGestao.setId(dto.getId());
     	empresaUnidadeGestao.setEmpresa(empresaMapper.toEntity(dto.getEmpresaDTO()));
     	empresaUnidadeGestao.setEmpresaGestora(empresaGestaoMapper.toEntity(dto.getEmpresaGestoraDTO()));
+    	empresaUnidadeGestao.setNumeroPlantonistaDia(dto.getNumeroPlantonistaDia());
+    	empresaUnidadeGestao.setNumeroPlantonistaPeriodo(dto.getNumeroPlantonistaPeriodo());
 
         return empresaUnidadeGestao;
     }
