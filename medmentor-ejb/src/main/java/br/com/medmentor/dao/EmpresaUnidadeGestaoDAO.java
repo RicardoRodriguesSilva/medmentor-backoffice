@@ -16,4 +16,6 @@ public interface EmpresaUnidadeGestaoDAO {
 	EmpresaUnidadeGestao update(EmpresaUnidadeGestao empresaUnidadeGestao) throws SQLException;
 	
 	void delete(Integer idUnidadeGestao) throws SQLException;
+	
+	List<EmpresaUnidadeGestao> findByIdProfissional(Integer idProfissional) throws SQLException;
 }

@@ -108,7 +108,7 @@ public class EscalaTrabalhoController {
     
     @GET
     @Path("/por-filtros")
-    public Response recuperarListaPorFiltros(@BeanParam FiltroEscalaTrabalhoDTO filtroEscalaTrabalhoDTO) {
+    public Response recuperarListaEscalaTrabalhoFiltros(@BeanParam FiltroEscalaTrabalhoDTO filtroEscalaTrabalhoDTO) {
         try {
             List<EscalaTrabalhoDTO> escalas = escalaTrabalhoService.recuperarListaEscalaTrabalhoPorFiltro(filtroEscalaTrabalhoDTO);
             if (escalas.isEmpty()) {

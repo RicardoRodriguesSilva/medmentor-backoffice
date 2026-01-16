@@ -1,5 +1,6 @@
 package br.com.medmentor.mobile.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.medmentor.dto.GenericDTO;
@@ -10,7 +11,11 @@ public class GestoraSaudeDTO extends GenericDTO {
 	
 	private Integer id;
 	private String nome;
-	private List<UnidadeSaudeDTO> listaUnidadeSaude;
+	private List<UnidadeSaudeDTO> listaUnidadeSaudeDTO;
+	
+	public GestoraSaudeDTO() {
+		listaUnidadeSaudeDTO = new ArrayList<UnidadeSaudeDTO>();
+	}
 
 	public Integer getId() {
 		return id;
@@ -28,17 +33,17 @@ public class GestoraSaudeDTO extends GenericDTO {
 		this.nome = nome;
 	}
 
-	public List<UnidadeSaudeDTO> getListaUnidadeSaude() {
-		return listaUnidadeSaude;
+	public List<UnidadeSaudeDTO> getListaUnidadeSaudeDTO() {
+		return listaUnidadeSaudeDTO;
 	}
 
-	public void setListaUnidadeSaude(List<UnidadeSaudeDTO> listaUnidadeSaude) {
-		this.listaUnidadeSaude = listaUnidadeSaude;
+	public void setListaUnidadeSaudeDTO(List<UnidadeSaudeDTO> listaUnidadeSaudeDTO) {
+		this.listaUnidadeSaudeDTO = listaUnidadeSaudeDTO;
 	}
 
 	@Override
 	public String toString() {
-		return "GestoraSaudeDTO [id=" + id + ", nome=" + nome + ", listaUnidadeSaude=" + listaUnidadeSaude + "]";
+		return "GestoraSaudeDTO [id=" + id + ", nome=" + nome + ", listaUnidadeSaudeDTO=" + listaUnidadeSaudeDTO + "]";
 	}
 	
 }

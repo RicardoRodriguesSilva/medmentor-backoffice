@@ -199,6 +199,31 @@ public class EmpresaUnidadeGestaoDAOImpl implements EmpresaUnidadeGestaoDAO {
 		}
 	}
 	
+	@Override
+	public List<EmpresaUnidadeGestao> findByIdProfissional(Integer idProfissional) throws SQLException {
+		List<EmpresaUnidadeGestao> listaUnidadeGestao = new ArrayList<EmpresaUnidadeGestao>();
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			String sql = this.recuperaEmpresaGestaoSQL();
+			sql = sql + " inner join \"MED\".empresaprofissional epp 	on epp.idempresagestao = ges.idempresagestao ";
+			sql = sql + " where epp.idprofissional = " + idProfissional;
+			sql = sql + " order by emp1.nomefantasia, emp.nomefantasia ";
+			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next()) {
+					EmpresaUnidadeGestao empresaUnidadeGestao = this.recuperaEmpresaGestao(rs);
+					listaUnidadeGestao.add(empresaUnidadeGestao);
+				}
+			}
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return listaUnidadeGestao;
+	}	
+	
 	private String recuperaEmpresaGestaoSQL() {
     	String sql = "select "
     			+ "	pes.idpessoa, pes.nomepessoa, pes.codtipopessoa, pes.descricaoendereco, "

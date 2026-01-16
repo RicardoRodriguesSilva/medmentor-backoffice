@@ -10,15 +10,17 @@ public class EscalaDTO extends GenericDTO {
     
     private Integer id;
     private Integer idGestoraSaude;
+    private String nomeGestoraSaude;
     private Integer idUnidadeSaude;
+    private String nomeUnidadeSaude;
     private Integer idProfissional;
     private LocalDateTime dataHoraEntrada;
     private LocalDateTime dataHoraSaida;
     private Boolean bolAtivo;
     private Boolean bolRealizado;
     private Boolean bolEscalaTerceiro;
-    
-	public Integer getId() {
+	
+    public Integer getId() {
 		return id;
 	}
 	
@@ -34,12 +36,36 @@ public class EscalaDTO extends GenericDTO {
 		this.idGestoraSaude = idGestoraSaude;
 	}
 	
+	public String getNomeGestoraSaude() {
+		return nomeGestoraSaude;
+	}
+	
+	public void setNomeGestoraSaude(String nomeGestoraSaude) {
+		this.nomeGestoraSaude = nomeGestoraSaude;
+	}
+	
 	public Integer getIdUnidadeSaude() {
 		return idUnidadeSaude;
 	}
 	
 	public void setIdUnidadeSaude(Integer idUnidadeSaude) {
 		this.idUnidadeSaude = idUnidadeSaude;
+	}
+	
+	public String getNomeUnidadeSaude() {
+		return nomeUnidadeSaude;
+	}
+	
+	public void setNomeUnidadeSaude(String nomeUnidadeSaude) {
+		this.nomeUnidadeSaude = nomeUnidadeSaude;
+	}
+	
+	public Integer getIdProfissional() {
+		return idProfissional;
+	}
+	
+	public void setIdProfissional(Integer idProfissional) {
+		this.idProfissional = idProfissional;
 	}
 	
 	public LocalDateTime getDataHoraEntrada() {
@@ -82,19 +108,18 @@ public class EscalaDTO extends GenericDTO {
 		this.bolEscalaTerceiro = bolEscalaTerceiro;
 	}
 
-	public Integer getIdProfissional() {
-		return idProfissional;
-	}
-
-	public void setIdProfissional(Integer idProfissional) {
-		this.idProfissional = idProfissional;
-	}
-
 	@Override
 	public String toString() {
-		return "EscalaDTO [id=" + id + ", idGestoraSaude=" + idGestoraSaude + ", idUnidadeSaude=" + idUnidadeSaude
-				+ ", idProfissional=" + idProfissional + ", dataHoraEntrada=" + dataHoraEntrada + ", dataHoraSaida="
-				+ dataHoraSaida + ", bolAtivo=" + bolAtivo + ", bolRealizado=" + bolRealizado + ", bolEscalaTerceiro="
-				+ bolEscalaTerceiro + "]";
+		return "EscalaDTO [id=" + id + ", idGestoraSaude=" + idGestoraSaude + ", nomeGestoraSaude=" + nomeGestoraSaude
+				+ ", idUnidadeSaude=" + idUnidadeSaude + ", nomeUnidadeSaude=" + nomeUnidadeSaude + ", idProfissional="
+				+ idProfissional + ", dataHoraEntrada=" + dataHoraEntrada + ", dataHoraSaida=" + dataHoraSaida
+				+ ", bolAtivo=" + bolAtivo + ", bolRealizado=" + bolRealizado + ", bolEscalaTerceiro="
+				+ bolEscalaTerceiro + ", getId()=" + getId() + ", getIdGestoraSaude()=" + getIdGestoraSaude()
+				+ ", getNomeGestoraSaude()=" + getNomeGestoraSaude() + ", getIdUnidadeSaude()=" + getIdUnidadeSaude()
+				+ ", getNomeUnidadeSaude()=" + getNomeUnidadeSaude() + ", getIdProfissional()=" + getIdProfissional()
+				+ ", getDataHoraEntrada()=" + getDataHoraEntrada() + ", getDataHoraSaida()=" + getDataHoraSaida()
+				+ ", getBolAtivo()=" + getBolAtivo() + ", getBolRealizado()=" + getBolRealizado()
+				+ ", getBolEscalaTerceiro()=" + getBolEscalaTerceiro() + ", getClass()=" + getClass() + ", hashCode()="
+				+ hashCode() + ", toString()=" + super.toString() + "]";
 	}
 }

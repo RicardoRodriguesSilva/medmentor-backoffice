@@ -150,13 +150,48 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
 	
 	@Override
 	public List<EscalaTrabalho> findByFiltros(Integer idEmpresaProfissional, Integer idEmpresaUnidadeGestao, LocalDate dataInicio, LocalDate dataFim) throws SQLException {
-        List<EscalaTrabalho> listaEscala = new ArrayList<EscalaTrabalho>();
         
-        
+		List<EscalaTrabalho> listaEscala = new ArrayList<EscalaTrabalho>();
+                
         String sql = this.recuperaEscalaTrabalhoSQL() + " where 1 = 1 ";
         if ((idEmpresaProfissional !=null)&&(idEmpresaProfissional!=0)) {
         	sql = sql + " AND esc.idEmpresaProfissional = " + idEmpresaProfissional;
         }        
+        
+        if ((idEmpresaUnidadeGestao !=null)&&(idEmpresaUnidadeGestao!=0)) {
+        	sql = sql + " AND esc.idEmpresaUnidadeGestao = " + idEmpresaUnidadeGestao;
+        }
+        
+        if ((dataInicio!=null)&&(dataFim!=null)) {
+            sql = sql + " AND esc.datahoraentrada between '" + dataInicio + "' and '" + dataFim + "'";
+        }        
+        
+        sql = sql + " order by pju2.nomerazaosocial, pju1.nomerazaosocial, esc.datahoraentrada, pes.nomepessoa";
+        try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					EscalaTrabalho escalaTrabalho = this.recuperaEscalaTrabalho(rs);
+					listaEscala.add(escalaTrabalho);
+				}
+			}
+		}
+        return listaEscala;
+	}
+	
+	@Override
+	public List<EscalaTrabalho> findByFiltros(Integer idProfissional, Integer idEmpresaGestao,
+			Integer idEmpresaUnidadeGestao, LocalDate dataInicio, LocalDate dataFim) throws SQLException {
+		List<EscalaTrabalho> listaEscala = new ArrayList<EscalaTrabalho>();
+		
+		String sql = this.recuperaEscalaTrabalhoSQL() + " where 1 = 1 ";
+        if ((idProfissional !=null)&&(idProfissional!=0)) {
+        	//Verificar para também escalas de outros da mesma unidade gestão
+        	//sql = sql + " AND esc.idEmpresaProfissional = " + idEmpresaProfissional;
+        }      
+        
+        if ((idEmpresaGestao !=null)&&(idEmpresaGestao!=0)) {
+        	sql = sql + " AND ges.idEmpresaGestao = " + idEmpresaGestao;
+        }
         
         if ((idEmpresaUnidadeGestao !=null)&&(idEmpresaUnidadeGestao!=0)) {
         	sql = sql + " AND esc.idEmpresaUnidadeGestao = " + idEmpresaUnidadeGestao;

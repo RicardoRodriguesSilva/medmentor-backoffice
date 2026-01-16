@@ -84,5 +84,17 @@ public class EmpresaUnidadeGestaoServiceImpl implements EmpresaUnidadeGestaoServ
             throw new MedmentorException(e.getMessage(), e.getCause());
         }
         return listaDto;
+	}
+
+	@Override
+	public List<EmpresaUnidadeGestaoDTO> recuperarListaEmpresaUnidadeGestaoPorIdProfissional(Integer idProfissional)
+			throws MedmentorException {
+        List<EmpresaUnidadeGestaoDTO> listaDto = new ArrayList<>();
+        try {
+            listaDto = empresaUnidadeGestaoMapper.toListDto(empresaUnidadeGestaoDAO.findByIdProfissional(idProfissional));
+        } catch (SQLException e) {
+            throw new MedmentorException(e.getMessage(), e.getCause());
+        }
+        return listaDto;
 	}	
 }

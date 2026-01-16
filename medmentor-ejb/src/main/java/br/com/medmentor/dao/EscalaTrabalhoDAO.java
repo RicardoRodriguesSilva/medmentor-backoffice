@@ -22,5 +22,7 @@ public interface EscalaTrabalhoDAO {
 	
 	List<EscalaTrabalho> findByFiltros(Integer idEmpresaProfissional, Integer idEmpresaUnidadeGestao, LocalDate dataInicio, LocalDate dataFim) throws SQLException;
 	
+	List<EscalaTrabalho> findByFiltros(Integer idEmpresaProfissional, Integer idEmpresaGestao, Integer idEmpresaUnidadeGestao, LocalDate dataInicio, LocalDate dataFim) throws SQLException;
+	
 	Boolean isEscalaTrabalhoByEmpresaUndidadeGestaoEData(Integer idEmpresaUnidadeGestao, LocalDate data) throws SQLException;
 }

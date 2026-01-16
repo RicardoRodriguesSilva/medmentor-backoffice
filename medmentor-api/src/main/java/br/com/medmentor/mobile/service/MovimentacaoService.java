@@ -10,9 +10,9 @@ import br.com.medmentor.service.GenericService;
 import jakarta.ejb.Local;
 
 @Local
-public interface EscalaService extends GenericService {
+public interface MovimentacaoService extends GenericService {
 	
 	List<GestoraSaudeDTO> recuperaListaGestoraSaudePorProfissional(Integer id) throws MedmentorException;
 	
-	List<EscalaDTO> recuperaEscalaPorFiltro(FiltroEscalaDTO filtroEscalaDTO) throws MedmentorException;
+	List<EscalaDTO> recuperaListaEscalaPorFiltro(FiltroEscalaDTO filtroEscalaDTO) throws MedmentorException;
 }
