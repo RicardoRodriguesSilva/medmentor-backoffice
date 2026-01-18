@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import br.com.medmentor.dao.UsuarioPerfilDAO;
 import br.com.medmentor.dto.UsuarioPerfilDTO;
 import br.com.medmentor.exception.MedmentorException;
+import br.com.medmentor.filtro.dto.FiltroUsuarioPerfilDTO;
 import br.com.medmentor.mapper.UsuarioPerfilMapper;
 import br.com.medmentor.model.UsuarioPerfil;
 import br.com.medmentor.service.UsuarioPerfilService;
@@ -82,4 +83,17 @@ public class UsuarioPerfilServiceImpl implements UsuarioPerfilService {
         }
         return listaDto;
     }
+
+	@Override
+	public List<UsuarioPerfilDTO> recuperarListaUsuarioPerfilPorFiltro(FiltroUsuarioPerfilDTO filtroUsuarioPerfilDTO)
+			throws MedmentorException {
+        List<UsuarioPerfilDTO> listaDto = new ArrayList<>();
+        try {
+            listaDto = usuarioPerfilMapper.toListDto(usuarioPerfilDAO.findByFiltros(filtroUsuarioPerfilDTO.getIdUsuario(), 
+            		filtroUsuarioPerfilDTO.getIdPerfil()));
+        } catch (SQLException e) {
+            throw new MedmentorException(e.getMessage(), e.getCause());
+        }
+        return listaDto;
+	}
 }

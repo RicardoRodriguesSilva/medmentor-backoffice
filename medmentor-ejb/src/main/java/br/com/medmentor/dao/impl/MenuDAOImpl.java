@@ -155,7 +155,7 @@ public class MenuDAOImpl implements MenuDAO {
 				+ "	inner join \"MED\".menu men 			on men.idmenu = pea.idmenu                 	"
 				+ "	inner join \"MED\".tipomenu tim 		on tim.idtipomenu = men.idtipomenu         	"
 				+ "	inner join \"MED\".acao aca 			on aca.idacao = pea.idacao                 	"
-				+ "	inner join \"MED\".pessoafisica pef 	on pef.idpessoafisica = usu.idpessoafisica 	"
+				+ "	inner join \"MED\".pessoafisica pef 	on pef.idpessoafisica = usu.idpessoa  		"
 				+ "	inner join \"MED\".pessoa pes 			on pes.idpessoa = pef.idpessoafisica   		"
 				+ "where                                                                           		"
 				+ "	1=1                                                                            		"

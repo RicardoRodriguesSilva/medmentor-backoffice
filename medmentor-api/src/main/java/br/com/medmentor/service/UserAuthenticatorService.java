@@ -14,5 +14,7 @@ public interface UserAuthenticatorService {
 	
 	String getProfileForUser(String username);
 	
+	String getNomePessoaUsuario(String username);
+	
 	Integer getProfissionalId(String username);
 }

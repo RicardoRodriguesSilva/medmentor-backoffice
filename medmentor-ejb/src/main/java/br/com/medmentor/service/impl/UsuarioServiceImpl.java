@@ -219,11 +219,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 		EmailGenerator emailGenerator = new EmailGenerator();
 		try {
 			
-			String emailOrigem = parametroDAO.findById(Parametro.EMAIL.getCodigo()).getValor();
+			String emailOrigem = parametroDAO.findById(Parametro.ADMIN_EMAIL.getCodigo()).getValor();
 			String emailHost = parametroDAO.findById(Parametro.HOST_EMAIL.getCodigo()).getValor();
 			String emailPorta = parametroDAO.findById(Parametro.PORT_EMAIL.getCodigo()).getValor();
 			String emailSenha = parametroDAO.findById(Parametro.PASS_EMAIL.getCodigo()).getValor();
-			String emailDestino = ""; 
+			String emailDestino = usuarioDTO.getPessoaFisicaDTO().getPessoaDTO().getDescricaoEmail(); 
 			String nomePessoa = usuarioDTO.getPessoaFisicaDTO().getPessoaDTO().getNomePessoa();
 			String nomeUsuario = usuarioDTO.getNomeUsuario();			
 			

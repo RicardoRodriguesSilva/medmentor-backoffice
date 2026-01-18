@@ -1,9 +1,14 @@
 package br.com.medmentor.controller;
 
+import java.net.URI;
+import java.util.List;
+
 import br.com.medmentor.dto.UsuarioPerfilDTO;
 import br.com.medmentor.exception.MedmentorException;
+import br.com.medmentor.filtro.dto.FiltroUsuarioPerfilDTO;
 import br.com.medmentor.service.UsuarioPerfilService;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -14,10 +19,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.net.URI;
-import java.util.List;
 
-@Path("/usuario-perfis") 
+@Path("/usuario-perfil") 
 @Produces(MediaType.APPLICATION_JSON) 
 @Consumes(MediaType.APPLICATION_JSON) 
 public class UsuarioPerfilController {
@@ -81,6 +84,29 @@ public class UsuarioPerfilController {
     }
 
     @GET
+    @Path("/por-filtros")
+    public Response recuperarListaUsuarioPerfilPorFiltro(@BeanParam FiltroUsuarioPerfilDTO filtroUsuarioPerfilDTO) {
+        try {
+            List<UsuarioPerfilDTO> usuarioPerfis = usuarioPerfilService.recuperarListaUsuarioPerfilPorFiltro(filtroUsuarioPerfilDTO);
+            if (usuarioPerfis.isEmpty()) {
+                return Response.noContent().build(); 
+            } else {
+                return Response.ok(usuarioPerfis).build(); 
+            }
+        } catch (MedmentorException e) {
+            System.err.println("Erro ao listar todos os Usu�rios Perfis: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("Erro interno do servidor ao listar usu�rios perfis: " + e.getMessage())
+                           .build();
+        } catch (Exception e) {
+            System.err.println("Erro inesperado ao processar requisi��o de listagem: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.")
+                           .build();
+        }
+    }
+    
+    @GET
     public Response recuperarListaUsuarioPerfil() {
         try {
             List<UsuarioPerfilDTO> usuarioPerfis = usuarioPerfilService.recuperarListaUsuarioPerfil();
@@ -100,7 +126,7 @@ public class UsuarioPerfilController {
                            .entity("Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.")
                            .build();
         }
-    }
+    }    
 
     @PUT
     public Response alterarUsuarioPerfil(UsuarioPerfilDTO usuarioPerfilDTO) {

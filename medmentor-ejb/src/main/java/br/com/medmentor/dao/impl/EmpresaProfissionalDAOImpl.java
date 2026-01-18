@@ -182,13 +182,30 @@ public class EmpresaProfissionalDAOImpl implements EmpresaProfissionalDAO {
 		return empresas;
 	}
 	
+	@Override
+	public List<EmpresaProfissional> findByEmpresaUnidadeGestao(Integer idEmpresaUnidadeGestao) throws SQLException {
+		String sql = this.recuperaEmpresaProfissionalSQL() + " inner join \"MED\".empresaunidadegestao eug 	on eug.idempresagestao = epg.idempresagestao " + 
+				" where eug.idempresaunidadegestao = ?";
+		List<EmpresaProfissional> empresas = new ArrayList<>();
+		try (PreparedStatement stmt = dataSource.getConnection().prepareStatement(sql)) {
+			stmt.setInt(1, idEmpresaUnidadeGestao);
+			try (ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					EmpresaProfissional empresaProfissional = this.recuperaEmpresaProfissional(rs);
+					empresas.add(empresaProfissional);
+				}
+			}
+		}
+		return empresas;
+	}		
+	
 	private String recuperaEmpresaProfissionalSQL() {
     	String sql = "select "
     			+ "	pes.idpessoa, pes.nomepessoa, pes.codtipopessoa, pes.descricaoendereco, "
     			+ "	pes.descricaocomplemento, pes.descricaobairro, pes.numerocep, pes.idcidade, "
     			+ "	pes.numerocelular, pes.descricaoemail, "
     			+ "	pju.idpessoajuridica, pju.nomerazaosocial, pju.numerocnpj, "
-    			+ "	emp.idempresa, emp.nomefantasia, "
+    			+ "	emp.idempresa, emp.nomefantasia, emp.nomeresponsavel, "
     			+ " epp.idempresaprofissional, epp.idprofissional, epp.numerobanco, epp.numeroagencia, epp.numeroconta, epp.descricaochavepix, "
     			
     			+ " epg.idempresagestao as idempresagestora, "
@@ -250,7 +267,8 @@ public class EmpresaProfissionalDAOImpl implements EmpresaProfissionalDAO {
 		
 		Empresa empresa = new Empresa();
 		empresa.setId(rs.getInt("idempresa"));
-		empresa.setNomeFantasia(rs.getString("nomefantasia"));					
+		empresa.setNomeFantasia(rs.getString("nomefantasia"));		
+		empresa.setNomeResponsavel(rs.getString("nomeresponsavel"));
 		empresa.setPessoaJuridica(pessoaJuridica);	
 		
 		EmpresaProfissional empresaProfissional = new EmpresaProfissional();
@@ -290,5 +308,5 @@ public class EmpresaProfissionalDAOImpl implements EmpresaProfissionalDAO {
 		
 		empresaProfissional.setEmpresaGestao(empresaGestora);
 		return empresaProfissional;
-	}		
+	}	
 }

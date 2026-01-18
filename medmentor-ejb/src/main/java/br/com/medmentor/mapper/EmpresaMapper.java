@@ -22,7 +22,7 @@ public class EmpresaMapper {
         dto.setId(empresa.getId());
         dto.setNomeFantasia(empresa.getNomeFantasia());
         dto.setPessoaJuridicaDTO(pessoaJuridicaMapper.toDto(empresa.getPessoaJuridica()));
-        
+        dto.setNomeResponsavel(empresa.getNomeResponsavel());
         return dto;
     }
 
@@ -43,7 +43,7 @@ public class EmpresaMapper {
         empresa.setId(dto.getId());
         empresa.setNomeFantasia(dto.getNomeFantasia());
         empresa.setPessoaJuridica(pessoaJuridicaMapper.toEntity(dto.getPessoaJuridicaDTO()));
-
+        empresa.setNomeResponsavel(dto.getNomeResponsavel());
         return empresa;
     }
 

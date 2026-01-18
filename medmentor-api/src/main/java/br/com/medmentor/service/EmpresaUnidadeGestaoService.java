@@ -17,5 +17,7 @@ public interface EmpresaUnidadeGestaoService extends GenericService {
 	
 	EmpresaUnidadeGestaoDTO recuperarEmpresaUnidadeGestaoPorId(Integer id) throws MedmentorException;
 	
-	List<EmpresaUnidadeGestaoDTO> recuperarListaEmpresaUnidadeGestao() throws MedmentorException; 
+	List<EmpresaUnidadeGestaoDTO> recuperarListaEmpresaUnidadeGestao() throws MedmentorException;
+	
+	List<EmpresaUnidadeGestaoDTO> recuperarListaEmpresaUnidadeGestaoPorIdProfissional(Integer idProfissional) throws MedmentorException;
 }

@@ -18,4 +18,6 @@ public interface EmpresaProfissionalDAO {
 	void delete(Integer idEmpresaProfissional) throws SQLException;
 	
 	EmpresaProfissional findByProfissional(Integer idProfissional) throws SQLException;
+	
+	List<EmpresaProfissional> findByEmpresaUnidadeGestao(Integer idEmpresaUnidadeGestao) throws SQLException;
 }

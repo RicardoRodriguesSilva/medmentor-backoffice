@@ -9,12 +9,14 @@ public class Empresa implements Serializable {
     private Integer id; 
     private PessoaJuridica pessoaJuridica;
     private String nomeFantasia;
+    private String nomeResponsavel;
 
     public Empresa() {}
 
-    public Empresa(PessoaJuridica pessoaJuridica, String nomeFantasia) {
+    public Empresa(PessoaJuridica pessoaJuridica, String nomeFantasia, String nomeResponsavel) {
         this.pessoaJuridica = pessoaJuridica;
         this.nomeFantasia = nomeFantasia;
+        this.nomeResponsavel = nomeResponsavel;
     }
 
     public Integer getId() {
@@ -41,12 +43,17 @@ public class Empresa implements Serializable {
 		this.nomeFantasia = nomeFantasia;
 	}
 
+	public String getNomeResponsavel() {
+		return nomeResponsavel;
+	}
+
+	public void setNomeResponsavel(String nomeResponsavel) {
+		this.nomeResponsavel = nomeResponsavel;
+	}
+
 	@Override
-    public String toString() {
-        return "Empresa{" +
-               "id=" + id +
-               ", idPessoaJuridica=" + (pessoaJuridica != null ? pessoaJuridica.getId() : "null") +
-               ", nomeFantasia='" + nomeFantasia + '\'' +
-               '}';
-    }
+	public String toString() {
+		return "Empresa [id=" + id + ", pessoaJuridica=" + pessoaJuridica + ", nomeFantasia=" + nomeFantasia
+				+ ", nomeResponsavel=" + nomeResponsavel + "]";
+	}
 }

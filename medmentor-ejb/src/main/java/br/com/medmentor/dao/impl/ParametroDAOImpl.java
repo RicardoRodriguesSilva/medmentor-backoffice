@@ -28,10 +28,10 @@ public class ParametroDAOImpl implements ParametroDAO {
 
     @Override
     public Parametro create(Parametro parametro) throws SQLException {
-        String sql = "INSERT INTO \"MED\".acao (decricaoparametro, valorparametro) VALUES (?) RETURNING idparametro";
+        String sql = "INSERT INTO \"MED\".acao (nomeparametro, valorparametro) VALUES (?) RETURNING idparametro";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, parametro.getDescricao());
+            stmt.setString(1, parametro.getNome());
             stmt.setString(2, parametro.getValor());
 
             try (ResultSet rs = stmt.executeQuery()) {
@@ -47,7 +47,7 @@ public class ParametroDAOImpl implements ParametroDAO {
 
     @Override
     public Parametro findById(Integer id) throws SQLException {
-        String sql = "SELECT idparametro, descricaoparametro, valorparametro FROM \"MED\".parametro WHERE idparametro = ?";
+        String sql = "SELECT idparametro, nomeparametro, valorparametro FROM \"MED\".parametro WHERE idparametro = ?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -55,7 +55,7 @@ public class ParametroDAOImpl implements ParametroDAO {
                 if (rs.next()) {
                     Parametro parametro = new Parametro();
                     parametro.setId(rs.getInt("idparametro"));
-                    parametro.setDescricao(rs.getString("descricaoparametro"));
+                    parametro.setNome(rs.getString("nomeparametro"));
                     parametro.setValor(rs.getString("valorparametro"));
                     return parametro;
                 }
@@ -66,10 +66,10 @@ public class ParametroDAOImpl implements ParametroDAO {
 
     @Override
     public Parametro update(Parametro parametro) throws SQLException {
-        String sql = "UPDATE \"MED\".parametro SET descricaoparametro = ?, valorparametro = ? WHERE idparametro = ?";
+        String sql = "UPDATE \"MED\".parametro SET nomeparametro = ?, valorparametro = ? WHERE idparametro = ?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, parametro.getDescricao());
+            stmt.setString(1, parametro.getNome());
             stmt.setString(2, parametro.getValor());
             stmt.setInt(3, parametro.getId());
             int affectedRows = stmt.executeUpdate();
@@ -93,14 +93,14 @@ public class ParametroDAOImpl implements ParametroDAO {
     @Override
     public List<Parametro> findAll() throws SQLException {
         List<Parametro> listaParametro = new ArrayList<>();
-        String sql = "SELECT idparametro, descricaoparametro, valorparametro FROM \"MED\".parametro";
+        String sql = "SELECT idparametro, nomeparametro, valorparametro FROM \"MED\".parametro";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Parametro parametro = new Parametro();
                 parametro.setId(rs.getInt("idparametro"));
-                parametro.setDescricao(rs.getString("descricaoparametro"));
+                parametro.setNome(rs.getString("nomeparametro"));
                 parametro.setValor(rs.getString("valorparametro"));
                 listaParametro.add(parametro);
             }

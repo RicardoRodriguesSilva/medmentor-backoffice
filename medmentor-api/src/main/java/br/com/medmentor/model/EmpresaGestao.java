@@ -11,13 +11,7 @@ public class EmpresaGestao implements Serializable {
 
     public EmpresaGestao() {}
 
-    public EmpresaGestao(Empresa empresa) {
-        this.empresa = empresa;
-        if (empresa != null) {
-            this.id = empresa.getId();
-        }
-    }
-    
+   
     public EmpresaGestao(Integer id, Empresa empresa) {
         this.id = id;
         this.empresa = empresa;
@@ -42,11 +36,8 @@ public class EmpresaGestao implements Serializable {
         }
     }
 
-    @Override
-    public String toString() {
-        return "EmpresaGestao{" +
-               "id=" + id +
-               ", empresa=" + (empresa != null ? empresa.getId() : "null") +
-               '}';
-    }
+	@Override
+	public String toString() {
+		return "EmpresaGestao [id=" + id + ", empresa=" + empresa + "]";
+	}
 }

@@ -65,10 +65,12 @@ public class EmpresaUnidadeGestaoDAOImpl implements EmpresaUnidadeGestaoDAO {
 			}
 			empresaUnidadeGestao.setEmpresaGestora(gestoraExistente);
 
-			String sql = "INSERT INTO \"MED\".EMPRESAUNIDADEGESTAO (IDEMPRESAUNIDADEGESTAO, IDEMPRESAGESTAO) VALUES (?, ?)";
+			String sql = "INSERT INTO \"MED\".EMPRESAUNIDADEGESTAO (IDEMPRESAUNIDADEGESTAO, IDEMPRESAGESTAO, numeroplantonistadia, numeroplantonistaperiodo) VALUES (?, ?, ?, ?)";
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 				stmt.setInt(1, empresaUnidadeGestao.getId());
 				stmt.setInt(2, empresaUnidadeGestao.getEmpresaGestora().getId());
+				stmt.setInt(3, empresaUnidadeGestao.getNumeroPlantonistaDia());
+				stmt.setInt(4, empresaUnidadeGestao.getNumeroPlantonistaPeriodo());
 				stmt.executeUpdate(); 
 			}
 
@@ -143,11 +145,13 @@ public class EmpresaUnidadeGestaoDAOImpl implements EmpresaUnidadeGestaoDAO {
 				empresaGestaoDAO.update(empresaUnidadeGestao.getEmpresaGestora());
 			}
 
-			String sql = "update \"MED\".empresaunidadegestao set idempresaunidadegestao = ? where idempresaunidadegestao = ? and idempresagestao = ?";
+			String sql = "update \"MED\".empresaunidadegestao set idempresagestao = ?, numeroplantonistadia = ?, numeroplantonistaperiodo = ? where idempresaunidadegestao = ?";
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-				stmt.setInt(1, empresaUnidadeGestao.getId()); // Valor atual da PK
-				stmt.setInt(2, empresaUnidadeGestao.getEmpresa().getId()); // Valor original da PK
-				stmt.setInt(3, empresaUnidadeGestao.getEmpresaGestora().getId()); // Valor original da PK
+				stmt.setInt(1, empresaUnidadeGestao.getEmpresaGestora().getId()); 
+				stmt.setInt(2, empresaUnidadeGestao.getNumeroPlantonistaDia());				
+				stmt.setInt(3, empresaUnidadeGestao.getNumeroPlantonistaPeriodo());
+				stmt.setInt(4, empresaUnidadeGestao.getId()); // Valor atual da PK				
+
 				int affectedRows = stmt.executeUpdate();
 				if (affectedRows == 0) {
 					throw new SQLException(
@@ -195,15 +199,40 @@ public class EmpresaUnidadeGestaoDAOImpl implements EmpresaUnidadeGestaoDAO {
 		}
 	}
 	
+	@Override
+	public List<EmpresaUnidadeGestao> findByIdProfissional(Integer idProfissional) throws SQLException {
+		List<EmpresaUnidadeGestao> listaUnidadeGestao = new ArrayList<EmpresaUnidadeGestao>();
+		Connection conn = null;
+		try {
+			conn = dataSource.getConnection();
+			String sql = this.recuperaEmpresaGestaoSQL();
+			sql = sql + " inner join \"MED\".empresaprofissional epp 	on epp.idempresagestao = ges.idempresagestao ";
+			sql = sql + " where epp.idprofissional = " + idProfissional;
+			sql = sql + " order by emp1.nomefantasia, emp.nomefantasia ";
+			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next()) {
+					EmpresaUnidadeGestao empresaUnidadeGestao = this.recuperaEmpresaGestao(rs);
+					listaUnidadeGestao.add(empresaUnidadeGestao);
+				}
+			}
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return listaUnidadeGestao;
+	}	
+	
 	private String recuperaEmpresaGestaoSQL() {
     	String sql = "select "
     			+ "	pes.idpessoa, pes.nomepessoa, pes.codtipopessoa, pes.descricaoendereco, "
     			+ "	pes.descricaocomplemento, pes.descricaobairro, pes.numerocep, pes.idcidade, "
     			+ "	pes.numerocelular, pes.descricaoemail, "
     			+ "	pju.idpessoajuridica, pju.nomerazaosocial, pju.numerocnpj, "
-    			+ " epu.idempresaunidadegestao, "
-    			+ "	emp.idempresa, ges.idempresagestao, emp.nomefantasia, emp1.idempresa as idempreagestora, " 
-    			+ " emp1.nomefantasia as nomefantasiagestora, pju1.nomerazaosocial as nomerazaosocialgestora, "
+    			+ " epu.idempresaunidadegestao, epu.numeroplantonistadia, epu.numeroplantonistaperiodo, "
+    			+ "	emp.idempresa, ges.idempresagestao, emp.nomefantasia, emp.nomeresponsavel, emp1.idempresa as idempreagestora, " 
+    			+ " emp1.nomefantasia as nomefantasiagestora, emp1.nomeresponsavel as nomeresponsavelgestora, pju1.nomerazaosocial as nomerazaosocialgestora, "
     			+ "	cid.nomecidade, ufu.idunidadefederacao, ufu.nomeunidadefederacao, ufu.siglaunidadefederacao "
     			+ "from "
     			+ "	\"MED\".pessoa pes "
@@ -251,11 +280,14 @@ public class EmpresaUnidadeGestaoDAOImpl implements EmpresaUnidadeGestaoDAO {
 		
 		Empresa empresa = new Empresa();
 		empresa.setId(rs.getInt("idempresa"));
-		empresa.setNomeFantasia(rs.getString("nomefantasia"));					
+		empresa.setNomeFantasia(rs.getString("nomefantasia"));	
+		empresa.setNomeResponsavel(rs.getString("nomeresponsavel"));
 		empresa.setPessoaJuridica(pessoaJuridica);	
 		
 		EmpresaUnidadeGestao empresaUnidadeGestao = new EmpresaUnidadeGestao();
 		empresaUnidadeGestao.setId(rs.getInt("idempresaunidadegestao"));
+		empresaUnidadeGestao.setNumeroPlantonistaDia(rs.getInt("numeroplantonistadia"));
+		empresaUnidadeGestao.setNumeroPlantonistaPeriodo(rs.getInt("numeroplantonistaperiodo"));
 		empresaUnidadeGestao.setEmpresa(empresa);
 		
 		
@@ -269,6 +301,7 @@ public class EmpresaUnidadeGestaoDAOImpl implements EmpresaUnidadeGestaoDAO {
 		Empresa empresaGestora = new Empresa();
 		empresaGestora.setId(rs.getInt("idempresagestao"));
 		empresaGestora.setNomeFantasia(rs.getString("nomefantasiagestora"));
+		empresaGestora.setNomeResponsavel(rs.getString("nomeresponsavelgestora"));
 		empresaGestora.setPessoaJuridica(pessoaJuridica);		
 		empresaGestao.setEmpresa(empresaGestora);
 		

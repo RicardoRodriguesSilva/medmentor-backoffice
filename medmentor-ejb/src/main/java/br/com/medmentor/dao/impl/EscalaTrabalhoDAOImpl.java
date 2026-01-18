@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -42,7 +42,13 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
 				+ "(idempresaprofissional, idempresaunidadegestao, datahoraentrada, datahorasaida, bolativo, bolrealizado) "
 				+ "values (?, ?, ?, ?, ?, ?) RETURNING idescalatrabalho";
 		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setInt(1, escalaTrabalho.getEmpresaProfissional().getId());
+			
+			if (escalaTrabalho.getEmpresaProfissional()!=null) {
+				stmt.setInt(1, escalaTrabalho.getEmpresaProfissional().getId());
+			} else {
+				stmt.setNull(1, java.sql.Types.INTEGER);
+			}
+			
 			stmt.setInt(2, escalaTrabalho.getEmpresaUnidadeGestao().getId());
 			stmt.setObject(3, escalaTrabalho.getDataHoraEntrada());
 			stmt.setObject(4, escalaTrabalho.getDataHoraSaida());
@@ -109,11 +115,28 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
             }
         }
 	}
+	
+	@Override
+	public void deleteAllByEmpresaUndidadeGestaoEData(Integer idEmpresaUnidadeGestao, LocalDate data) throws SQLException {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+		String dataFormatada = formatter.format(data);
+		String sql = "delete from \"MED\".escalatrabalho where idempresaunidadegestao = ? and to_char(datahoraentrada, 'YYYY-MM') = ? ";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idEmpresaUnidadeGestao);
+            ps.setString(2, dataFormatada);
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Falha ao deletar escala de trabalho, nenhuma linha encontrada para o idEmpresaUnidadeGestao: " + idEmpresaUnidadeGestao + " e data " + data);
+            }
+        }
+	}	
 
 	@Override
 	public List<EscalaTrabalho> findAll() throws SQLException {
         List<EscalaTrabalho> listaEscala = new ArrayList<EscalaTrabalho>();
         String sql = this.recuperaEscalaTrabalhoSQL();
+        sql = sql + " order by pju2.nomerazaosocial, pju1.nomerazaosocial, esc.datahoraentrada, pes.nomepessoa";
         try (Connection conn = dataSource.getConnection();
         		PreparedStatement ps = conn.prepareStatement(sql);
         	ResultSet rs = ps.executeQuery()) {
@@ -126,15 +149,25 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
 	}
 	
 	@Override
-	public List<EscalaTrabalho> findByDataInicioEDataFim(Date dataInicio, Date dataFim) throws SQLException {
-        List<EscalaTrabalho> listaEscala = new ArrayList<EscalaTrabalho>();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dataInicioFormatada = formatter.format(dataInicio);
-        String dataFimFormatada = formatter.format(dataFim);
-        String sql = this.recuperaEscalaTrabalhoSQL() + " where datahoraentrada >= ? and esc.datahorasaida >= ? order by esc.datahoraentrada";
+	public List<EscalaTrabalho> findByFiltros(Integer idEmpresaProfissional, Integer idEmpresaUnidadeGestao, LocalDate dataInicio, LocalDate dataFim) throws SQLException {
+        
+		List<EscalaTrabalho> listaEscala = new ArrayList<EscalaTrabalho>();
+                
+        String sql = this.recuperaEscalaTrabalhoSQL() + " where 1 = 1 ";
+        if ((idEmpresaProfissional !=null)&&(idEmpresaProfissional!=0)) {
+        	sql = sql + " AND esc.idEmpresaProfissional = " + idEmpresaProfissional;
+        }        
+        
+        if ((idEmpresaUnidadeGestao !=null)&&(idEmpresaUnidadeGestao!=0)) {
+        	sql = sql + " AND esc.idEmpresaUnidadeGestao = " + idEmpresaUnidadeGestao;
+        }
+        
+        if ((dataInicio!=null)&&(dataFim!=null)) {
+            sql = sql + " AND esc.datahoraentrada between '" + dataInicio + "' and '" + dataFim + "'";
+        }        
+        
+        sql = sql + " order by pju2.nomerazaosocial, pju1.nomerazaosocial, esc.datahoraentrada, pes.nomepessoa";
         try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setString(1, dataInicioFormatada);
-			stmt.setString(2, dataFimFormatada);
 			try (ResultSet rs = stmt.executeQuery()) {
 				if (rs.next()) {
 					EscalaTrabalho escalaTrabalho = this.recuperaEscalaTrabalho(rs);
@@ -143,7 +176,64 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
 			}
 		}
         return listaEscala;
-	}		
+	}
+	
+	@Override
+	public List<EscalaTrabalho> findByFiltros(Integer idProfissional, Integer idEmpresaGestao,
+			Integer idEmpresaUnidadeGestao, LocalDate dataInicio, LocalDate dataFim) throws SQLException {
+		List<EscalaTrabalho> listaEscala = new ArrayList<EscalaTrabalho>();
+		
+		String sql = this.recuperaEscalaTrabalhoSQL() + " where 1 = 1 ";
+        if ((idProfissional !=null)&&(idProfissional!=0)) {
+        	//Verificar para também escalas de outros da mesma unidade gestão
+        	//sql = sql + " AND esc.idEmpresaProfissional = " + idEmpresaProfissional;
+        }      
+        
+        if ((idEmpresaGestao !=null)&&(idEmpresaGestao!=0)) {
+        	sql = sql + " AND ges.idEmpresaGestao = " + idEmpresaGestao;
+        }
+        
+        if ((idEmpresaUnidadeGestao !=null)&&(idEmpresaUnidadeGestao!=0)) {
+        	sql = sql + " AND esc.idEmpresaUnidadeGestao = " + idEmpresaUnidadeGestao;
+        }
+        
+        if ((dataInicio!=null)&&(dataFim!=null)) {
+            sql = sql + " AND esc.datahoraentrada between '" + dataInicio + "' and '" + dataFim + "'";
+        }        
+        
+        sql = sql + " order by pju2.nomerazaosocial, pju1.nomerazaosocial, esc.datahoraentrada, pes.nomepessoa";
+        try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					EscalaTrabalho escalaTrabalho = this.recuperaEscalaTrabalho(rs);
+					listaEscala.add(escalaTrabalho);
+				}
+			}
+		}
+        return listaEscala;
+	}	
+	
+	@Override
+	public Boolean isEscalaTrabalhoByEmpresaUndidadeGestaoEData(Integer idEmpresaUnidadeGestao, LocalDate data)
+			throws SQLException {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+		String dataFormatada = formatter.format(data);
+		Boolean isEscalaTrabalho = false;
+        String sql = this.recuperaEscalaTrabalhoSQL() + " where to_char(esc.datahoraentrada, 'YYYY-MM') = ? and esc.idempresaunidadegestao = ?";
+        try (
+        	Connection conn = dataSource.getConnection(); 
+        	PreparedStatement stmt = conn.prepareStatement(sql)) {
+			stmt.setString(1, dataFormatada);
+			stmt.setInt(2, idEmpresaUnidadeGestao);
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					isEscalaTrabalho = true;
+				}
+			}
+        }
+        
+        return isEscalaTrabalho;
+	}	
 	
 	private String recuperaEscalaTrabalhoSQL() {
     	String sql = "SELECT \r\n"
@@ -157,20 +247,20 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
     			+ "	pes.idpessoa, pes.nomepessoa,\r\n"
     			+ "	uni.idempresaunidadegestao,\r\n"
     			+ "	emp1.idempresa as idempresaunidade, emp1.nomefantasia as nomefantasiaunidade,\r\n"
-    			+ "	pju1.idpessoajuridica as idpessoajuridicaunidade, pju.numerocnpj as numerocnpjunidade, pju.nomerazaosocial as nomerazaosocialunidade,\r\n"
-    			+ "	pes1.idpessoa as idpessoaunidade, pes.nomepessoa as nomepessoaunidade,\r\n"
+    			+ "	pju1.idpessoajuridica as idpessoajuridicaunidade, pju1.numerocnpj as numerocnpjunidade, pju1.nomerazaosocial as nomerazaosocialunidade,\r\n"
+    			+ "	pes1.idpessoa as idpessoaunidade, pes1.nomepessoa as nomepessoaunidade,\r\n"
     			+ "	ges.idempresagestao,\r\n"
     			+ "	emp2.idempresa as idempresagestora, emp2.nomefantasia as nomefantasiagestora,\r\n"
-    			+ "	pju2.idpessoajuridica as idpessoajuridicagestora, pju.numerocnpj as numerocnpjgestora, pju.nomerazaosocial as nomerazaosocialgestora,\r\n"
-    			+ "	pes2.idpessoa as idpessoagestora, pes.nomepessoa as nomepessoagestora	\r\n"
+    			+ "	pju2.idpessoajuridica as idpessoajuridicagestora, pju2.numerocnpj as numerocnpjgestora, pju2.nomerazaosocial as nomerazaosocialgestora,\r\n"
+    			+ "	pes2.idpessoa as idpessoagestora, pes2.nomepessoa as nomepessoagestora	\r\n"
     			+ "FROM \r\n"
     			+ "	\"MED\".escalatrabalho esc\r\n"
-    			+ "	inner join \"MED\".empresaprofissional epp 	on epp.idempresaprofissional = esc.idempresaprofissional \r\n"
-    			+ "	inner join \"MED\".empresa emp				on emp.idempresa = epp.idempresaprofissional \r\n"
-    			+ "	inner join \"MED\".pessoajuridica pju 		on pju.idpessoajuridica = emp.idempresa \r\n"
-    			+ "	inner join \"MED\".profissional pro 		on pro.idprofissional = epp.idprofissional \r\n"
-    			+ "	inner join \"MED\".pessoafisica pfi 		on pfi.idpessoafisica = pro.idprofissional \r\n"
-    			+ "	inner join \"MED\".pessoa pes 				on pes.idpessoa = pfi.idpessoafisica 	\r\n"
+    			+ "	left join \"MED\".empresaprofissional epp 	on epp.idempresaprofissional = esc.idempresaprofissional \r\n"
+    			+ "	left join \"MED\".empresa emp				on emp.idempresa = epp.idempresaprofissional \r\n"
+    			+ "	left join \"MED\".pessoajuridica pju 		on pju.idpessoajuridica = emp.idempresa \r\n"
+    			+ "	left join \"MED\".profissional pro 		on pro.idprofissional = epp.idprofissional \r\n"
+    			+ "	left join \"MED\".pessoafisica pfi 		on pfi.idpessoafisica = pro.idprofissional \r\n"
+    			+ "	left join \"MED\".pessoa pes 				on pes.idpessoa = pfi.idpessoafisica 	\r\n"
     			+ "	inner join \"MED\".empresaunidadegestao uni on uni.idempresaunidadegestao = esc.idempresaunidadegestao \r\n"
     			+ "	inner join \"MED\".empresa emp1				on emp1.idempresa = uni.idempresaunidadegestao  \r\n"
     			+ "	inner join \"MED\".pessoajuridica pju1 		on pju1.idpessoajuridica = emp1.idempresa\r\n"

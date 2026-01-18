@@ -19,7 +19,7 @@ public class ParametroMapper {
         }
         ParametroDTO dto = new ParametroDTO();
         dto.setId(parametro.getId());
-        dto.setDescricao(parametro.getDescricao());
+        dto.setNome(parametro.getNome());
         dto.setValor(parametro.getValor());
         return dto;
     }
@@ -39,7 +39,7 @@ public class ParametroMapper {
         }
         Parametro parametro = new Parametro();
         parametro.setId(dto.getId());
-        parametro.setDescricao(dto.getDescricao());
+        parametro.setNome(dto.getNome());
         parametro.setValor(dto.getValor());
         
         return parametro;

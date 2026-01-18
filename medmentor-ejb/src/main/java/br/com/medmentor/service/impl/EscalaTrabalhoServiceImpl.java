@@ -1,14 +1,16 @@
 package br.com.medmentor.service.impl;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import br.com.medmentor.dao.EscalaTrabalhoDAO;
 import br.com.medmentor.dto.EscalaTrabalhoDTO;
 import br.com.medmentor.exception.MedmentorException;
+import br.com.medmentor.filtro.dto.FiltroEscalaTrabalhoDTO;
 import br.com.medmentor.mapper.EscalaTrabalhoMapper;
+import br.com.medmentor.mobile.filtro.dto.FiltroEscalaDTO;
 import br.com.medmentor.model.EscalaTrabalho;
 import br.com.medmentor.service.EscalaTrabalhoService;
 import jakarta.ejb.Stateless;
@@ -84,12 +86,47 @@ public class EscalaTrabalhoServiceImpl implements EscalaTrabalhoService {
 	}
 
 	@Override
-	public List<EscalaTrabalhoDTO> recuperarListaEscalaTrabalhoPorDataInicioEDataFim(Date dataInicio, Date dataFim)
+	public List<EscalaTrabalhoDTO> recuperarListaEscalaTrabalhoPorFiltro(FiltroEscalaTrabalhoDTO filtroEscalaTrabalhoDTO)
 			throws MedmentorException {
 		List<EscalaTrabalhoDTO> listaDto = new ArrayList<EscalaTrabalhoDTO>();
 		try {
-			listaDto = escalaTrabalhoMapper.toListDto(escalaTrabalhoDAO.
-					findByDataInicioEDataFim(dataInicio, dataFim));
+			
+			LocalDate dataInicio = null;
+			if (filtroEscalaTrabalhoDTO.getDataInicio()!=null) {
+				dataInicio = LocalDate.parse(filtroEscalaTrabalhoDTO.getDataInicio());
+			}
+			
+			LocalDate dataFim = null;
+			if (filtroEscalaTrabalhoDTO.getDataFim()!=null) {
+				dataFim = LocalDate.parse(filtroEscalaTrabalhoDTO.getDataFim());
+			}			
+			
+			listaDto = escalaTrabalhoMapper.toListDto(escalaTrabalhoDAO.findByFiltros(
+					filtroEscalaTrabalhoDTO.getIdEmpresaProfissional(), filtroEscalaTrabalhoDTO.getIdEmpresaUnidadeGestao(), dataInicio, dataFim));
+		} catch (SQLException e) {
+			throw new MedmentorException(e.getMessage(), e.getCause());
+		}
+		return listaDto;
+	}
+
+	@Override
+	public List<EscalaTrabalhoDTO> recuperarListaEscalaTrabalhoPorFiltro(FiltroEscalaDTO filtroEscalaDTO)
+			throws MedmentorException {
+		List<EscalaTrabalhoDTO> listaDto = new ArrayList<EscalaTrabalhoDTO>();
+		try {
+			
+			LocalDate dataInicio = null;
+			if (filtroEscalaDTO.getDataInicio()!=null) {
+				dataInicio = LocalDate.parse(filtroEscalaDTO.getDataInicio());
+			}
+			
+			LocalDate dataFim = null;
+			if (filtroEscalaDTO.getDataFim()!=null) {
+				dataFim = LocalDate.parse(filtroEscalaDTO.getDataFim());
+			}			
+			
+			listaDto = escalaTrabalhoMapper.toListDto(escalaTrabalhoDAO.findByFiltros(filtroEscalaDTO.getIdProfissional(), filtroEscalaDTO.getIdGestoraSaude(), 
+					filtroEscalaDTO.getIdUnidadeSaude(), dataInicio, dataFim));
 		} catch (SQLException e) {
 			throw new MedmentorException(e.getMessage(), e.getCause());
 		}

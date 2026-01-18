@@ -1,9 +1,14 @@
 package br.com.medmentor.controller;
 
+import java.net.URI;
+import java.util.List;
+
 import br.com.medmentor.dto.EscalaTrabalhoDTO;
 import br.com.medmentor.exception.MedmentorException;
+import br.com.medmentor.filtro.dto.FiltroEscalaTrabalhoDTO;
 import br.com.medmentor.service.EscalaTrabalhoService;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -12,12 +17,8 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.net.URI;
-import java.util.Date;
-import java.util.List;
 
 @Path("/escala-trabalho") 
 @Produces(MediaType.APPLICATION_JSON) 
@@ -106,12 +107,10 @@ public class EscalaTrabalhoController {
     }
     
     @GET
-    @Path("/por-datainicio-e-datafim/{dataInicio}/{dataFim}")
-    public Response recuperarListaEscalaTrabalhoPorDataInicioEDataFim(@QueryParam("dataInicio") Date dataInicio,
-    		@QueryParam("dataFim") Date dataFim) {
+    @Path("/por-filtros")
+    public Response recuperarListaEscalaTrabalhoFiltros(@BeanParam FiltroEscalaTrabalhoDTO filtroEscalaTrabalhoDTO) {
         try {
-            List<EscalaTrabalhoDTO> escalas = escalaTrabalhoService.
-            		recuperarListaEscalaTrabalhoPorDataInicioEDataFim(dataInicio, dataFim);
+            List<EscalaTrabalhoDTO> escalas = escalaTrabalhoService.recuperarListaEscalaTrabalhoPorFiltro(filtroEscalaTrabalhoDTO);
             if (escalas.isEmpty()) {
                 return Response.noContent().build(); 
             } else {

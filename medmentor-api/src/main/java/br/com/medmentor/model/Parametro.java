@@ -7,7 +7,7 @@ public class Parametro implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
-    private String descricao;
+    private String nome;
     private String valor;
 
     public Parametro() {
@@ -21,12 +21,12 @@ public class Parametro implements Serializable {
 		this.id = id;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getValor() {
@@ -39,6 +39,6 @@ public class Parametro implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Parametro [id=" + id + ", descricao=" + descricao + ", valor=" + valor + "]";
+		return "Parametro [id=" + id + ", descricao=" + nome + ", valor=" + valor + "]";
 	}
 }
