@@ -9,15 +9,15 @@ import jakarta.ejb.Local;
 @Local
 public interface PerfilService extends GenericService {
     
-    PerfilDTO incluirPerfil(PerfilDTO perfilDTO) throws MedmentorException;
+    PerfilDTO incluiPerfil(PerfilDTO perfilDTO) throws MedmentorException;
     
-    void excluirPerfil(Integer id) throws MedmentorException;
+    void excluiPerfil(Integer id) throws MedmentorException;
     
-    void alterarPerfil(PerfilDTO perfilDTO) throws MedmentorException;
+    void alteraPerfil(PerfilDTO perfilDTO) throws MedmentorException;
     
-    PerfilDTO recuperarPerfilPorId(Integer id) throws MedmentorException;
+    PerfilDTO recuperaPerfilPorId(Integer id) throws MedmentorException;
     
-    List<PerfilDTO> recuperarListaPerfil() throws MedmentorException;
+    List<PerfilDTO> recuperaListaPerfil() throws MedmentorException;
     
     String recuperaPerfilPorUsuario(String nome) throws MedmentorException;
     

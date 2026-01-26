@@ -9,7 +9,7 @@ import jakarta.inject.Named;
 @ApplicationScoped
 public class MedicoMapper {
 
-    public MedicoDTO toMedicoDTO(ProfissionalDTO profissionalDTO) {
+    public MedicoDTO toMedicoDto(ProfissionalDTO profissionalDTO) {
     	if(profissionalDTO == null) {
     		return null;
     	}
@@ -30,7 +30,7 @@ public class MedicoMapper {
     	return dto;
     }
 
-    public ProfissionalDTO toProfissionalDTO(MedicoDTO medicoDTO, ProfissionalDTO profissionalDTO) {
+    public ProfissionalDTO toProfissionalDto(MedicoDTO medicoDTO, ProfissionalDTO profissionalDTO) {
     	if(profissionalDTO == null) {
     		return null;
     	}

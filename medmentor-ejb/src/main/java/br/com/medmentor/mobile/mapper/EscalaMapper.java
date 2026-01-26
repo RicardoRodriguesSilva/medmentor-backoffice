@@ -12,7 +12,7 @@ import jakarta.inject.Named;
 @ApplicationScoped
 public class EscalaMapper {
 
-    public List<EscalaDTO> toListDTO(List<EscalaTrabalhoDTO> listaDTO, Integer idProfissional) {
+    public List<EscalaDTO> toListDto(List<EscalaTrabalhoDTO> listaDTO, Integer idProfissional) {
     	List<EscalaDTO> listaEscalaDTO = new ArrayList<EscalaDTO>();
     	
     	if ((listaDTO!=null)&&(listaDTO.size()>0)) {

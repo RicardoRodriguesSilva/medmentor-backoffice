@@ -36,7 +36,7 @@ public class GeracaoEscalaController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            GeracaoEscalaDTO novaEscala = geracaoEscalaService.incluirGeracaoEscala(geracaoEscalaDTO);
+            GeracaoEscalaDTO novaEscala = geracaoEscalaService.incluiGeracaoEscala(geracaoEscalaDTO);
             return Response.created(URI.create("/api/escala-trabalho/" + novaEscala.getId()))
                            .entity(novaEscala)
                            .build();
@@ -62,7 +62,7 @@ public class GeracaoEscalaController {
                                .entity("O ID da escala n�o pode ser nulo.")
                                .build();
             }
-            GeracaoEscalaDTO geracaoEscala = geracaoEscalaService.recuperarGeracaoEscalaPorId(id);
+            GeracaoEscalaDTO geracaoEscala = geracaoEscalaService.recuperaGeracaoEscalaPorId(id);
             if (geracaoEscala != null) {
                 return Response.ok(geracaoEscala).build();
             } else {
@@ -87,7 +87,7 @@ public class GeracaoEscalaController {
     @Path("todas")
     public Response recuperarListaGeracaoEscala() {
         try {
-            List<GeracaoEscalaDTO> escalas = geracaoEscalaService.recuperarListaGeracaoEscala();
+            List<GeracaoEscalaDTO> escalas = geracaoEscalaService.recuperaListaGeracaoEscala();
             if (escalas.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -111,7 +111,7 @@ public class GeracaoEscalaController {
     public Response recuperarListaGeracaoEscalaPorFiltro(@BeanParam FiltroGeracaoEscalaDTO filtroGeracaoEscalaDTO) {
         try {
             List<GeracaoEscalaDTO> escalas = geracaoEscalaService.
-            		recuperarListaGeracaoEscalaPorFiltro(filtroGeracaoEscalaDTO);
+            		recuperaListaGeracaoEscalaPorFiltro(filtroGeracaoEscalaDTO);
             if (escalas.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -138,7 +138,7 @@ public class GeracaoEscalaController {
                                .entity("O corpo da requisi��o e o ID da escala n�o podem ser vazios.")
                                .build();
             }
-            geracaoEscalaService.alterarGeracaoEscala(geracaoEscalaDTO);
+            geracaoEscalaService.alteraGeracaoEscala(geracaoEscalaDTO);
             return Response.ok().entity(geracaoEscalaDTO).build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar Escala de Trabalho com ID " + geracaoEscalaDTO.getId() + ": " + e.getMessage());
@@ -163,14 +163,14 @@ public class GeracaoEscalaController {
                                .build();
             }
 
-            GeracaoEscalaDTO escalaExistente = geracaoEscalaService.recuperarGeracaoEscalaPorId(id);
+            GeracaoEscalaDTO escalaExistente = geracaoEscalaService.recuperaGeracaoEscalaPorId(id);
             if (escalaExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("Escala de Trabalho com ID " + id + " n�o encontrada para exclus�o.")
                                .build();
             }
 
-            geracaoEscalaService.excluirGeracaoEscala(id);
+            geracaoEscalaService.excluiGeracaoEscala(id);
             return Response.noContent().build(); 
         } catch (MedmentorException e) {
             System.err.println("Erro ao excluir Escala de Trabalho por ID (" + id + "): " + e.getMessage());

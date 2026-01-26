@@ -9,24 +9,24 @@ import jakarta.ejb.Local;
 @Local
 public interface UsuarioService extends GenericService {
     
-    UsuarioDTO incluirUsuario(UsuarioDTO usuarioDTO) throws MedmentorException; 
+    UsuarioDTO incluiUsuario(UsuarioDTO usuarioDTO) throws MedmentorException; 
     
-    void excluirUsuario(Integer id) throws MedmentorException;
+    void excluiUsuario(Integer id) throws MedmentorException;
     
-    void alterarUsuario(UsuarioDTO usuarioDTO) throws MedmentorException;
+    void alteraUsuario(UsuarioDTO usuarioDTO) throws MedmentorException;
     
-    UsuarioDTO recuperarUsuarioPorId(Integer id) throws MedmentorException;
+    UsuarioDTO recuperaUsuarioPorId(Integer id) throws MedmentorException;
     
-    UsuarioDTO recuperarUsuarioPorNome(String nome) throws MedmentorException;
+    UsuarioDTO recuperaUsuarioPorNome(String nome) throws MedmentorException;
     
-    List<UsuarioDTO> recuperarListaUsuario() throws MedmentorException;
+    List<UsuarioDTO> recuperaListaUsuario() throws MedmentorException;
     
     UsuarioDTO autenticaUsuario(String nome) throws MedmentorException;
     
-    String gerarLoginUsuario(String nome) throws MedmentorException;
+    String geraLoginUsuario(String nome) throws MedmentorException;
     
-    String gerarSenha(String nome) throws MedmentorException;
+    String geraSenha(String nome) throws MedmentorException;
     
-    void recuperarSenha(String nomeUsuario) throws MedmentorException;
+    void recuperaSenha(String nomeUsuario) throws MedmentorException;
     
 }

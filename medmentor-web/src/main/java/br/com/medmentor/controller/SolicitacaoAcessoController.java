@@ -34,7 +34,7 @@ public class SolicitacaoAcessoController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            SolicitacaoAcessoDTO novaSolicitacaoAcesso = acaoService.incluirSolicitacaoAcesso(solicitacaoAcessoDTO);
+            SolicitacaoAcessoDTO novaSolicitacaoAcesso = acaoService.incluiSolicitacaoAcesso(solicitacaoAcessoDTO);
             return Response.created(URI.create("/api/acao/" + novaSolicitacaoAcesso.getId()))
                            .entity(novaSolicitacaoAcesso)
                            .build();
@@ -60,7 +60,7 @@ public class SolicitacaoAcessoController {
                                .entity("O ID da solicita��o de acesso n�o pode ser nulo.")
                                .build();
             }
-            SolicitacaoAcessoDTO acao = acaoService.recuperarSolicitacaoAcessoPorId(id);
+            SolicitacaoAcessoDTO acao = acaoService.recuperaSolicitacaoAcessoPorId(id);
             if (acao != null) {
                 return Response.ok(acao).build();
             } else {
@@ -84,7 +84,7 @@ public class SolicitacaoAcessoController {
     @GET
     public Response recuperarListaSolicitacaoAcesso() {
         try {
-            List<SolicitacaoAcessoDTO> acoes = acaoService.recuperarListaSolicitacaoAcesso();
+            List<SolicitacaoAcessoDTO> acoes = acaoService.recuperaListaSolicitacaoAcesso();
             if (acoes.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -111,7 +111,7 @@ public class SolicitacaoAcessoController {
                                .entity("O corpo da requisi��o e o ID da solicita��o de acesso n�o podem ser vazios.")
                                .build();
             }
-            acaoService.alterarSolicitacaoAcesso(solicitacaoAcessoDTO);
+            acaoService.alteraSolicitacaoAcesso(solicitacaoAcessoDTO);
             return Response.ok().entity("A��o atualizada com sucesso.").build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar A��o com ID " + solicitacaoAcessoDTO.getId() + ": " + e.getMessage());
@@ -136,14 +136,14 @@ public class SolicitacaoAcessoController {
                                .build();
             }
 
-            SolicitacaoAcessoDTO acaoExistente = acaoService.recuperarSolicitacaoAcessoPorId(id);
+            SolicitacaoAcessoDTO acaoExistente = acaoService.recuperaSolicitacaoAcessoPorId(id);
             if (acaoExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("A��o com ID " + id + " n�o encontrada para exclus�o.")
                                .build();
             }
 
-            acaoService.excluirSolicitacaoAcesso(id);
+            acaoService.excluiSolicitacaoAcesso(id);
             return Response.noContent().build();  
         } catch (MedmentorException e) {
             System.err.println("Erro ao excluir A��o por ID (" + id + "): " + e.getMessage());

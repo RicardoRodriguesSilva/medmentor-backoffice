@@ -34,7 +34,7 @@ public class ProfissionalRegistroController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            ProfissionalRegistroDTO novoRegistro = profissionalRegistroService.incluirProfissionalRegistro(profissionalRegistroDTO);
+            ProfissionalRegistroDTO novoRegistro = profissionalRegistroService.incluiProfissionalRegistro(profissionalRegistroDTO);
             return Response.created(URI.create("/api/profissional-registro/" + novoRegistro.getProfissionalDTO().getId()))
                            .entity(novoRegistro)
                            .build();
@@ -60,7 +60,7 @@ public class ProfissionalRegistroController {
                                .entity("O ID do profissional n�o pode ser nulo.")
                                .build();
             }
-            ProfissionalRegistroDTO registro = profissionalRegistroService.recuperarProfissionalRegistroPorId(idProfissional);
+            ProfissionalRegistroDTO registro = profissionalRegistroService.recuperaProfissionalRegistroPorId(idProfissional);
             if (registro != null) {
                 return Response.ok(registro).build();
             } else {
@@ -85,7 +85,7 @@ public class ProfissionalRegistroController {
     @Path("todos")
     public Response recuperarListaProfissionalRegistro() {
         try {
-            List<ProfissionalRegistroDTO> registros = profissionalRegistroService.recuperarListaProfissionalRegistro();
+            List<ProfissionalRegistroDTO> registros = profissionalRegistroService.recuperaListaProfissionalRegistro();
             if (registros.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -108,7 +108,7 @@ public class ProfissionalRegistroController {
     @Path("/por-nome")
     public Response recuperarListaProfissionalRegistroPorNome(@QueryParam("nome") String nome) {
         try {
-            List<ProfissionalRegistroDTO> registros = profissionalRegistroService.recuperarListaProfissionalRegistro();
+            List<ProfissionalRegistroDTO> registros = profissionalRegistroService.recuperaListaProfissionalRegistro();
             if (registros.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -135,7 +135,7 @@ public class ProfissionalRegistroController {
                                .entity("O corpo da requisi��o e o ID do profissional n�o podem ser vazios.")
                                .build();
             }
-            profissionalRegistroService.alterarProfissionalRegistro(profissionalRegistroDTO);
+            profissionalRegistroService.alteraProfissionalRegistro(profissionalRegistroDTO);
             return Response.ok().build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar Registro Profissional com ID " + profissionalRegistroDTO.getProfissionalDTO().getId() + ": " + e.getMessage());
@@ -159,14 +159,14 @@ public class ProfissionalRegistroController {
                                .entity("O ID do profissional n�o pode ser nulo para exclus�o.")
                                .build();
             }
-            ProfissionalRegistroDTO registroExistente = profissionalRegistroService.recuperarProfissionalRegistroPorId(idProfissional);
+            ProfissionalRegistroDTO registroExistente = profissionalRegistroService.recuperaProfissionalRegistroPorId(idProfissional);
             if (registroExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("Registro Profissional com ID " + idProfissional + " n�o encontrado para exclus�o.")
                                .build();
             }
 
-            profissionalRegistroService.excluirProfissionalRegistro(idProfissional);
+            profissionalRegistroService.excluiProfissionalRegistro(idProfissional);
             return Response.noContent().build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao excluir Registro Profissional por ID (" + idProfissional + "): " + e.getMessage());

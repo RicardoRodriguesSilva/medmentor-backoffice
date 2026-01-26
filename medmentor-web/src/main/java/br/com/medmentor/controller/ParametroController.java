@@ -34,7 +34,7 @@ public class ParametroController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            ParametroDTO novaParametro = parametroService.incluirParametro(parametroDTO);
+            ParametroDTO novaParametro = parametroService.incluiParametro(parametroDTO);
             return Response.created(URI.create("/api/parametro/" + novaParametro.getId()))
                            .entity(novaParametro)
                            .build();
@@ -60,7 +60,7 @@ public class ParametroController {
                                .entity("O ID da a��o n�o pode ser nulo.")
                                .build();
             }
-            ParametroDTO parametro = parametroService.recuperarParametroPorId(id);
+            ParametroDTO parametro = parametroService.recuperaParametroPorId(id);
             if (parametro != null) {
                 return Response.ok(parametro).build();
             } else {
@@ -84,7 +84,7 @@ public class ParametroController {
     @GET
     public Response recuperarListaParametro() {
         try {
-            List<ParametroDTO> acoes = parametroService.recuperarListaParametro();
+            List<ParametroDTO> acoes = parametroService.recuperaListaParametro();
             if (acoes.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -111,7 +111,7 @@ public class ParametroController {
                                .entity("O corpo da requisi��o e o ID da a��o n�o podem ser vazios.")
                                .build();
             }
-            parametroService.alterarParametro(parametroDTO);
+            parametroService.alteraParametro(parametroDTO);
             return Response.ok().entity("A��o atualizada com sucesso.").build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar A��o com ID " + parametroDTO.getId() + ": " + e.getMessage());
@@ -136,14 +136,14 @@ public class ParametroController {
                                .build();
             }
 
-            ParametroDTO parametroExistente = parametroService.recuperarParametroPorId(id);
+            ParametroDTO parametroExistente = parametroService.recuperaParametroPorId(id);
             if (parametroExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("A��o com ID " + id + " n�o encontrada para exclus�o.")
                                .build();
             }
 
-            parametroService.excluirParametro(id);
+            parametroService.excluiParametro(id);
             return Response.noContent().build();  
         } catch (MedmentorException e) {
             System.err.println("Erro ao excluir A��o por ID (" + id + "): " + e.getMessage());

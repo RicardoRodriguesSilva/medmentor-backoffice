@@ -11,16 +11,20 @@ import jakarta.ejb.Local;
 @Local
 public interface CadastroService extends GenericService {
 	
-	MedicoDTO recuperarMedico(Integer id) throws MedmentorException;
-	void alterarMedico(Integer id, MedicoDTO medicoDTO) throws MedmentorException;
+	MedicoDTO recuperaMedico(Integer id) throws MedmentorException;
 	
-	RegistroDTO recuperarRegistro(Integer id) throws MedmentorException;
-	void alterarRegistro(Integer id, RegistroDTO registroDTO) throws MedmentorException;
+	void alteraMedico(Integer id, MedicoDTO medicoDTO) throws MedmentorException;
 	
-	EmpresaDTO recuperarEmpresa(Integer id) throws MedmentorException;
-	void alterarEmpresa(Integer id, EmpresaDTO empresaDTO) throws MedmentorException;
+	RegistroDTO recuperaRegistro(Integer id) throws MedmentorException;
 	
-	DadosBancariosDTO recuperarDadosBancarios(Integer id) throws MedmentorException;
-	void alterarDadosBancarios(Integer id, DadosBancariosDTO DadosBancariosDTO) throws MedmentorException;
+	void alteraRegistro(Integer id, RegistroDTO registroDTO) throws MedmentorException;
+	
+	EmpresaDTO recuperaEmpresa(Integer id) throws MedmentorException;
+	
+	void alteraEmpresa(Integer id, EmpresaDTO empresaDTO) throws MedmentorException;
+	
+	DadosBancariosDTO recuperaDadosBancarios(Integer id) throws MedmentorException;
+	
+	void alteraDadosBancarios(Integer id, DadosBancariosDTO DadosBancariosDTO) throws MedmentorException;
 	
 }

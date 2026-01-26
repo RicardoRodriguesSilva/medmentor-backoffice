@@ -9,14 +9,14 @@ import jakarta.ejb.Local;
 @Local
 public interface ParametroService extends GenericService {
     
-    ParametroDTO incluirParametro(ParametroDTO parametroDTO) throws MedmentorException;
+    ParametroDTO incluiParametro(ParametroDTO parametroDTO) throws MedmentorException;
     
-    void excluirParametro(Integer id) throws MedmentorException;
+    void excluiParametro(Integer id) throws MedmentorException;
     
-    void alterarParametro(ParametroDTO parametroDTO) throws MedmentorException;
+    void alteraParametro(ParametroDTO parametroDTO) throws MedmentorException;
     
-    ParametroDTO recuperarParametroPorId(Integer id) throws MedmentorException;
+    ParametroDTO recuperaParametroPorId(Integer id) throws MedmentorException;
     
-    List<ParametroDTO> recuperarListaParametro() throws MedmentorException;
+    List<ParametroDTO> recuperaListaParametro() throws MedmentorException;
     
 }

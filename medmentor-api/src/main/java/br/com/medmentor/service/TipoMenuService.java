@@ -9,13 +9,13 @@ import jakarta.ejb.Local;
 @Local
 public interface TipoMenuService extends GenericService {
     
-    TipoMenuDTO incluirTipoMenu(TipoMenuDTO tipoMenuDTO) throws MedmentorException;
+    TipoMenuDTO incluiTipoMenu(TipoMenuDTO tipoMenuDTO) throws MedmentorException;
     
-    void excluirTipoMenu(Integer id) throws MedmentorException;
+    void excluiTipoMenu(Integer id) throws MedmentorException;
     
-    void alterarTipoMenu(TipoMenuDTO tipoMenuDTO) throws MedmentorException;
+    void alteraTipoMenu(TipoMenuDTO tipoMenuDTO) throws MedmentorException;
     
-    TipoMenuDTO recuperarTipoMenuPorId(Integer id) throws MedmentorException;
+    TipoMenuDTO recuperaTipoMenuPorId(Integer id) throws MedmentorException;
     
-    List<TipoMenuDTO> recuperarListaTipoMenu() throws MedmentorException;
+    List<TipoMenuDTO> recuperaListaTipoMenu() throws MedmentorException;
 } 

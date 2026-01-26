@@ -42,10 +42,10 @@ public class CadastroServiceImpl implements CadastroService {
     private RegistroMapper registroMapper;
 		
 	@Override
-	public MedicoDTO recuperarMedico(Integer id) throws MedmentorException {		
+	public MedicoDTO recuperaMedico(Integer id) throws MedmentorException {		
 		try {
-			ProfissionalDTO profissionalDTO = profissionalService.recuperarProfissionalPorId(id);
-			MedicoDTO medicoDTO = medicoMapper.toMedicoDTO(profissionalDTO);
+			ProfissionalDTO profissionalDTO = profissionalService.recuperaProfissionalPorId(id);
+			MedicoDTO medicoDTO = medicoMapper.toMedicoDto(profissionalDTO);
 			return medicoDTO;
 		} catch (MedmentorException e) {
 			throw new MedmentorException(e.getMessage(), e.getCause());
@@ -53,21 +53,21 @@ public class CadastroServiceImpl implements CadastroService {
 	}
 
 	@Override
-	public void alterarMedico(Integer id, MedicoDTO medicoDTO) throws MedmentorException {
+	public void alteraMedico(Integer id, MedicoDTO medicoDTO) throws MedmentorException {
 		try {
-			ProfissionalDTO profissionalDTO = profissionalService.recuperarProfissionalPorId(id);
-			profissionalDTO = medicoMapper.toProfissionalDTO(medicoDTO, profissionalDTO);
-			profissionalService.alterarProfissional(profissionalDTO);
+			ProfissionalDTO profissionalDTO = profissionalService.recuperaProfissionalPorId(id);
+			profissionalDTO = medicoMapper.toProfissionalDto(medicoDTO, profissionalDTO);
+			profissionalService.alteraProfissional(profissionalDTO);
 		} catch (MedmentorException e) {
 			throw new MedmentorException(e.getMessage(), e.getCause());
 		}
 	}
 
 	@Override
-	public RegistroDTO recuperarRegistro(Integer id) throws MedmentorException {
+	public RegistroDTO recuperaRegistro(Integer id) throws MedmentorException {
 		try {
-			ProfissionalRegistroDTO profissionalRegistroDTO = profissionalRegistroService.recuperarProfissionalRegistroPorId(id);
-			RegistroDTO registroDTO = registroMapper.toRegistroDTO(profissionalRegistroDTO);
+			ProfissionalRegistroDTO profissionalRegistroDTO = profissionalRegistroService.recuperaProfissionalRegistroPorId(id);
+			RegistroDTO registroDTO = registroMapper.toRegistroDto(profissionalRegistroDTO);
 			return registroDTO;
 		} catch (MedmentorException e) {
 			throw new MedmentorException(e.getMessage(), e.getCause());
@@ -75,21 +75,21 @@ public class CadastroServiceImpl implements CadastroService {
 	}
 
 	@Override
-	public void alterarRegistro(Integer id, RegistroDTO registroDTO) throws MedmentorException {
+	public void alteraRegistro(Integer id, RegistroDTO registroDTO) throws MedmentorException {
 		try {
-			ProfissionalRegistroDTO profissionalRegistroDTO = profissionalRegistroService.recuperarProfissionalRegistroPorId(registroDTO.getId());
-			profissionalRegistroDTO = registroMapper.toProfissionalRegistroDTO(registroDTO, profissionalRegistroDTO);
-			profissionalRegistroService.alterarProfissionalRegistro(profissionalRegistroDTO);
+			ProfissionalRegistroDTO profissionalRegistroDTO = profissionalRegistroService.recuperaProfissionalRegistroPorId(registroDTO.getId());
+			profissionalRegistroDTO = registroMapper.toProfissionalRegistroDto(registroDTO, profissionalRegistroDTO);
+			profissionalRegistroService.alteraProfissionalRegistro(profissionalRegistroDTO);
 		} catch (MedmentorException e) {
 			throw new MedmentorException(e.getMessage(), e.getCause());
 		}
 	}
 
 	@Override
-	public EmpresaDTO recuperarEmpresa(Integer id) throws MedmentorException {
+	public EmpresaDTO recuperaEmpresa(Integer id) throws MedmentorException {
 		try {
-			EmpresaProfissionalDTO empresaProfissionalDTO = empresaProfissionalService.recuperarEmpresaProfissionalPorProfissional(id);
-			EmpresaDTO empresaDTO = empresaMapper.toEmpresaDTO(empresaProfissionalDTO);
+			EmpresaProfissionalDTO empresaProfissionalDTO = empresaProfissionalService.recuperaEmpresaProfissionalPorProfissional(id);
+			EmpresaDTO empresaDTO = empresaMapper.toEmpresaDto(empresaProfissionalDTO);
 			return empresaDTO;
 		} catch (MedmentorException e) {
 			throw new MedmentorException(e.getMessage(), e.getCause());
@@ -97,21 +97,21 @@ public class CadastroServiceImpl implements CadastroService {
 	}
 
 	@Override
-	public void alterarEmpresa(Integer id, EmpresaDTO empresaDTO) throws MedmentorException {
+	public void alteraEmpresa(Integer id, EmpresaDTO empresaDTO) throws MedmentorException {
 		try {
-			EmpresaProfissionalDTO empresaProfissionalDTO = empresaProfissionalService.recuperarEmpresaProfissionalPorProfissional(id);
-			empresaProfissionalDTO = empresaMapper.toEmpresaProfissionalDTO(empresaDTO, empresaProfissionalDTO);
-			empresaProfissionalService.alterarEmpresaProfissional(empresaProfissionalDTO);
+			EmpresaProfissionalDTO empresaProfissionalDTO = empresaProfissionalService.recuperaEmpresaProfissionalPorProfissional(id);
+			empresaProfissionalDTO = empresaMapper.toEmpresaProfissionalDto(empresaDTO, empresaProfissionalDTO);
+			empresaProfissionalService.alteraEmpresaProfissional(empresaProfissionalDTO);
 		} catch (MedmentorException e) {
 			throw new MedmentorException(e.getMessage(), e.getCause());
 		}	
 	}
 
 	@Override
-	public DadosBancariosDTO recuperarDadosBancarios(Integer id) throws MedmentorException {
+	public DadosBancariosDTO recuperaDadosBancarios(Integer id) throws MedmentorException {
 		try {
-			EmpresaProfissionalDTO empresaProfissionalDTO = empresaProfissionalService.recuperarEmpresaProfissionalPorProfissional(id);
-			DadosBancariosDTO dadosBancariosDTO = dadosBancariosMapper.toDadosBancariosDTO(empresaProfissionalDTO);
+			EmpresaProfissionalDTO empresaProfissionalDTO = empresaProfissionalService.recuperaEmpresaProfissionalPorProfissional(id);
+			DadosBancariosDTO dadosBancariosDTO = dadosBancariosMapper.toDadosBancariosDto(empresaProfissionalDTO);
 			return dadosBancariosDTO;
 		} catch (MedmentorException e) {
 			throw new MedmentorException(e.getMessage(), e.getCause());
@@ -119,11 +119,11 @@ public class CadastroServiceImpl implements CadastroService {
 	}
 
 	@Override
-	public void alterarDadosBancarios(Integer id, DadosBancariosDTO dadosBancariosDTO) throws MedmentorException {
+	public void alteraDadosBancarios(Integer id, DadosBancariosDTO dadosBancariosDTO) throws MedmentorException {
 		try {
-			EmpresaProfissionalDTO empresaProfissionalDTO = empresaProfissionalService.recuperarEmpresaProfissionalPorProfissional(id);
-			empresaProfissionalDTO = dadosBancariosMapper.toEmpresaProfissionalDTO(dadosBancariosDTO, empresaProfissionalDTO);
-			empresaProfissionalService.alterarEmpresaProfissional(empresaProfissionalDTO);
+			EmpresaProfissionalDTO empresaProfissionalDTO = empresaProfissionalService.recuperaEmpresaProfissionalPorProfissional(id);
+			empresaProfissionalDTO = dadosBancariosMapper.toEmpresaProfissionalDto(dadosBancariosDTO, empresaProfissionalDTO);
+			empresaProfissionalService.alteraEmpresaProfissional(empresaProfissionalDTO);
 		} catch (MedmentorException e) {
 			throw new MedmentorException(e.getMessage(), e.getCause());
 		}	

@@ -26,7 +26,7 @@ public class PerfilServiceImpl implements PerfilService {
     }
 
     @Override
-    public PerfilDTO incluirPerfil(PerfilDTO perfilDTO) throws MedmentorException {
+    public PerfilDTO incluiPerfil(PerfilDTO perfilDTO) throws MedmentorException {
         Perfil perfil = perfilMapper.toEntity(perfilDTO);
         
         try {
@@ -39,7 +39,7 @@ public class PerfilServiceImpl implements PerfilService {
     }
 
     @Override
-    public void excluirPerfil(Integer id) throws MedmentorException {
+    public void excluiPerfil(Integer id) throws MedmentorException {
         try {
             perfilDAO.delete(id);
         } catch (SQLException e) {
@@ -48,7 +48,7 @@ public class PerfilServiceImpl implements PerfilService {
     }
 
     @Override
-    public void alterarPerfil(PerfilDTO perfilDTO) throws MedmentorException {
+    public void alteraPerfil(PerfilDTO perfilDTO) throws MedmentorException {
         Perfil perfil = perfilMapper.toEntity(perfilDTO);
         try {
             perfilDAO.update(perfil);
@@ -58,7 +58,7 @@ public class PerfilServiceImpl implements PerfilService {
     }
 
     @Override
-    public PerfilDTO recuperarPerfilPorId(Integer id) throws MedmentorException {
+    public PerfilDTO recuperaPerfilPorId(Integer id) throws MedmentorException {
         Perfil perfil;
         try {
             perfil = perfilDAO.findById(id);
@@ -73,7 +73,7 @@ public class PerfilServiceImpl implements PerfilService {
     }
 
     @Override
-    public List<PerfilDTO> recuperarListaPerfil() throws MedmentorException {
+    public List<PerfilDTO> recuperaListaPerfil() throws MedmentorException {
         List<PerfilDTO> listaDto = new ArrayList<>();
         try {
             listaDto = perfilMapper.toListDto(perfilDAO.findAll());

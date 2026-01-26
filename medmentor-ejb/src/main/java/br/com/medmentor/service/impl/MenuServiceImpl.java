@@ -27,7 +27,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public MenuDTO incluirMenu(MenuDTO menuDTO) throws MedmentorException {
+    public MenuDTO incluiMenu(MenuDTO menuDTO) throws MedmentorException {
         Menu menu = menuMapper.toEntity(menuDTO);
         
         try {
@@ -40,7 +40,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public void excluirMenu(Integer id) throws MedmentorException {
+    public void excluiMenu(Integer id) throws MedmentorException {
         try {
             menuDAO.delete(id);
         } catch (SQLException e) {
@@ -49,7 +49,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public void alterarMenu(MenuDTO menuDTO) throws MedmentorException {
+    public void alteraMenu(MenuDTO menuDTO) throws MedmentorException {
         Menu menu = menuMapper.toEntity(menuDTO);
         try {
             menuDAO.update(menu);
@@ -59,7 +59,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public MenuDTO recuperarMenuPorId(Integer id) throws MedmentorException {
+    public MenuDTO recuperaMenuPorId(Integer id) throws MedmentorException {
         Menu menu;
         try {
             menu = menuDAO.findById(id);
@@ -74,7 +74,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuDTO> recuperarListaMenu() throws MedmentorException {
+    public List<MenuDTO> recuperaListaMenu() throws MedmentorException {
         List<MenuDTO> listaDto = new ArrayList<>();
         try {
             listaDto = menuMapper.toListDto(menuDAO.findAll());

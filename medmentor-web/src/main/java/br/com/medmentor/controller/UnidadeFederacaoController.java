@@ -32,7 +32,7 @@ public class UnidadeFederacaoController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            UnidadeFederacaoDTO novoUnidadeFederacao = unidadeFederacaoService.incluirUnidadeFederacao(unidadeFederacaoDTO);
+            UnidadeFederacaoDTO novoUnidadeFederacao = unidadeFederacaoService.incluiUnidadeFederacao(unidadeFederacaoDTO);
             return Response.created(URI.create("/api/unidade-federacao/" + novoUnidadeFederacao.getId()))
                            .entity(novoUnidadeFederacao)
                            .build();
@@ -58,7 +58,7 @@ public class UnidadeFederacaoController {
                                .entity("O ID do unidadeFederacao n�o pode ser nulo.")
                                .build();
             }
-            UnidadeFederacaoDTO unidadeFederacao = unidadeFederacaoService.recuperarUnidadeFederacaoPorId(id);
+            UnidadeFederacaoDTO unidadeFederacao = unidadeFederacaoService.recuperaUnidadeFederacaoPorId(id);
             if (unidadeFederacao != null) {
                 return Response.ok(unidadeFederacao).build();
             } else {
@@ -87,7 +87,7 @@ public class UnidadeFederacaoController {
                                .entity("O corpo da requisi��o e o ID do unidadeFederacao n�o podem ser vazios.")
                                .build();
             }
-            unidadeFederacaoService.alterarUnidadeFederacao(unidadeFederacaoDTO);
+            unidadeFederacaoService.alteraUnidadeFederacao(unidadeFederacaoDTO);
             return Response.ok().entity("UnidadeFederacao atualizado com sucesso.").build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar UnidadeFederacao com ID " + unidadeFederacaoDTO.getId() + ": " + e.getMessage());
@@ -112,14 +112,14 @@ public class UnidadeFederacaoController {
                                .build();
             }
 
-            UnidadeFederacaoDTO unidadeFederacaoExistente = unidadeFederacaoService.recuperarUnidadeFederacaoPorId(id);
+            UnidadeFederacaoDTO unidadeFederacaoExistente = unidadeFederacaoService.recuperaUnidadeFederacaoPorId(id);
             if (unidadeFederacaoExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("UnidadeFederacao com ID " + id + " n�o encontrado para exclus�o.")
                                .build();
             }
 
-            unidadeFederacaoService.excluirUnidadeFederacao(id);
+            unidadeFederacaoService.excluiUnidadeFederacao(id);
             return Response.noContent().build(); 
         } catch (MedmentorException e) { 
             System.err.println("Erro ao excluir UnidadeFederacao por ID (" + id + "): " + e.getMessage());
@@ -137,7 +137,7 @@ public class UnidadeFederacaoController {
     @GET
     public Response listarTodasUnidadesFederacao() {
         try {
-            List<UnidadeFederacaoDTO> unidadesFederacao = unidadeFederacaoService.listarTodos();
+            List<UnidadeFederacaoDTO> unidadesFederacao = unidadeFederacaoService.listaTodos();
 
             if (unidadesFederacao.isEmpty()) {
                 return Response.noContent().build();

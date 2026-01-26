@@ -31,7 +31,7 @@ public class CadastroController {
                                .entity("O ID do medico n�o pode ser nulo.")
                                .build();
             }
-            MedicoDTO medicoDTO = cadastroService.recuperarMedico(id);
+            MedicoDTO medicoDTO = cadastroService.recuperaMedico(id);
             if (medicoDTO != null) {
                 return Response.ok(medicoDTO).build();
             } else {
@@ -61,7 +61,7 @@ public class CadastroController {
                                .entity("O corpo da requisi��o e o ID do medico n�o podem ser vazios.")
                                .build();
             }
-            cadastroService.alterarMedico(id, medicoDTO);
+            cadastroService.alteraMedico(id, medicoDTO);
             return Response.ok().entity(medicoDTO).build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar Medico com ID " + id + ": " + e.getMessage());
@@ -85,7 +85,7 @@ public class CadastroController {
                                .entity("O ID do registro n�o pode ser nulo.")
                                .build();
             }
-            RegistroDTO registroDTO = cadastroService.recuperarRegistro(id);
+            RegistroDTO registroDTO = cadastroService.recuperaRegistro(id);
             if (registroDTO != null) {
                 return Response.ok(registroDTO).build();
             } else {
@@ -115,7 +115,7 @@ public class CadastroController {
                                .entity("O corpo da requisi��o e o ID do registro n�o podem ser vazios.")
                                .build();
             }
-            cadastroService.alterarRegistro(id, registroDTO);
+            cadastroService.alteraRegistro(id, registroDTO);
             return Response.ok().entity(registroDTO).build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar Registro com ID " + id + ": " + e.getMessage());
@@ -139,7 +139,7 @@ public class CadastroController {
                                .entity("O ID do empresa n�o pode ser nulo.")
                                .build();
             }
-            EmpresaDTO empresaDTO = cadastroService.recuperarEmpresa(id);
+            EmpresaDTO empresaDTO = cadastroService.recuperaEmpresa(id);
             if (empresaDTO != null) {
                 return Response.ok(empresaDTO).build();
             } else {
@@ -169,7 +169,7 @@ public class CadastroController {
                                .entity("O corpo da requisi��o e o ID do empresa n�o podem ser vazios.")
                                .build();
             }
-            cadastroService.alterarEmpresa(id, empresaDTO);
+            cadastroService.alteraEmpresa(id, empresaDTO);
             return Response.ok().entity(empresaDTO).build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar Empresa com ID " + id + ": " + e.getMessage());
@@ -193,7 +193,7 @@ public class CadastroController {
                                .entity("O ID do dadosBancarios n�o pode ser nulo.")
                                .build();
             }
-            DadosBancariosDTO dadosBancariosDTO = cadastroService.recuperarDadosBancarios(id);
+            DadosBancariosDTO dadosBancariosDTO = cadastroService.recuperaDadosBancarios(id);
             if (dadosBancariosDTO != null) {
                 return Response.ok(dadosBancariosDTO).build();
             } else {
@@ -223,7 +223,7 @@ public class CadastroController {
                                .entity("O corpo da requisi��o e o ID do dadosBancarios n�o podem ser vazios.")
                                .build();
             }
-            cadastroService.alterarDadosBancarios(id, dadosBancariosDTO);
+            cadastroService.alteraDadosBancarios(id, dadosBancariosDTO);
             return Response.ok().entity(dadosBancariosDTO).build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar DadosBancarios com ID " + id + ": " + e.getMessage());

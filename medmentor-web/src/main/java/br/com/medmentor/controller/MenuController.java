@@ -33,7 +33,7 @@ public class MenuController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            MenuDTO novoMenu = menuService.incluirMenu(menuDTO);
+            MenuDTO novoMenu = menuService.incluiMenu(menuDTO);
             return Response.created(URI.create("/api/menu/" + novoMenu.getId()))
                            .entity(novoMenu)
                            .build();
@@ -59,7 +59,7 @@ public class MenuController {
                                .entity("O ID do menu n�o pode ser nulo.")
                                .build();
             }
-            MenuDTO menu = menuService.recuperarMenuPorId(id);
+            MenuDTO menu = menuService.recuperaMenuPorId(id);
             if (menu != null) {
                 return Response.ok(menu).build();
             } else {
@@ -83,7 +83,7 @@ public class MenuController {
     @GET
     public Response recuperarListaMenu() {
         try {
-            List<MenuDTO> menus = menuService.recuperarListaMenu();
+            List<MenuDTO> menus = menuService.recuperaListaMenu();
             if (menus.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -110,7 +110,7 @@ public class MenuController {
                                .entity("O corpo da requisi��o e o ID do menu n�o podem ser vazios.")
                                .build();
             }
-            menuService.alterarMenu(menuDTO);
+            menuService.alteraMenu(menuDTO);
             return Response.ok().entity(menuDTO).build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar Menu com ID " + menuDTO.getId() + ": " + e.getMessage());
@@ -135,14 +135,14 @@ public class MenuController {
                                .build();
             }
 
-            MenuDTO menuExistente = menuService.recuperarMenuPorId(id);
+            MenuDTO menuExistente = menuService.recuperaMenuPorId(id);
             if (menuExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("Menu com ID " + id + " n�o encontrado para exclus�o.")
                                .build();
             }
 
-            menuService.excluirMenu(id);
+            menuService.excluiMenu(id);
             return Response.noContent().build(); 
         } catch (MedmentorException e) { 
             System.err.println("Erro ao excluir Menu por ID (" + id + "): " + e.getMessage());

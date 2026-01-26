@@ -10,11 +10,13 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import br.com.medmentor.dao.EmpresaProfissionalDAO;
 import br.com.medmentor.dao.EscalaTrabalhoDAO;
 import br.com.medmentor.dao.GeracaoEscalaDAO;
+import br.com.medmentor.dao.NotificacaoDAO;
 import br.com.medmentor.dao.ParametroDAO;
 import br.com.medmentor.dto.GeracaoEscalaDTO;
 import br.com.medmentor.enums.Parametro;
@@ -25,9 +27,11 @@ import br.com.medmentor.mapper.GeracaoEscalaMapper;
 import br.com.medmentor.model.EmpresaProfissional;
 import br.com.medmentor.model.EscalaTrabalho;
 import br.com.medmentor.model.GeracaoEscala;
+import br.com.medmentor.model.Notificacao;
 import br.com.medmentor.service.GeracaoEscalaService;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 @Stateless 
 public class GeracaoEscalaServiceImpl implements GeracaoEscalaService {
@@ -41,6 +45,9 @@ public class GeracaoEscalaServiceImpl implements GeracaoEscalaService {
     @Inject 
     private GeracaoEscalaDAO geracaoEscalaDAO;
     
+    @Inject
+    private NotificacaoDAO notificacaoDAO;
+    
     @Inject 
     private ParametroDAO parametroDAO;      
     
@@ -52,7 +59,8 @@ public class GeracaoEscalaServiceImpl implements GeracaoEscalaService {
 	}
 
 	@Override
-	public GeracaoEscalaDTO incluirGeracaoEscala(GeracaoEscalaDTO geracaoEscalaDTO) throws MedmentorException {
+	@Transactional
+	public GeracaoEscalaDTO incluiGeracaoEscala(GeracaoEscalaDTO geracaoEscalaDTO) throws MedmentorException {
 		GeracaoEscala geracaoEscala = geracaoEscalaMapper.toEntity(geracaoEscalaDTO);
 		
 		try {			
@@ -69,8 +77,14 @@ public class GeracaoEscalaServiceImpl implements GeracaoEscalaService {
 				List<EscalaTrabalho> listaEscalasTrabalho = this.gerarEscalaMensal(geracaoEscala, YearMonth.from(geracaoEscala.getDataGeracao()),
 						profssionais, quantidadeHorasPlantonistaDia);
 				
+				Map<Integer, EmpresaProfissional> mapaEmpresaProfissionalNotificado = new HashMap<Integer, EmpresaProfissional>();				
+				
 				if ((listaEscalasTrabalho!=null)&&(listaEscalasTrabalho.size()>0)) {
 					for (EscalaTrabalho novaEscala: listaEscalasTrabalho) {
+						if (mapaEmpresaProfissionalNotificado.get(novaEscala.getEmpresaProfissional().getId())==null) {
+							this.geraNotificacaoParaSolicitacaoMundanca(novaEscala, true);
+							mapaEmpresaProfissionalNotificado.put(novaEscala.getEmpresaProfissional().getId(), novaEscala.getEmpresaProfissional());
+						}
 						escalaTrabalhoDAO.create(novaEscala);
 					}
 				}			
@@ -86,7 +100,7 @@ public class GeracaoEscalaServiceImpl implements GeracaoEscalaService {
 	}
 
 	@Override
-	public void excluirGeracaoEscala(Integer id) throws MedmentorException {
+	public void excluiGeracaoEscala(Integer id) throws MedmentorException {
 		try {
 			
 			GeracaoEscala geracaoEscala = geracaoEscalaDAO.findById(id);
@@ -105,7 +119,7 @@ public class GeracaoEscalaServiceImpl implements GeracaoEscalaService {
 	}
 
 	@Override
-	public void alterarGeracaoEscala(GeracaoEscalaDTO geracaoEscalaDTO) throws MedmentorException {
+	public void alteraGeracaoEscala(GeracaoEscalaDTO geracaoEscalaDTO) throws MedmentorException {
 		
 		GeracaoEscala escalaTrabalho = geracaoEscalaMapper.toEntity(geracaoEscalaDTO);
 		try {
@@ -116,7 +130,7 @@ public class GeracaoEscalaServiceImpl implements GeracaoEscalaService {
 	}
 
 	@Override
-	public GeracaoEscalaDTO recuperarGeracaoEscalaPorId(Integer id) throws MedmentorException {
+	public GeracaoEscalaDTO recuperaGeracaoEscalaPorId(Integer id) throws MedmentorException {
 		GeracaoEscala escalaTrabalho;
 		try {
 			escalaTrabalho = geracaoEscalaDAO.findById(id);
@@ -128,7 +142,7 @@ public class GeracaoEscalaServiceImpl implements GeracaoEscalaService {
 	}
 
 	@Override
-	public List<GeracaoEscalaDTO> recuperarListaGeracaoEscala() throws MedmentorException {
+	public List<GeracaoEscalaDTO> recuperaListaGeracaoEscala() throws MedmentorException {
 		List<GeracaoEscalaDTO> listaDto = new ArrayList<GeracaoEscalaDTO>();
 		try {
 			listaDto = geracaoEscalaMapper.toListDto(geracaoEscalaDAO.findAll());
@@ -139,7 +153,7 @@ public class GeracaoEscalaServiceImpl implements GeracaoEscalaService {
 	}
 
 	@Override
-	public List<GeracaoEscalaDTO> recuperarListaGeracaoEscalaPorFiltro(FiltroGeracaoEscalaDTO filtroGeracaoEscalaDTO)
+	public List<GeracaoEscalaDTO> recuperaListaGeracaoEscalaPorFiltro(FiltroGeracaoEscalaDTO filtroGeracaoEscalaDTO)
 			throws MedmentorException {
 		List<GeracaoEscalaDTO> listaDto = new ArrayList<GeracaoEscalaDTO>();
 		try {
@@ -222,7 +236,8 @@ public class GeracaoEscalaServiceImpl implements GeracaoEscalaService {
                             shiftStartDateTime,
                             shiftEndDateTime,
                             true, // bolAtivo (Regra 6)
-                            false // bolRealizado (Regra 6)
+                            false, // bolRealizado (Regra 6)
+                            false // bolDisponibilizado (Regra 6)
                     );
                     escalaCompleta.add(escala);
                     assignedCount++;
@@ -265,7 +280,8 @@ public class GeracaoEscalaServiceImpl implements GeracaoEscalaService {
                             shiftStartDateTime,
                             shiftEndDateTime,
                             true, // bolAtivo (Regra 6)
-                            false // bolRealizado (Regra 6)
+                            false, // bolRealizado (Regra 6)
+                            false // bolDisponibilizado (Regra 6)
                     );
                     escalaCompleta.add(escalaVazia);
                     assignedCount++;
@@ -279,4 +295,32 @@ public class GeracaoEscalaServiceImpl implements GeracaoEscalaService {
 
         return escalaCompleta;
     }
+	
+	private void geraNotificacaoParaSolicitacaoMundanca(EscalaTrabalho escalaTrabalho, Boolean isInclusao) throws MedmentorException {
+		
+		try {
+			
+			Notificacao notificacao = new Notificacao();
+			notificacao.setBolLida(false);
+			notificacao.setDataHora(LocalDateTime.now());
+			
+				if (isInclusao) {
+					notificacao.setDescricao("A sua esacala de trabalho do mês " 
+							+ escalaTrabalho.getDataHoraEntrada().getMonth() + " de "
+							+ escalaTrabalho.getDataHoraEntrada().getYear() + ", na unidade de saúde " 
+							+ escalaTrabalho.getEmpresaUnidadeGestao().getEmpresa().getNomeFantasia() + " foi gerada com sucesso!");
+				} else {
+					notificacao.setDescricao("Devido a necessidade de ajustes, a sua esacala de trabalho do mês " 
+							+ escalaTrabalho.getDataHoraEntrada().getMonth() + " de "
+							+ escalaTrabalho.getDataHoraEntrada().getYear() + ", na unidade de saúde " 
+							+ escalaTrabalho.getEmpresaUnidadeGestao().getEmpresa().getNomeFantasia() + " foi excluída!");
+				}
+						
+			notificacao.setEmpresaProfissional(escalaTrabalho.getEmpresaProfissional());
+			notificacao.setEmpresaUnidadeGestao(escalaTrabalho.getEmpresaUnidadeGestao());
+			notificacaoDAO.create(notificacao);
+		} catch (SQLException e) {
+			throw new MedmentorException(e.getMessage(), e.getCause());
+		}
+	}	
 }

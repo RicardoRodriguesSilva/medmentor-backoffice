@@ -9,14 +9,14 @@ import jakarta.ejb.Local;
 @Local
 public interface AcaoService extends GenericService {
     
-    AcaoDTO incluirAcao(AcaoDTO acaoDTO) throws MedmentorException;
+    AcaoDTO incluiAcao(AcaoDTO acaoDTO) throws MedmentorException;
     
-    void excluirAcao(Integer id) throws MedmentorException;
+    void excluiAcao(Integer id) throws MedmentorException;
     
-    void alterarAcao(AcaoDTO acaoDTO) throws MedmentorException;
+    void alteraAcao(AcaoDTO acaoDTO) throws MedmentorException;
     
-    AcaoDTO recuperarAcaoPorId(Integer id) throws MedmentorException;
+    AcaoDTO recuperaAcaoPorId(Integer id) throws MedmentorException;
     
-    List<AcaoDTO> recuperarListaAcao() throws MedmentorException;
+    List<AcaoDTO> recuperaListaAcao() throws MedmentorException;
     
 }

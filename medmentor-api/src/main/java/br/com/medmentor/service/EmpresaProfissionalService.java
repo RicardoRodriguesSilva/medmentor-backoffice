@@ -9,15 +9,15 @@ import jakarta.ejb.Local;
 @Local
 public interface EmpresaProfissionalService extends GenericService {
 	
-	EmpresaProfissionalDTO incluirEmpresaProfissional(EmpresaProfissionalDTO EmpresaProfissionalDTO) throws MedmentorException;
+	EmpresaProfissionalDTO incluiEmpresaProfissional(EmpresaProfissionalDTO EmpresaProfissionalDTO) throws MedmentorException;
 	
-	void excluirEmpresaProfissional(Integer idEmpresaProfissional) throws MedmentorException;
+	void excluiEmpresaProfissional(Integer idEmpresaProfissional) throws MedmentorException;
 	
-	void alterarEmpresaProfissional(EmpresaProfissionalDTO EmpresaProfissionalDTO) throws MedmentorException;
+	void alteraEmpresaProfissional(EmpresaProfissionalDTO EmpresaProfissionalDTO) throws MedmentorException;
 	
-	EmpresaProfissionalDTO recuperarEmpresaProfissionalPorProfissional(Integer idProfissional) throws MedmentorException;
+	EmpresaProfissionalDTO recuperaEmpresaProfissionalPorProfissional(Integer idProfissional) throws MedmentorException;
 	
-	EmpresaProfissionalDTO recuperarEmpresaProfissionalPorId(Integer id) throws MedmentorException;
+	EmpresaProfissionalDTO recuperaEmpresaProfissionalPorId(Integer id) throws MedmentorException;
 	
-	List<EmpresaProfissionalDTO> recuperarListaEmpresaProfissional() throws MedmentorException; 
+	List<EmpresaProfissionalDTO> recuperaListaEmpresaProfissional() throws MedmentorException; 
 }

@@ -9,14 +9,14 @@ import jakarta.ejb.Local;
 @Local
 public interface SolicitacaoAcessoService extends GenericService {
     
-    SolicitacaoAcessoDTO incluirSolicitacaoAcesso(SolicitacaoAcessoDTO solicitacaoAcessoDTO) throws MedmentorException;
+    SolicitacaoAcessoDTO incluiSolicitacaoAcesso(SolicitacaoAcessoDTO solicitacaoAcessoDTO) throws MedmentorException;
     
-    void excluirSolicitacaoAcesso(Integer id) throws MedmentorException;
+    void excluiSolicitacaoAcesso(Integer id) throws MedmentorException;
     
-    void alterarSolicitacaoAcesso(SolicitacaoAcessoDTO solicitacaoAcessoDTO) throws MedmentorException;
+    void alteraSolicitacaoAcesso(SolicitacaoAcessoDTO solicitacaoAcessoDTO) throws MedmentorException;
     
-    SolicitacaoAcessoDTO recuperarSolicitacaoAcessoPorId(Integer id) throws MedmentorException;
+    SolicitacaoAcessoDTO recuperaSolicitacaoAcessoPorId(Integer id) throws MedmentorException;
     
-    List<SolicitacaoAcessoDTO> recuperarListaSolicitacaoAcesso() throws MedmentorException;
+    List<SolicitacaoAcessoDTO> recuperaListaSolicitacaoAcesso() throws MedmentorException;
     
 }

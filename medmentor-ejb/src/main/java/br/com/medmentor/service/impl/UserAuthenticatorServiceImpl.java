@@ -71,7 +71,7 @@ public class UserAuthenticatorServiceImpl implements UserAuthenticatorService {
 
 	@Override
 	public String getNomePessoaUsuario(String username) {
-		UsuarioDTO usuarioDTO = usuarioService.recuperarUsuarioPorNome(username);
+		UsuarioDTO usuarioDTO = usuarioService.recuperaUsuarioPorNome(username);
 		return usuarioDTO.getPessoaFisicaDTO().getPessoaDTO().getNomePessoa();
 	}	
 }

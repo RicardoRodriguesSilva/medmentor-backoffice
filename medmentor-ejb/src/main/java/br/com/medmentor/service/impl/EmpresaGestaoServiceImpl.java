@@ -29,7 +29,7 @@ public class EmpresaGestaoServiceImpl implements EmpresaGestaoService {
 
 	@Override
 	@Transactional
-	public EmpresaGestaoDTO incluirEmpresaGestao(EmpresaGestaoDTO empresaGestaoDTO) throws MedmentorException {
+	public EmpresaGestaoDTO incluiEmpresaGestao(EmpresaGestaoDTO empresaGestaoDTO) throws MedmentorException {
 		EmpresaGestao empresaGestao = empresaGestaoMapper.toEntity(empresaGestaoDTO);
 		
 		try {
@@ -43,7 +43,7 @@ public class EmpresaGestaoServiceImpl implements EmpresaGestaoService {
 
 	@Override
 	@Transactional
-	public void excluirEmpresaGestao(Integer id) throws MedmentorException {
+	public void excluiEmpresaGestao(Integer id) throws MedmentorException {
 		try {
 			empresaGestaoDAO.delete(id);
 		} catch (SQLException e) {
@@ -53,7 +53,7 @@ public class EmpresaGestaoServiceImpl implements EmpresaGestaoService {
 
 	@Override
 	@Transactional
-	public void alterarEmpresaGestao(EmpresaGestaoDTO empresaGestaoDTO) throws MedmentorException {
+	public void alteraEmpresaGestao(EmpresaGestaoDTO empresaGestaoDTO) throws MedmentorException {
 		
 		EmpresaGestao empresaGestao = empresaGestaoMapper.toEntity(empresaGestaoDTO);
 		try {
@@ -64,7 +64,7 @@ public class EmpresaGestaoServiceImpl implements EmpresaGestaoService {
 	}
 
 	@Override
-	public EmpresaGestaoDTO recuperarEmpresaGestaoPorId(Integer id) throws MedmentorException {
+	public EmpresaGestaoDTO recuperaEmpresaGestaoPorId(Integer id) throws MedmentorException {
 		EmpresaGestao empresaGestao;
 		try {
 			empresaGestao = empresaGestaoDAO.findById(id);
@@ -76,7 +76,7 @@ public class EmpresaGestaoServiceImpl implements EmpresaGestaoService {
 	}
 
 	@Override
-	public List<EmpresaGestaoDTO> recuperarListaEmpresaGestao() throws SQLException {
+	public List<EmpresaGestaoDTO> recuperaListaEmpresaGestao() throws SQLException {
         List<EmpresaGestaoDTO> listaDto = new ArrayList<>();
         try {
             listaDto = empresaGestaoMapper.toListDto(empresaGestaoDAO.findAll());

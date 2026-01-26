@@ -33,7 +33,7 @@ public class PerfilController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            PerfilDTO novoPerfil = perfilService.incluirPerfil(perfilDTO);
+            PerfilDTO novoPerfil = perfilService.incluiPerfil(perfilDTO);
             return Response.created(URI.create("/api/perfil/" + novoPerfil.getId()))
                            .entity(novoPerfil)
                            .build();
@@ -59,7 +59,7 @@ public class PerfilController {
                                .entity("O ID do perfil n�o pode ser nulo.")
                                .build();
             }
-            PerfilDTO perfil = perfilService.recuperarPerfilPorId(id);
+            PerfilDTO perfil = perfilService.recuperaPerfilPorId(id);
             if (perfil != null) {
                 return Response.ok(perfil).build();
             } else {
@@ -83,7 +83,7 @@ public class PerfilController {
     @GET
     public Response recuperarListaPerfil() {
         try {
-            List<PerfilDTO> perfis = perfilService.recuperarListaPerfil();
+            List<PerfilDTO> perfis = perfilService.recuperaListaPerfil();
             if (perfis.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -110,7 +110,7 @@ public class PerfilController {
                                .entity("O corpo da requisi��o e o ID do perfil n�o podem ser vazios.")
                                .build();
             }
-            perfilService.alterarPerfil(perfilDTO);
+            perfilService.alteraPerfil(perfilDTO);
             return Response.ok().entity("Perfil atualizado com sucesso.").build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar Perfil com ID " + perfilDTO.getId() + ": " + e.getMessage());
@@ -135,14 +135,14 @@ public class PerfilController {
                                .build();
             }
 
-            PerfilDTO perfilExistente = perfilService.recuperarPerfilPorId(id);
+            PerfilDTO perfilExistente = perfilService.recuperaPerfilPorId(id);
             if (perfilExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("Perfil com ID " + id + " n�o encontrado para exclus�o.")
                                .build(); 
             }
 
-            perfilService.excluirPerfil(id);
+            perfilService.excluiPerfil(id);
             return Response.noContent().build(); 
         } catch (MedmentorException e) {
             System.err.println("Erro ao excluir Perfil por ID (" + id + "): " + e.getMessage());

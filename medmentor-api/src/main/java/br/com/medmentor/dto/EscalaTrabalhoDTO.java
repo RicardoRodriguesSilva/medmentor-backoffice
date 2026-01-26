@@ -13,6 +13,7 @@ public class EscalaTrabalhoDTO extends GenericDTO {
     private LocalDateTime dataHoraSaida;
     private Boolean bolAtivo;
     private Boolean bolRealizado;
+    private Boolean bolDisponibilizado;
 
     public EscalaTrabalhoDTO() {
     	
@@ -20,7 +21,7 @@ public class EscalaTrabalhoDTO extends GenericDTO {
 
 	public EscalaTrabalhoDTO(Integer id, EmpresaProfissionalDTO empresaProfissionalDTO,
 			EmpresaUnidadeGestaoDTO empresaUnidadeGestaoDTO, LocalDateTime dataHoraEntrada, LocalDateTime dataHoraSaida,
-			Boolean bolAtivo, Boolean bolRealizado) {
+			Boolean bolAtivo, Boolean bolRealizado, Boolean bolDisponibilizado) {
 		super();
 		this.id = id;
 		this.empresaProfissionalDTO = empresaProfissionalDTO;
@@ -29,6 +30,7 @@ public class EscalaTrabalhoDTO extends GenericDTO {
 		this.dataHoraSaida = dataHoraSaida;
 		this.bolAtivo = bolAtivo;
 		this.bolRealizado = bolRealizado;
+		this.bolDisponibilizado = bolDisponibilizado;
 	}
 
 	public Integer getId() {
@@ -87,11 +89,19 @@ public class EscalaTrabalhoDTO extends GenericDTO {
 		this.bolRealizado = bolRealizado;
 	}
 
+	public Boolean getBolDisponibilizado() {
+		return bolDisponibilizado;
+	}
+
+	public void setBolDisponibilizado(Boolean bolDisponibilizado) {
+		this.bolDisponibilizado = bolDisponibilizado;
+	}
+
 	@Override
 	public String toString() {
 		return "EscalaTrabalhoDTO [id=" + id + ", empresaProfissionalDTO=" + empresaProfissionalDTO
 				+ ", empresaUnidadeGestaoDTO=" + empresaUnidadeGestaoDTO + ", dataHoraEntrada=" + dataHoraEntrada
 				+ ", dataHoraSaida=" + dataHoraSaida + ", bolAtivo=" + bolAtivo + ", bolRealizado=" + bolRealizado
-				+ "]";
-	} 
+				+ ", bolDisponibilizado=" + bolDisponibilizado + "]";
+	}
 }

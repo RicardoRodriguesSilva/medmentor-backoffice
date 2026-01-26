@@ -27,7 +27,7 @@ public class CidadeServiceImpl implements CidadeService {
 	}
     
     @Override
-    public CidadeDTO incluirCidade(CidadeDTO cidadeDTO) throws MedmentorException {
+    public CidadeDTO incluiCidade(CidadeDTO cidadeDTO) throws MedmentorException {
         Cidade cidade = cidadeMapper.toEntity(cidadeDTO);
         
         try {
@@ -40,7 +40,7 @@ public class CidadeServiceImpl implements CidadeService {
     }
 
     @Override
-    public void excluirCidade(Integer id) throws MedmentorException {
+    public void excluiCidade(Integer id) throws MedmentorException {
         try {
             cidadeDAO.delete(id);
         } catch (SQLException e) {
@@ -49,7 +49,7 @@ public class CidadeServiceImpl implements CidadeService {
     }
 
     @Override
-    public void alterarCidade(CidadeDTO cidadeDTO) throws MedmentorException {
+    public void alteraCidade(CidadeDTO cidadeDTO) throws MedmentorException {
         Cidade cidade = cidadeMapper.toEntity(cidadeDTO);
         try {
             cidadeDAO.update(cidade);
@@ -59,7 +59,7 @@ public class CidadeServiceImpl implements CidadeService {
     }
 
     @Override
-    public CidadeDTO recuperarCidadePorId(Integer id) throws MedmentorException {
+    public CidadeDTO recuperaCidadePorId(Integer id) throws MedmentorException {
         Cidade cidade;
         try {
             cidade = cidadeDAO.findById(id);
@@ -74,7 +74,7 @@ public class CidadeServiceImpl implements CidadeService {
     }
 
     @Override
-    public List<CidadeDTO> recuperarListaCidade() throws MedmentorException {
+    public List<CidadeDTO> recuperaListaCidade() throws MedmentorException {
         List<CidadeDTO> listaDto = new ArrayList<>();
         try {
             listaDto = cidadeMapper.toListDto(cidadeDAO.findAll());
@@ -85,7 +85,7 @@ public class CidadeServiceImpl implements CidadeService {
     }    
 
 	@Override
-	public List<CidadeDTO> listarTodasPorUnidadeFederacao(Integer idUnidadeFederacao) throws MedmentorException {
+	public List<CidadeDTO> listaTodasPorUnidadeFederacao(Integer idUnidadeFederacao) throws MedmentorException {
 		List<CidadeDTO> listaDto = new ArrayList<CidadeDTO>();
 		try {
 			listaDto = cidadeMapper.toListDto(cidadeDAO.findByUnidadeFederacao(idUnidadeFederacao));
@@ -96,7 +96,7 @@ public class CidadeServiceImpl implements CidadeService {
 	}
 	
 	@Override
-	public List<CidadeDTO> listarTodasPorUnidadeFederacaoENome(Integer idUnidadeFederacao, String nome) throws MedmentorException {
+	public List<CidadeDTO> listaTodasPorUnidadeFederacaoENome(Integer idUnidadeFederacao, String nome) throws MedmentorException {
 		List<CidadeDTO> listaDto = new ArrayList<CidadeDTO>();
 		try {
 			listaDto = cidadeMapper.toListDto(cidadeDAO.findByUnidadeFederacaoENome(idUnidadeFederacao, nome));

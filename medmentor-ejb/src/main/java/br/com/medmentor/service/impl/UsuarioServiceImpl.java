@@ -49,7 +49,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public UsuarioDTO incluirUsuario(UsuarioDTO usuarioDTO) throws MedmentorException {
+    public UsuarioDTO incluiUsuario(UsuarioDTO usuarioDTO) throws MedmentorException {
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
         
         try {
@@ -66,7 +66,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public void excluirUsuario(Integer id) throws MedmentorException {
+    public void excluiUsuario(Integer id) throws MedmentorException {
         try {
             usuarioDAO.delete(id);
         } catch (SQLException e) {
@@ -76,7 +76,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public void alterarUsuario(UsuarioDTO usuarioDTO) throws MedmentorException {
+    public void alteraUsuario(UsuarioDTO usuarioDTO) throws MedmentorException {
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
         try {
         	Usuario usuarioAnteriorUsuario = usuarioDAO.findById(usuarioDTO.getId());
@@ -94,7 +94,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioDTO recuperarUsuarioPorId(Integer id) throws MedmentorException {
+    public UsuarioDTO recuperaUsuarioPorId(Integer id) throws MedmentorException {
         Usuario usuario;
         try {
             usuario = usuarioDAO.findById(id);
@@ -109,7 +109,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     } 
     
     @Override
-    public UsuarioDTO recuperarUsuarioPorNome(String nome) throws MedmentorException {
+    public UsuarioDTO recuperaUsuarioPorNome(String nome) throws MedmentorException {
         Usuario usuario;
         try {
             usuario = usuarioDAO.findByNome(nome);
@@ -124,7 +124,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }     
 
     @Override
-    public List<UsuarioDTO> recuperarListaUsuario() throws MedmentorException {
+    public List<UsuarioDTO> recuperaListaUsuario() throws MedmentorException {
         List<UsuarioDTO> listaDto = new ArrayList<>();
         try {
             listaDto = usuarioMapper.toListDto(usuarioDAO.findAll());
@@ -150,7 +150,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public String gerarLoginUsuario(String nome) throws MedmentorException {
+	public String geraLoginUsuario(String nome) throws MedmentorException {
 		LoginGenerator loginGenerator = new LoginGenerator();
 		String login = "";
 		try {
@@ -172,7 +172,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public String gerarSenha(String nome) throws MedmentorException {
+	public String geraSenha(String nome) throws MedmentorException {
 		PasswordGenerator passwordGenerator = new PasswordGenerator();
 		String password = "";
 		try {
@@ -195,7 +195,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	
 	@Override
 	@Transactional
-	public void recuperarSenha(String nomeUsuario)
+	public void recuperaSenha(String nomeUsuario)
 			throws MedmentorException {
 		try {
 			Usuario usuarioAnterior = usuarioDAO.findByNome(nomeUsuario);
@@ -203,7 +203,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 			
 			UsuarioDTO usuarioDTO = usuarioMapper.toDto(usuarioAnterior);
 			Usuario usuarioNovo = usuarioAnterior;
-			String novaSenha = this.gerarSenha(nomeUsuario);
+			String novaSenha = this.geraSenha(nomeUsuario);
 			usuarioNovo.setSenhaUsuario(passwordGenerator.hashPassword(novaSenha, 12));
 			usuarioDAO.update(usuarioNovo);
 			

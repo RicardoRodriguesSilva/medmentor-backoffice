@@ -34,7 +34,7 @@ public class EmpresaGestaoController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            EmpresaGestaoDTO novaEmpresa = empresaGestaoService.incluirEmpresaGestao(empresaGestaoDTO);
+            EmpresaGestaoDTO novaEmpresa = empresaGestaoService.incluiEmpresaGestao(empresaGestaoDTO);
             return Response.created(URI.create("/api/empresa-gestao/" + novaEmpresa.getId()))
                            .entity(novaEmpresa)
                            .build();
@@ -60,7 +60,7 @@ public class EmpresaGestaoController {
                                .entity("O ID da empresa n�o pode ser nulo.")
                                .build();
             }
-            EmpresaGestaoDTO empresaGestao = empresaGestaoService.recuperarEmpresaGestaoPorId(id);
+            EmpresaGestaoDTO empresaGestao = empresaGestaoService.recuperaEmpresaGestaoPorId(id);
             if (empresaGestao != null) {
                 return Response.ok(empresaGestao).build();
             } else {
@@ -89,7 +89,7 @@ public class EmpresaGestaoController {
                                .entity("O corpo da requisi��o e o ID da empresa n�o podem ser vazios.")
                                .build();
             }
-            empresaGestaoService.alterarEmpresaGestao(empresaGestaoDTO);
+            empresaGestaoService.alteraEmpresaGestao(empresaGestaoDTO);
             return Response.ok().entity(empresaGestaoDTO).build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar EmpresaGestao com ID " + empresaGestaoDTO.getId() + ": " + e.getMessage());
@@ -114,14 +114,14 @@ public class EmpresaGestaoController {
                                .build();
             }
 
-            EmpresaGestaoDTO empresaExistente = empresaGestaoService.recuperarEmpresaGestaoPorId(id);
+            EmpresaGestaoDTO empresaExistente = empresaGestaoService.recuperaEmpresaGestaoPorId(id);
             if (empresaExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("EmpresaGestao com ID " + id + " n�o encontrada para exclus�o.")
                                .build();
             }
 
-            empresaGestaoService.excluirEmpresaGestao(id);
+            empresaGestaoService.excluiEmpresaGestao(id);
             return Response.noContent().build(); 
         } catch (MedmentorException e) {
             System.err.println("Erro ao excluir EmpresaGestao por ID (" + id + "): " + e.getMessage());
@@ -140,7 +140,7 @@ public class EmpresaGestaoController {
     @Path("todas")
     public Response recuperarListaEmpresaGestao() {
         try {
-            List<EmpresaGestaoDTO> empresaGestaos = empresaGestaoService.recuperarListaEmpresaGestao();
+            List<EmpresaGestaoDTO> empresaGestaos = empresaGestaoService.recuperaListaEmpresaGestao();
             if (empresaGestaos.isEmpty()) {
                 return Response.noContent().build(); 
             } else {

@@ -9,7 +9,7 @@ import jakarta.inject.Named;
 @ApplicationScoped
 public class DadosBancariosMapper {
 
-    public DadosBancariosDTO toDadosBancariosDTO(EmpresaProfissionalDTO empresaProfissionalDTO) {
+    public DadosBancariosDTO toDadosBancariosDto(EmpresaProfissionalDTO empresaProfissionalDTO) {
     	if (empresaProfissionalDTO == null) {
             return null;
         }
@@ -23,7 +23,7 @@ public class DadosBancariosMapper {
     	return dto;
     }
 
-    public EmpresaProfissionalDTO toEmpresaProfissionalDTO(DadosBancariosDTO dadosBancariosDTO, EmpresaProfissionalDTO empresaProfissionalDTO) {
+    public EmpresaProfissionalDTO toEmpresaProfissionalDto(DadosBancariosDTO dadosBancariosDTO, EmpresaProfissionalDTO empresaProfissionalDTO) {
     	if (empresaProfissionalDTO == null) {
             return null;
         }

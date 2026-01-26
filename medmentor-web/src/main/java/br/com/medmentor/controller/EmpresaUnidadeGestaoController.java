@@ -34,7 +34,7 @@ public class EmpresaUnidadeGestaoController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            EmpresaUnidadeGestaoDTO novaAssociacao = empresaUnidadeGestaoService.incluirEmpresaUnidadeGestao(empresaUnidadeGestaoDTO);
+            EmpresaUnidadeGestaoDTO novaAssociacao = empresaUnidadeGestaoService.incluiEmpresaUnidadeGestao(empresaUnidadeGestaoDTO);
             return Response.created(URI.create("/api/empresa-unidade-gestao/" + novaAssociacao.getId()))
                            .entity(novaAssociacao)
                            .build();
@@ -60,7 +60,7 @@ public class EmpresaUnidadeGestaoController {
                                .entity("O ID da associa��o n�o pode ser nulo.")
                                .build();
             }
-            EmpresaUnidadeGestaoDTO associacao = empresaUnidadeGestaoService.recuperarEmpresaUnidadeGestaoPorId(id);
+            EmpresaUnidadeGestaoDTO associacao = empresaUnidadeGestaoService.recuperaEmpresaUnidadeGestaoPorId(id);
             if (associacao != null) {
                 return Response.ok(associacao).build();
             } else {
@@ -89,7 +89,7 @@ public class EmpresaUnidadeGestaoController {
                                .entity("O corpo da requisi��o e o ID da associa��o n�o podem ser vazios.")
                                .build();
             }
-            empresaUnidadeGestaoService.alterarEmpresaUnidadeGestao(empresaUnidadeGestaoDTO);
+            empresaUnidadeGestaoService.alteraEmpresaUnidadeGestao(empresaUnidadeGestaoDTO);
             return Response.ok().entity(empresaUnidadeGestaoDTO).build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar associa��o Empresa-Unidade de Gest�o com ID " + empresaUnidadeGestaoDTO.getId() + ": " + e.getMessage());
@@ -113,14 +113,14 @@ public class EmpresaUnidadeGestaoController {
                                .entity("O ID da associa��o n�o pode ser nulo para exclus�o.")
                                .build();
             }
-            EmpresaUnidadeGestaoDTO associacaoExistente = empresaUnidadeGestaoService.recuperarEmpresaUnidadeGestaoPorId(id);
+            EmpresaUnidadeGestaoDTO associacaoExistente = empresaUnidadeGestaoService.recuperaEmpresaUnidadeGestaoPorId(id);
             if (associacaoExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("Associa��o Empresa-Unidade de Gest�o com ID " + id + " n�o encontrada para exclus�o.")
                                .build();
             }
 
-            empresaUnidadeGestaoService.excluirEmpresaUnidadeGestao(id);
+            empresaUnidadeGestaoService.excluiEmpresaUnidadeGestao(id);
             return Response.noContent().build(); 
         } catch (MedmentorException e) {
             System.err.println("Erro ao excluir associa��o Empresa-Unidade de Gest�o por ID (" + id + "): " + e.getMessage());
@@ -139,7 +139,7 @@ public class EmpresaUnidadeGestaoController {
     @Path("todas")
     public Response recuperarListaEmpresaUnidadeGestao() {
         try {
-            List<EmpresaUnidadeGestaoDTO> empresaGestaos = empresaUnidadeGestaoService.recuperarListaEmpresaUnidadeGestao();
+            List<EmpresaUnidadeGestaoDTO> empresaGestaos = empresaUnidadeGestaoService.recuperaListaEmpresaUnidadeGestao();
             if (empresaGestaos.isEmpty()) {
                 return Response.noContent().build(); 
             } else {

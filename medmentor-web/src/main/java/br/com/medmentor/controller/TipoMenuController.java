@@ -26,14 +26,14 @@ public class TipoMenuController {
     private TipoMenuService tipoTipoMenuService;
 
     @POST
-    public Response incluirTipoMenu(TipoMenuDTO tipoTipoMenuDTO) {
+    public Response incluiTipoMenu(TipoMenuDTO tipoTipoMenuDTO) {
         try {
             if (tipoTipoMenuDTO == null) {
                 return Response.status(Response.Status.BAD_REQUEST)
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            TipoMenuDTO novoTipoMenu = tipoTipoMenuService.incluirTipoMenu(tipoTipoMenuDTO);
+            TipoMenuDTO novoTipoMenu = tipoTipoMenuService.incluiTipoMenu(tipoTipoMenuDTO);
             return Response.created(URI.create("/api/tipo-menu/" + novoTipoMenu.getId()))
                            .entity(novoTipoMenu)
                            .build();
@@ -52,14 +52,14 @@ public class TipoMenuController {
 
     @GET
     @Path("/{id}")
-    public Response recuperarTipoMenuPorId(@PathParam("id") Integer id) {
+    public Response recuperaTipoMenuPorId(@PathParam("id") Integer id) {
         try {
             if (id == null) {
                 return Response.status(Response.Status.BAD_REQUEST)
                                .entity("O ID do tipoTipoMenu n�o pode ser nulo.")
                                .build();
             }
-            TipoMenuDTO tipoTipoMenu = tipoTipoMenuService.recuperarTipoMenuPorId(id);
+            TipoMenuDTO tipoTipoMenu = tipoTipoMenuService.recuperaTipoMenuPorId(id);
             if (tipoTipoMenu != null) {
                 return Response.ok(tipoTipoMenu).build();
             } else {
@@ -81,9 +81,9 @@ public class TipoMenuController {
     }
 
     @GET
-    public Response recuperarListaTipoMenu() {
+    public Response recuperaListaTipoMenu() {
         try {
-            List<TipoMenuDTO> tipoTipoMenus = tipoTipoMenuService.recuperarListaTipoMenu();
+            List<TipoMenuDTO> tipoTipoMenus = tipoTipoMenuService.recuperaListaTipoMenu();
             if (tipoTipoMenus.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -103,15 +103,15 @@ public class TipoMenuController {
     }
 
     @PUT
-    public Response alterarTipoMenu(TipoMenuDTO tipoTipoMenuDTO) {
+    public Response alteraTipoMenu(TipoMenuDTO tipoTipoMenuDTO) {
         try {
             if (tipoTipoMenuDTO == null || tipoTipoMenuDTO.getId() == null) {
                 return Response.status(Response.Status.BAD_REQUEST)
                                .entity("O corpo da requisi��o e o ID do tipoTipoMenu n�o podem ser vazios.")
                                .build();
             }
-            tipoTipoMenuService.alterarTipoMenu(tipoTipoMenuDTO);
-            return Response.ok().entity("TipoMenu atualizado com sucesso.").build();
+            tipoTipoMenuService.alteraTipoMenu(tipoTipoMenuDTO);
+            return Response.ok().entity(tipoTipoMenuDTO).build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar TipoMenu com ID " + tipoTipoMenuDTO.getId() + ": " + e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -127,7 +127,7 @@ public class TipoMenuController {
 
     @DELETE
     @Path("/{id}")
-    public Response excluirTipoMenu(@PathParam("id") Integer id) {
+    public Response excluiTipoMenu(@PathParam("id") Integer id) {
         try {
             if (id == null) {
                 return Response.status(Response.Status.BAD_REQUEST)
@@ -135,14 +135,14 @@ public class TipoMenuController {
                                .build();
             }
 
-            TipoMenuDTO tipoTipoMenuExistente = tipoTipoMenuService.recuperarTipoMenuPorId(id);
+            TipoMenuDTO tipoTipoMenuExistente = tipoTipoMenuService.recuperaTipoMenuPorId(id);
             if (tipoTipoMenuExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("TipoMenu com ID " + id + " n�o encontrado para exclus�o.")
                                .build();
             }
 
-            tipoTipoMenuService.excluirTipoMenu(id);
+            tipoTipoMenuService.excluiTipoMenu(id);
             return Response.noContent().build(); 
         } catch (MedmentorException e) { 
             System.err.println("Erro ao excluir TipoMenu por ID (" + id + "): " + e.getMessage());

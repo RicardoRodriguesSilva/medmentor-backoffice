@@ -10,15 +10,15 @@ import jakarta.ejb.Local;
 @Local
 public interface GeracaoEscalaService extends GenericService {
     
-	GeracaoEscalaDTO incluirGeracaoEscala(GeracaoEscalaDTO geracaoEscalaDTO) throws MedmentorException;
+	GeracaoEscalaDTO incluiGeracaoEscala(GeracaoEscalaDTO geracaoEscalaDTO) throws MedmentorException;
 	
-	void excluirGeracaoEscala(Integer id) throws MedmentorException;
+	void excluiGeracaoEscala(Integer id) throws MedmentorException;
 	
-	void alterarGeracaoEscala(GeracaoEscalaDTO geracaoEscalaDTO) throws MedmentorException;
+	void alteraGeracaoEscala(GeracaoEscalaDTO geracaoEscalaDTO) throws MedmentorException;
 	
-	GeracaoEscalaDTO recuperarGeracaoEscalaPorId(Integer id) throws MedmentorException;
+	GeracaoEscalaDTO recuperaGeracaoEscalaPorId(Integer id) throws MedmentorException;
 	
-	List<GeracaoEscalaDTO> recuperarListaGeracaoEscala() throws MedmentorException;
+	List<GeracaoEscalaDTO> recuperaListaGeracaoEscala() throws MedmentorException;
 	
-	List<GeracaoEscalaDTO> recuperarListaGeracaoEscalaPorFiltro(FiltroGeracaoEscalaDTO filtroGeracaoEscalaDTO) throws MedmentorException;
+	List<GeracaoEscalaDTO> recuperaListaGeracaoEscalaPorFiltro(FiltroGeracaoEscalaDTO filtroGeracaoEscalaDTO) throws MedmentorException;
 }

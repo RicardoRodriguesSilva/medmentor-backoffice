@@ -20,6 +20,6 @@ public enum TipoSolicitacaoAcesso {
                 return tipo;
             }
         }
-        throw new IllegalArgumentException("Código do canal inválido: " + codigo);
+        throw new IllegalArgumentException("Código de solicitacao de acesso inválido: " + codigo);
     }
 }

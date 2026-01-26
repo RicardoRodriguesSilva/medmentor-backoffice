@@ -29,7 +29,7 @@ public class EmpresaProfissionalServiceImpl implements EmpresaProfissionalServic
 
 	@Override
 	@Transactional
-	public EmpresaProfissionalDTO incluirEmpresaProfissional(EmpresaProfissionalDTO EmpresaProfissionalDTO) throws MedmentorException {
+	public EmpresaProfissionalDTO incluiEmpresaProfissional(EmpresaProfissionalDTO EmpresaProfissionalDTO) throws MedmentorException {
 		EmpresaProfissional empresaProfissional = empresaProfissionalMapper.toEntity(EmpresaProfissionalDTO);
 		
 		try {
@@ -43,7 +43,7 @@ public class EmpresaProfissionalServiceImpl implements EmpresaProfissionalServic
 
 	@Override
 	@Transactional
-	public void excluirEmpresaProfissional(Integer idEmppresaProfissional) throws MedmentorException {
+	public void excluiEmpresaProfissional(Integer idEmppresaProfissional) throws MedmentorException {
 		try {
 			empresaProfissionalDAO.delete(idEmppresaProfissional);
 		} catch (SQLException e) {
@@ -53,7 +53,7 @@ public class EmpresaProfissionalServiceImpl implements EmpresaProfissionalServic
 
 	@Override
 	@Transactional
-	public void alterarEmpresaProfissional(EmpresaProfissionalDTO EmpresaProfissionalDTO) throws MedmentorException {
+	public void alteraEmpresaProfissional(EmpresaProfissionalDTO EmpresaProfissionalDTO) throws MedmentorException {
 		
 		EmpresaProfissional EmpresaProfissional = empresaProfissionalMapper.toEntity(EmpresaProfissionalDTO);
 		try {
@@ -64,7 +64,7 @@ public class EmpresaProfissionalServiceImpl implements EmpresaProfissionalServic
 	}
 
 	@Override
-	public EmpresaProfissionalDTO recuperarEmpresaProfissionalPorProfissional(Integer idProfissional) throws MedmentorException {
+	public EmpresaProfissionalDTO recuperaEmpresaProfissionalPorProfissional(Integer idProfissional) throws MedmentorException {
 		EmpresaProfissional EmpresaProfissional;
 		try {
 			EmpresaProfissional = empresaProfissionalDAO.findByProfissional(idProfissional);
@@ -76,7 +76,7 @@ public class EmpresaProfissionalServiceImpl implements EmpresaProfissionalServic
 	}
 
 	@Override
-	public EmpresaProfissionalDTO recuperarEmpresaProfissionalPorId(Integer id)
+	public EmpresaProfissionalDTO recuperaEmpresaProfissionalPorId(Integer id)
 			throws MedmentorException {
 		EmpresaProfissional EmpresaProfissional;
 		try {
@@ -89,7 +89,7 @@ public class EmpresaProfissionalServiceImpl implements EmpresaProfissionalServic
 	}
 
 	@Override
-	public List<EmpresaProfissionalDTO> recuperarListaEmpresaProfissional() throws MedmentorException {
+	public List<EmpresaProfissionalDTO> recuperaListaEmpresaProfissional() throws MedmentorException {
         List<EmpresaProfissionalDTO> listaDto = new ArrayList<>();
         try {
             listaDto = empresaProfissionalMapper.toListDto(empresaProfissionalDAO.findAll());

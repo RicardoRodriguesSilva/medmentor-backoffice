@@ -26,7 +26,7 @@ public class AcaoServiceImpl implements AcaoService {
     }
 
     @Override
-    public AcaoDTO incluirAcao(AcaoDTO acaoDTO) throws MedmentorException {
+    public AcaoDTO incluiAcao(AcaoDTO acaoDTO) throws MedmentorException {
         Acao acao = acaoMapper.toEntity(acaoDTO);
         
         try {
@@ -39,7 +39,7 @@ public class AcaoServiceImpl implements AcaoService {
     }
 
     @Override
-    public void excluirAcao(Integer id) throws MedmentorException {
+    public void excluiAcao(Integer id) throws MedmentorException {
         try {
             acaoDAO.delete(id);
         } catch (SQLException e) {
@@ -48,7 +48,7 @@ public class AcaoServiceImpl implements AcaoService {
     }
 
     @Override
-    public void alterarAcao(AcaoDTO acaoDTO) throws MedmentorException {
+    public void alteraAcao(AcaoDTO acaoDTO) throws MedmentorException {
         Acao acao = acaoMapper.toEntity(acaoDTO);
         try {
             acaoDAO.update(acao);
@@ -58,7 +58,7 @@ public class AcaoServiceImpl implements AcaoService {
     }
 
     @Override
-    public AcaoDTO recuperarAcaoPorId(Integer id) throws MedmentorException {
+    public AcaoDTO recuperaAcaoPorId(Integer id) throws MedmentorException {
         Acao acao;
         try {
             acao = acaoDAO.findById(id);
@@ -73,7 +73,7 @@ public class AcaoServiceImpl implements AcaoService {
     }
 
     @Override
-    public List<AcaoDTO> recuperarListaAcao() throws MedmentorException {
+    public List<AcaoDTO> recuperaListaAcao() throws MedmentorException {
         List<AcaoDTO> listaDto = new ArrayList<>();
         try {
             listaDto = acaoMapper.toListDto(acaoDAO.findAll());

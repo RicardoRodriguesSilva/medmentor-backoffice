@@ -9,13 +9,13 @@ import jakarta.ejb.Local;
 @Local
 public interface UnidadeFederacaoService extends GenericService {
 	
-    UnidadeFederacaoDTO incluirUnidadeFederacao(UnidadeFederacaoDTO unidadeFederacaoDTO) throws MedmentorException;
+    UnidadeFederacaoDTO incluiUnidadeFederacao(UnidadeFederacaoDTO unidadeFederacaoDTO) throws MedmentorException;
     
-    void excluirUnidadeFederacao(Integer id) throws MedmentorException;
+    void excluiUnidadeFederacao(Integer id) throws MedmentorException;
     
-    void alterarUnidadeFederacao(UnidadeFederacaoDTO unidadeFederacaoDTO) throws MedmentorException;
+    void alteraUnidadeFederacao(UnidadeFederacaoDTO unidadeFederacaoDTO) throws MedmentorException;
     
-    UnidadeFederacaoDTO recuperarUnidadeFederacaoPorId(Integer id) throws MedmentorException;
+    UnidadeFederacaoDTO recuperaUnidadeFederacaoPorId(Integer id) throws MedmentorException;
     
-	List<UnidadeFederacaoDTO> listarTodos() throws MedmentorException;
+	List<UnidadeFederacaoDTO> listaTodos() throws MedmentorException;
 }

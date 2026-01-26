@@ -3,13 +3,16 @@ package br.com.medmentor.mobile.controller;
 import java.util.List;
 
 import br.com.medmentor.exception.MedmentorException;
+import br.com.medmentor.filtro.dto.FiltroHorasEscalaTrabalhoDTO;
 import br.com.medmentor.mobile.dto.EscalaDTO;
 import br.com.medmentor.mobile.dto.GestoraSaudeDTO;
+import br.com.medmentor.mobile.dto.HorasEscalaDTO;
 import br.com.medmentor.mobile.filtro.dto.FiltroEscalaDTO;
 import br.com.medmentor.mobile.service.MovimentacaoService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -21,13 +24,13 @@ import jakarta.ws.rs.core.Response;
 public class MovimentacaoController {
 	
 	@Inject 
-	private MovimentacaoService escalaService;
+	private MovimentacaoService movimentoService;
 	
 	@GET
     @Path("/gestora-saude/por-profissional/{id}")
     public Response recuperarListaGestorasSaudePorProfissional(@PathParam("id") Integer id) {
         try {
-            List<GestoraSaudeDTO> gestoras = escalaService.recuperaListaGestoraSaudePorProfissional(id);
+            List<GestoraSaudeDTO> gestoras = movimentoService.recuperaListaGestoraSaudePorProfissional(id);
             if (gestoras.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -50,7 +53,7 @@ public class MovimentacaoController {
     @Path("/escala/por-filtros")
     public Response recuperarListaEscalaPorFiltros(@BeanParam FiltroEscalaDTO filtroEscalaDTO) {
         try {
-            List<EscalaDTO> escalas = escalaService.recuperaListaEscalaPorFiltro(filtroEscalaDTO);
+            List<EscalaDTO> escalas = movimentoService.recuperaListaEscalaPorFiltro(filtroEscalaDTO);
             if (escalas.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -67,5 +70,66 @@ public class MovimentacaoController {
                            .entity("Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.")
                            .build();
         }
-    }   	
+    }  
+    
+    @PUT
+    @Path("/escala/disponibilza/{id}")
+    public Response disponibilizarEscalaTrabalho(@PathParam("id") Integer id) {
+        try {
+        	movimentoService.disponibilzaEscalaTrabalho(id);
+            return Response.noContent().build(); 
+        } catch (MedmentorException e) {
+            System.err.println("Erro ao excluir Escala de Trabalho por ID (" + id + "): " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("Erro interno do servidor ao disponibilizar escala: " + e.getMessage())
+                           .build();
+        } catch (Exception e) {
+            System.err.println("Erro inesperado ao processar requisi��o de disponibiliza��o: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.")
+                           .build();
+        }
+    }  
+    
+    @PUT
+    @Path("/escala/confirma/{id}")
+    public Response confirmaEscalaTrabalhoEfetuado(@PathParam("id") Integer id) {
+        try {
+        	movimentoService.confirmaEscalaTrabalhoEfetuado(id);
+            return Response.noContent().build(); 
+        } catch (MedmentorException e) {
+            System.err.println("Erro ao excluir Escala de Trabalho por ID (" + id + "): " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("Erro interno do servidor ao confirmar escala: " + e.getMessage())
+                           .build();
+        } catch (Exception e) {
+            System.err.println("Erro inesperado ao processar requisi��o de confirma��o: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.")
+                           .build();
+        }
+    }      
+    
+    @GET
+    @Path("/horas/por-filtros")
+    public Response recuperarListaHorasEscalaPorFiltros(@BeanParam FiltroHorasEscalaTrabalhoDTO filtroHorasEscalaTrabalhoDTO) {
+        try {
+            List<HorasEscalaDTO> horas = movimentoService.recuperaListaHorasTrabalhadasPorFiltro(filtroHorasEscalaTrabalhoDTO);
+            if (horas.isEmpty()) {
+                return Response.noContent().build(); 
+            } else {
+                return Response.ok(horas).build(); 
+            }
+        } catch (MedmentorException e) {
+            System.err.println("Erro ao listar todas as horas: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("Erro interno do servidor ao listar horas: " + e.getMessage())
+                           .build();
+        } catch (Exception e) {
+            System.err.println("Erro inesperado ao processar requisi��o de listagem: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.")
+                           .build();
+        }
+    }     
 }

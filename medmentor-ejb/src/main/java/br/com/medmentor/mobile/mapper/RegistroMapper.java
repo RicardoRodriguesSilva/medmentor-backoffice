@@ -9,7 +9,7 @@ import jakarta.inject.Named;
 @ApplicationScoped
 public class RegistroMapper {
 
-    public RegistroDTO toRegistroDTO(ProfissionalRegistroDTO profissionalRegistroDTO) {
+    public RegistroDTO toRegistroDto(ProfissionalRegistroDTO profissionalRegistroDTO) {
     	if (profissionalRegistroDTO == null) {
     		return null;
     	}
@@ -24,7 +24,7 @@ public class RegistroMapper {
     	
     }
 
-    public ProfissionalRegistroDTO toProfissionalRegistroDTO(RegistroDTO registroDTO, ProfissionalRegistroDTO profissionalRegistroDTO) {
+    public ProfissionalRegistroDTO toProfissionalRegistroDto(RegistroDTO registroDTO, ProfissionalRegistroDTO profissionalRegistroDTO) {
     	if (profissionalRegistroDTO == null) {
     		return null;
     	}

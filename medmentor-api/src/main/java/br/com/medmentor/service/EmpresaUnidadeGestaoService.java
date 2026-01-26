@@ -9,15 +9,15 @@ import jakarta.ejb.Local;
 @Local
 public interface EmpresaUnidadeGestaoService extends GenericService {
 	
-	EmpresaUnidadeGestaoDTO incluirEmpresaUnidadeGestao(EmpresaUnidadeGestaoDTO empresaUnidadeGestaoDTO) throws MedmentorException;
+	EmpresaUnidadeGestaoDTO incluiEmpresaUnidadeGestao(EmpresaUnidadeGestaoDTO empresaUnidadeGestaoDTO) throws MedmentorException;
 	
-	void excluirEmpresaUnidadeGestao(Integer id) throws MedmentorException;
+	void excluiEmpresaUnidadeGestao(Integer id) throws MedmentorException;
 	
-	void alterarEmpresaUnidadeGestao(EmpresaUnidadeGestaoDTO empresaUnidadeGestaoDTO) throws MedmentorException;
+	void alteraEmpresaUnidadeGestao(EmpresaUnidadeGestaoDTO empresaUnidadeGestaoDTO) throws MedmentorException;
 	
-	EmpresaUnidadeGestaoDTO recuperarEmpresaUnidadeGestaoPorId(Integer id) throws MedmentorException;
+	EmpresaUnidadeGestaoDTO recuperaEmpresaUnidadeGestaoPorId(Integer id) throws MedmentorException;
 	
-	List<EmpresaUnidadeGestaoDTO> recuperarListaEmpresaUnidadeGestao() throws MedmentorException;
+	List<EmpresaUnidadeGestaoDTO> recuperaListaEmpresaUnidadeGestao() throws MedmentorException;
 	
-	List<EmpresaUnidadeGestaoDTO> recuperarListaEmpresaUnidadeGestaoPorIdProfissional(Integer idProfissional) throws MedmentorException;
+	List<EmpresaUnidadeGestaoDTO> recuperaListaEmpresaUnidadeGestaoPorIdProfissional(Integer idProfissional) throws MedmentorException;
 }

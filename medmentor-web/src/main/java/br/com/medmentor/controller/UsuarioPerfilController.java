@@ -36,7 +36,7 @@ public class UsuarioPerfilController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            UsuarioPerfilDTO novoUsuarioPerfil = usuarioPerfilService.incluirUsuarioPerfil(usuarioPerfilDTO);
+            UsuarioPerfilDTO novoUsuarioPerfil = usuarioPerfilService.incluiUsuarioPerfil(usuarioPerfilDTO);
             return Response.created(URI.create("/api/usuario-perfis/" + novoUsuarioPerfil.getId()))
                            .entity(novoUsuarioPerfil)
                            .build();
@@ -62,7 +62,7 @@ public class UsuarioPerfilController {
                                .entity("O ID do usu�rio perfil n�o pode ser nulo.")
                                .build();
             }
-            UsuarioPerfilDTO usuarioPerfil = usuarioPerfilService.recuperarUsuarioPerfilPorId(id);
+            UsuarioPerfilDTO usuarioPerfil = usuarioPerfilService.recuperaUsuarioPerfilPorId(id);
             if (usuarioPerfil != null) {
                 return Response.ok(usuarioPerfil).build();
             } else {
@@ -87,7 +87,7 @@ public class UsuarioPerfilController {
     @Path("/por-filtros")
     public Response recuperarListaUsuarioPerfilPorFiltro(@BeanParam FiltroUsuarioPerfilDTO filtroUsuarioPerfilDTO) {
         try {
-            List<UsuarioPerfilDTO> usuarioPerfis = usuarioPerfilService.recuperarListaUsuarioPerfilPorFiltro(filtroUsuarioPerfilDTO);
+            List<UsuarioPerfilDTO> usuarioPerfis = usuarioPerfilService.recuperaListaUsuarioPerfilPorFiltro(filtroUsuarioPerfilDTO);
             if (usuarioPerfis.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -109,7 +109,7 @@ public class UsuarioPerfilController {
     @GET
     public Response recuperarListaUsuarioPerfil() {
         try {
-            List<UsuarioPerfilDTO> usuarioPerfis = usuarioPerfilService.recuperarListaUsuarioPerfil();
+            List<UsuarioPerfilDTO> usuarioPerfis = usuarioPerfilService.recuperaListaUsuarioPerfil();
             if (usuarioPerfis.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -136,7 +136,7 @@ public class UsuarioPerfilController {
                                .entity("O corpo da requisi��o e o ID do usu�rio perfil n�o podem ser vazios.")
                                .build();
             }
-            usuarioPerfilService.alterarUsuarioPerfil(usuarioPerfilDTO);
+            usuarioPerfilService.alteraUsuarioPerfil(usuarioPerfilDTO);
             return Response.ok().entity("Usu�rio Perfil atualizado com sucesso.").build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar Usu�rio Perfil com ID " + usuarioPerfilDTO.getId() + ": " + e.getMessage());
@@ -161,14 +161,14 @@ public class UsuarioPerfilController {
                                .build();
             }
 
-            UsuarioPerfilDTO usuarioPerfilExistente = usuarioPerfilService.recuperarUsuarioPerfilPorId(id);
+            UsuarioPerfilDTO usuarioPerfilExistente = usuarioPerfilService.recuperaUsuarioPerfilPorId(id);
             if (usuarioPerfilExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("Usu�rio Perfil com ID " + id + " n�o encontrado para exclus�o.")
                                .build();
             } 
 
-            usuarioPerfilService.excluirUsuarioPerfil(id);
+            usuarioPerfilService.excluiUsuarioPerfil(id);
             return Response.noContent().build(); 
         } catch (MedmentorException e) {
             System.err.println("Erro ao excluir Usu�rio Perfil por ID (" + id + "): " + e.getMessage());

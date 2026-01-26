@@ -9,7 +9,7 @@ import jakarta.inject.Named;
 @ApplicationScoped
 public class EmpresaMapper {
 
-    public EmpresaDTO toEmpresaDTO(EmpresaProfissionalDTO empresaProfissionalDTO) {
+    public EmpresaDTO toEmpresaDto(EmpresaProfissionalDTO empresaProfissionalDTO) {
     	if(empresaProfissionalDTO == null) {
     		return null;
     	}
@@ -29,7 +29,7 @@ public class EmpresaMapper {
     	return dto;
     }
 
-    public EmpresaProfissionalDTO toEmpresaProfissionalDTO(EmpresaDTO empresaDTO, EmpresaProfissionalDTO empresaProfissionalDTO) {
+    public EmpresaProfissionalDTO toEmpresaProfissionalDto(EmpresaDTO empresaDTO, EmpresaProfissionalDTO empresaProfissionalDTO) {
     	if(empresaProfissionalDTO == null) {
     		return null;
     	}

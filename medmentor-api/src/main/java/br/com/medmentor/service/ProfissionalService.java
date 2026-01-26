@@ -9,18 +9,18 @@ import jakarta.ejb.Local;
 @Local
 public interface ProfissionalService extends GenericService {
     
-	ProfissionalDTO incluirProfissional(ProfissionalDTO profissionalDTO) throws MedmentorException;
+	ProfissionalDTO incluiProfissional(ProfissionalDTO profissionalDTO) throws MedmentorException;
 	
-	void excluirProfissional(Integer id) throws MedmentorException;
+	void excluiProfissional(Integer id) throws MedmentorException;
 	
-	void alterarProfissional(ProfissionalDTO profissionalDTO) throws MedmentorException;
+	void alteraProfissional(ProfissionalDTO profissionalDTO) throws MedmentorException;
 	
-	ProfissionalDTO recuperarProfissionalPorId(Integer id) throws MedmentorException;
+	ProfissionalDTO recuperaProfissionalPorId(Integer id) throws MedmentorException;
 	
-	List<ProfissionalDTO> recuperarProfissionalPorCidade(Integer idCidade) throws MedmentorException;
+	List<ProfissionalDTO> recuperaProfissionalPorCidade(Integer idCidade) throws MedmentorException;
 	
-	List<ProfissionalDTO> recuperarListaProfissionalPorNome(String nome) throws MedmentorException;
+	List<ProfissionalDTO> recuperaListaProfissionalPorNome(String nome) throws MedmentorException;
 	
-	List<ProfissionalDTO> recuperarListaProfissional() throws MedmentorException;
+	List<ProfissionalDTO> recuperaListaProfissional() throws MedmentorException;
 	
 }

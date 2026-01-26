@@ -29,7 +29,7 @@ public class UsuarioController {
                                .build();
             }
             
-            usuarioService.recuperarSenha(nomeUsuario);            
+            usuarioService.recuperaSenha(nomeUsuario);            
             return Response.ok("{\"mensagem\": \"Foi enviada para o seu e-mail uma nova senha.\"}").build(); 
         } catch (MedmentorException e) {
             System.err.println("Erro ao incluir Usu�rio: " + e.getMessage());

@@ -39,8 +39,8 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
 
 	public EscalaTrabalho create(EscalaTrabalho escalaTrabalho) throws SQLException {
 		String sql = "insert into \"MED\".escalatrabalho "
-				+ "(idempresaprofissional, idempresaunidadegestao, datahoraentrada, datahorasaida, bolativo, bolrealizado) "
-				+ "values (?, ?, ?, ?, ?, ?) RETURNING idescalatrabalho";
+				+ "(idempresaprofissional, idempresaunidadegestao, datahoraentrada, datahorasaida, bolativo, bolrealizado, boldisponibilizado) "
+				+ "values (?, ?, ?, ?, ?, ?, ?) RETURNING idescalatrabalho";
 		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 			
 			if (escalaTrabalho.getEmpresaProfissional()!=null) {
@@ -54,6 +54,7 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
 			stmt.setObject(4, escalaTrabalho.getDataHoraSaida());
 			stmt.setBoolean(5, escalaTrabalho.getBolAtivo());
 			stmt.setBoolean(6, escalaTrabalho.getBolRealizado());
+			stmt.setBoolean(7, escalaTrabalho.getBolDisponibilizado());
 
 			try (ResultSet rs = stmt.executeQuery()) {
 				if (rs.next()) {
@@ -83,7 +84,7 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
 	@Override
 	public EscalaTrabalho update(EscalaTrabalho escalaTrabalho) throws SQLException {
 		String sql = "update \"MED\".escalatrabalho SET idempresaprofissional=?, idempresaunidadegestao=?, datahoraentrada=?, datahorasaida=?, " +
-				"bolativo = ?, bolrealizado = ? WHERE idescalatrabalho = ?";
+				"bolativo = ?, bolrealizado = ?, boldisponibilizado = ? WHERE idescalatrabalho = ?";
 		try (Connection conn = dataSource.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -93,7 +94,8 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
 	        ps.setTimestamp(4, Timestamp.valueOf(escalaTrabalho.getDataHoraSaida()));
 	        ps.setBoolean(5, escalaTrabalho.getBolAtivo());
 	        ps.setBoolean(6, escalaTrabalho.getBolRealizado());
-	        ps.setInt(7, escalaTrabalho.getId());
+	        ps.setBoolean(7, escalaTrabalho.getBolDisponibilizado());
+	        ps.setInt(8, escalaTrabalho.getId());
 
 	        int affectedRows = ps.executeUpdate();
 	        if (affectedRows == 0) {
@@ -169,7 +171,7 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
         sql = sql + " order by pju2.nomerazaosocial, pju1.nomerazaosocial, esc.datahoraentrada, pes.nomepessoa";
         try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 			try (ResultSet rs = stmt.executeQuery()) {
-				if (rs.next()) {
+				while (rs.next()) {
 					EscalaTrabalho escalaTrabalho = this.recuperaEscalaTrabalho(rs);
 					listaEscala.add(escalaTrabalho);
 				}
@@ -204,7 +206,7 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
         sql = sql + " order by pju2.nomerazaosocial, pju1.nomerazaosocial, esc.datahoraentrada, pes.nomepessoa";
         try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 			try (ResultSet rs = stmt.executeQuery()) {
-				if (rs.next()) {
+				while (rs.next()) {
 					EscalaTrabalho escalaTrabalho = this.recuperaEscalaTrabalho(rs);
 					listaEscala.add(escalaTrabalho);
 				}
@@ -233,12 +235,41 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
         }
         
         return isEscalaTrabalho;
+	}
+	
+	@Override
+	public void disponibilzaEscalaTrabalho(Integer id) throws SQLException {
+		String sql = "update \"MED\".escalatrabalho SET boldisponibilizado = true WHERE idescalatrabalho = ?";
+		try (Connection conn = dataSource.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, id);
+
+	        int affectedRows = ps.executeUpdate();
+	        if (affectedRows == 0) {
+	            throw new SQLException("Falha ao disponibilizar escala de trabalho, nenhuma linha encontrada para o ID: " + id);
+	        }
+		}	
+	}	
+	
+
+	@Override
+	public void confirmaEscalaTrabalhoEfetuado(Integer id) throws SQLException {
+		String sql = "update \"MED\".escalatrabalho SET bolrealizado = true WHERE idescalatrabalho = ?";
+		try (Connection conn = dataSource.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, id);
+
+	        int affectedRows = ps.executeUpdate();
+	        if (affectedRows == 0) {
+	            throw new SQLException("Falha ao confirmar escala de trabalho, nenhuma linha encontrada para o ID: " + id);
+	        }
+		}	
 	}	
 	
 	private String recuperaEscalaTrabalhoSQL() {
     	String sql = "SELECT \r\n"
     			+ "	esc.idescalatrabalho, esc.idempresaprofissional, esc.idempresaunidadegestao, esc.datahoraentrada, \r\n"
-    			+ "	esc.datahorasaida, esc.bolativo, esc.bolrealizado,\r\n"
+    			+ "	esc.datahorasaida, esc.bolativo, esc.bolrealizado, esc.boldisponibilizado, \r\n"
     			+ "	epp.idempresaprofissional as idempresaprofissionalescala,\r\n"
     			+ "	emp.idempresa, emp.nomefantasia,\r\n"
     			+ "	pju.idpessoajuridica, pju.numerocnpj, pju.nomerazaosocial,\r\n"
@@ -345,6 +376,7 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
 		escalaTrabalho.setId(rs.getInt("idescalatrabalho"));
 		escalaTrabalho.setBolAtivo(rs.getBoolean("bolativo"));
 		escalaTrabalho.setBolRealizado(rs.getBoolean("bolrealizado"));
+		escalaTrabalho.setBolDisponibilizado(rs.getBoolean("boldisponibilizado"));
 		escalaTrabalho.setDataHoraEntrada(rs.getTimestamp("datahoraentrada").toLocalDateTime());
 		escalaTrabalho.setDataHoraSaida(rs.getTimestamp("datahorasaida").toLocalDateTime());
 		empresaProfissional.setEmpresaGestao(empresaGestao);

@@ -34,7 +34,7 @@ public class AcaoController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            AcaoDTO novaAcao = acaoService.incluirAcao(acaoDTO);
+            AcaoDTO novaAcao = acaoService.incluiAcao(acaoDTO);
             return Response.created(URI.create("/api/acao/" + novaAcao.getId()))
                            .entity(novaAcao)
                            .build();
@@ -60,7 +60,7 @@ public class AcaoController {
                                .entity("O ID da a��o n�o pode ser nulo.")
                                .build();
             }
-            AcaoDTO acao = acaoService.recuperarAcaoPorId(id);
+            AcaoDTO acao = acaoService.recuperaAcaoPorId(id);
             if (acao != null) {
                 return Response.ok(acao).build();
             } else {
@@ -84,7 +84,7 @@ public class AcaoController {
     @GET
     public Response recuperarListaAcao() {
         try {
-            List<AcaoDTO> acoes = acaoService.recuperarListaAcao();
+            List<AcaoDTO> acoes = acaoService.recuperaListaAcao();
             if (acoes.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -111,7 +111,7 @@ public class AcaoController {
                                .entity("O corpo da requisi��o e o ID da a��o n�o podem ser vazios.")
                                .build();
             }
-            acaoService.alterarAcao(acaoDTO);
+            acaoService.alteraAcao(acaoDTO);
             return Response.ok().entity("A��o atualizada com sucesso.").build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar A��o com ID " + acaoDTO.getId() + ": " + e.getMessage());
@@ -136,14 +136,14 @@ public class AcaoController {
                                .build();
             }
 
-            AcaoDTO acaoExistente = acaoService.recuperarAcaoPorId(id);
+            AcaoDTO acaoExistente = acaoService.recuperaAcaoPorId(id);
             if (acaoExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("A��o com ID " + id + " n�o encontrada para exclus�o.")
                                .build();
             }
 
-            acaoService.excluirAcao(id);
+            acaoService.excluiAcao(id);
             return Response.noContent().build();  
         } catch (MedmentorException e) {
             System.err.println("Erro ao excluir A��o por ID (" + id + "): " + e.getMessage());

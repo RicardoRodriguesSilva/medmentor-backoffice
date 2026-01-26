@@ -29,7 +29,7 @@ public class ProfissionalServiceImpl implements ProfissionalService {
 
 	@Override
 	@Transactional
-	public ProfissionalDTO incluirProfissional(ProfissionalDTO profissionalDTO) throws MedmentorException {
+	public ProfissionalDTO incluiProfissional(ProfissionalDTO profissionalDTO) throws MedmentorException {
 		Profissional profissional = profissionalMapper.toEntity(profissionalDTO);
 		
 		try {
@@ -43,7 +43,7 @@ public class ProfissionalServiceImpl implements ProfissionalService {
 
 	@Override
 	@Transactional
-	public void excluirProfissional(Integer id) throws MedmentorException {
+	public void excluiProfissional(Integer id) throws MedmentorException {
 		try {
 			profissionalDAO.delete(id);
 		} catch (SQLException e) {
@@ -53,7 +53,7 @@ public class ProfissionalServiceImpl implements ProfissionalService {
 
 	@Override
 	@Transactional
-	public void alterarProfissional(ProfissionalDTO profissionalDTO) throws MedmentorException {
+	public void alteraProfissional(ProfissionalDTO profissionalDTO) throws MedmentorException {
 		
 		Profissional profissional = profissionalMapper.toEntity(profissionalDTO);
 		try {
@@ -64,7 +64,7 @@ public class ProfissionalServiceImpl implements ProfissionalService {
 	}
 
 	@Override
-	public ProfissionalDTO recuperarProfissionalPorId(Integer id) throws MedmentorException {
+	public ProfissionalDTO recuperaProfissionalPorId(Integer id) throws MedmentorException {
 		Profissional profissional;
 		try {
 			profissional = profissionalDAO.findById(id);
@@ -76,7 +76,7 @@ public class ProfissionalServiceImpl implements ProfissionalService {
 	}
 
 	@Override
-	public List<ProfissionalDTO> recuperarProfissionalPorCidade(Integer idCidade) throws MedmentorException {
+	public List<ProfissionalDTO> recuperaProfissionalPorCidade(Integer idCidade) throws MedmentorException {
 		List<ProfissionalDTO> listaDto = new ArrayList<ProfissionalDTO>();
 		try {
 			listaDto = profissionalMapper.toListDto(profissionalDAO.findByCidade(idCidade));
@@ -87,7 +87,7 @@ public class ProfissionalServiceImpl implements ProfissionalService {
 	}
 
 	@Override
-	public List<ProfissionalDTO> recuperarListaProfissionalPorNome(String nome) throws MedmentorException {
+	public List<ProfissionalDTO> recuperaListaProfissionalPorNome(String nome) throws MedmentorException {
 		List<ProfissionalDTO> listaDto = new ArrayList<ProfissionalDTO>();
 		try {
 			listaDto = profissionalMapper.toListDto(profissionalDAO.findByNome(nome));
@@ -98,7 +98,7 @@ public class ProfissionalServiceImpl implements ProfissionalService {
 	}
 
 	@Override
-	public List<ProfissionalDTO> recuperarListaProfissional() throws MedmentorException {
+	public List<ProfissionalDTO> recuperaListaProfissional() throws MedmentorException {
 		List<ProfissionalDTO> listaDto = new ArrayList<ProfissionalDTO>();
 		try {
 			listaDto = profissionalMapper.toListDto(profissionalDAO.findAll());

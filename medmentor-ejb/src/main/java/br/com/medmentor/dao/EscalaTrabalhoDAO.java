@@ -25,4 +25,8 @@ public interface EscalaTrabalhoDAO {
 	List<EscalaTrabalho> findByFiltros(Integer idEmpresaProfissional, Integer idEmpresaGestao, Integer idEmpresaUnidadeGestao, LocalDate dataInicio, LocalDate dataFim) throws SQLException;
 	
 	Boolean isEscalaTrabalhoByEmpresaUndidadeGestaoEData(Integer idEmpresaUnidadeGestao, LocalDate data) throws SQLException;
+	
+	void disponibilzaEscalaTrabalho(Integer id) throws SQLException;
+	
+	void confirmaEscalaTrabalhoEfetuado(Integer id) throws SQLException;
 }

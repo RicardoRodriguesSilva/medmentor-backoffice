@@ -34,7 +34,7 @@ public class EmpresaProfissionalController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            EmpresaProfissionalDTO novaAssociacao = empresaProfissionalService.incluirEmpresaProfissional(empresaProfissionalDTO);
+            EmpresaProfissionalDTO novaAssociacao = empresaProfissionalService.incluiEmpresaProfissional(empresaProfissionalDTO);
             return Response.created(URI.create("/api/empresa-profissional/"
                                      + (novaAssociacao.getId() != null ? novaAssociacao.getId() : "null")
                                      + "/"
@@ -65,7 +65,7 @@ public class EmpresaProfissionalController {
                                .build();
             }
 
-            empresaProfissionalService.excluirEmpresaProfissional(idEmpresaProfissional);
+            empresaProfissionalService.excluiEmpresaProfissional(idEmpresaProfissional);
             return Response.noContent().build(); 
         } catch (MedmentorException e) {
             System.err.println("Erro ao excluir associa��o Empresa-Profissional (EmpresaProfissional ID: " + idEmpresaProfissional + "): " + e.getMessage());
@@ -88,7 +88,7 @@ public class EmpresaProfissionalController {
                                .entity("O corpo da requisi��o e os IDs de empresa/profissional n�o podem ser vazios.")
                                .build();
             }
-            empresaProfissionalService.alterarEmpresaProfissional(empresaProfissionalDTO);
+            empresaProfissionalService.alteraEmpresaProfissional(empresaProfissionalDTO);
             return Response.ok().entity(empresaProfissionalDTO).build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar associa��o Empresa-Profissional (Empresa ID: " + empresaProfissionalDTO.getId() + ", Profissional ID: " + empresaProfissionalDTO.getId() + "): " + e.getMessage());
@@ -112,7 +112,7 @@ public class EmpresaProfissionalController {
                                .entity("O ID da associa��o n�o pode ser nulo.")
                                .build();
             }
-            EmpresaProfissionalDTO associacao = empresaProfissionalService.recuperarEmpresaProfissionalPorId(id);
+            EmpresaProfissionalDTO associacao = empresaProfissionalService.recuperaEmpresaProfissionalPorId(id);
             if (associacao != null) {
                 return Response.ok(associacao).build();
             } else {
@@ -142,7 +142,7 @@ public class EmpresaProfissionalController {
                                .entity("O ID do profissional n�o pode ser nulo.")
                                .build();
             }
-            EmpresaProfissionalDTO EmpresaProfissional = empresaProfissionalService.recuperarEmpresaProfissionalPorProfissional(idProfissional);
+            EmpresaProfissionalDTO EmpresaProfissional = empresaProfissionalService.recuperaEmpresaProfissionalPorProfissional(idProfissional);
             if (EmpresaProfissional != null) {
                 return Response.ok(EmpresaProfissional).build();
             } else {
@@ -167,7 +167,7 @@ public class EmpresaProfissionalController {
     @Path("todas")
     public Response recuperarListaEmpresaProfissional() {
         try {
-            List<EmpresaProfissionalDTO> empresasProfissionais = empresaProfissionalService.recuperarListaEmpresaProfissional();
+            List<EmpresaProfissionalDTO> empresasProfissionais = empresaProfissionalService.recuperaListaEmpresaProfissional();
             if (empresasProfissionais.isEmpty()) {
                 return Response.noContent().build(); 
             } else {

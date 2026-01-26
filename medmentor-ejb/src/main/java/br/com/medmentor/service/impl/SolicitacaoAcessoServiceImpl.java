@@ -26,7 +26,7 @@ public class SolicitacaoAcessoServiceImpl implements SolicitacaoAcessoService {
     }
 
     @Override
-    public SolicitacaoAcessoDTO incluirSolicitacaoAcesso(SolicitacaoAcessoDTO solicitacaoAcessoDTO) throws MedmentorException {
+    public SolicitacaoAcessoDTO incluiSolicitacaoAcesso(SolicitacaoAcessoDTO solicitacaoAcessoDTO) throws MedmentorException {
         SolicitacaoAcesso acao = acaoMapper.toEntity(solicitacaoAcessoDTO);
         
         try {
@@ -39,7 +39,7 @@ public class SolicitacaoAcessoServiceImpl implements SolicitacaoAcessoService {
     }
 
     @Override
-    public void excluirSolicitacaoAcesso(Integer id) throws MedmentorException {
+    public void excluiSolicitacaoAcesso(Integer id) throws MedmentorException {
         try {
             acaoDAO.delete(id);
         } catch (SQLException e) {
@@ -48,7 +48,7 @@ public class SolicitacaoAcessoServiceImpl implements SolicitacaoAcessoService {
     }
 
     @Override
-    public void alterarSolicitacaoAcesso(SolicitacaoAcessoDTO solicitacaoAcessoDTO) throws MedmentorException {
+    public void alteraSolicitacaoAcesso(SolicitacaoAcessoDTO solicitacaoAcessoDTO) throws MedmentorException {
         SolicitacaoAcesso acao = acaoMapper.toEntity(solicitacaoAcessoDTO);
         try {
             acaoDAO.update(acao);
@@ -58,7 +58,7 @@ public class SolicitacaoAcessoServiceImpl implements SolicitacaoAcessoService {
     }
 
     @Override
-    public SolicitacaoAcessoDTO recuperarSolicitacaoAcessoPorId(Integer id) throws MedmentorException {
+    public SolicitacaoAcessoDTO recuperaSolicitacaoAcessoPorId(Integer id) throws MedmentorException {
         SolicitacaoAcesso acao;
         try {
             acao = acaoDAO.findById(id);
@@ -73,7 +73,7 @@ public class SolicitacaoAcessoServiceImpl implements SolicitacaoAcessoService {
     }
 
     @Override
-    public List<SolicitacaoAcessoDTO> recuperarListaSolicitacaoAcesso() throws MedmentorException {
+    public List<SolicitacaoAcessoDTO> recuperaListaSolicitacaoAcesso() throws MedmentorException {
         List<SolicitacaoAcessoDTO> listaDto = new ArrayList<>();
         try {
             listaDto = acaoMapper.toListDto(acaoDAO.findAll());

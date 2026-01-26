@@ -27,7 +27,7 @@ public class ProfissionalRegistroServiceImpl implements ProfissionalRegistroServ
 	}
 
 	@Override
-	public ProfissionalRegistroDTO incluirProfissionalRegistro(ProfissionalRegistroDTO profissionalRegistroDTO)
+	public ProfissionalRegistroDTO incluiProfissionalRegistro(ProfissionalRegistroDTO profissionalRegistroDTO)
 			throws MedmentorException {
 		ProfissionalRegistro profissionalRegistro = profissionalRegistroMapper.toEntity(profissionalRegistroDTO);
 		
@@ -41,7 +41,7 @@ public class ProfissionalRegistroServiceImpl implements ProfissionalRegistroServ
 	}
 
 	@Override
-	public void excluirProfissionalRegistro(Integer idProfissional) throws MedmentorException {
+	public void excluiProfissionalRegistro(Integer idProfissional) throws MedmentorException {
 		try {
 			profissionalRegistroDAO.delete(idProfissional);
 		} catch (SQLException e) {
@@ -50,7 +50,7 @@ public class ProfissionalRegistroServiceImpl implements ProfissionalRegistroServ
 	}
 
 	@Override
-	public void alterarProfissionalRegistro(ProfissionalRegistroDTO profissionalRegistroDTO) throws MedmentorException {
+	public void alteraProfissionalRegistro(ProfissionalRegistroDTO profissionalRegistroDTO) throws MedmentorException {
 		ProfissionalRegistro profissionalRegistro = profissionalRegistroMapper.toEntity(profissionalRegistroDTO);		
 		try {
 			profissionalRegistroDAO.update(profissionalRegistro);
@@ -60,7 +60,7 @@ public class ProfissionalRegistroServiceImpl implements ProfissionalRegistroServ
 	}
 
 	@Override
-	public ProfissionalRegistroDTO recuperarProfissionalRegistroPorId(Integer idProfissional)
+	public ProfissionalRegistroDTO recuperaProfissionalRegistroPorId(Integer idProfissional)
 			throws MedmentorException {
 		ProfissionalRegistro profissionalRegistro;
 		try {
@@ -73,7 +73,7 @@ public class ProfissionalRegistroServiceImpl implements ProfissionalRegistroServ
 	}
 
 	@Override
-	public List<ProfissionalRegistroDTO> recuperarListaProfissionalRegistro() throws MedmentorException {
+	public List<ProfissionalRegistroDTO> recuperaListaProfissionalRegistro() throws MedmentorException {
 		List<ProfissionalRegistroDTO> listaDto = new ArrayList<ProfissionalRegistroDTO>();
 		try {
 			listaDto = profissionalRegistroMapper.toListDto(profissionalRegistroDAO.findAll());

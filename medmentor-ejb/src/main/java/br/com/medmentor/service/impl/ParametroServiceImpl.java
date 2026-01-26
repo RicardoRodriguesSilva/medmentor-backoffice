@@ -26,7 +26,7 @@ public class ParametroServiceImpl implements ParametroService {
     }
 
     @Override
-    public ParametroDTO incluirParametro(ParametroDTO parametroDTO) throws MedmentorException {
+    public ParametroDTO incluiParametro(ParametroDTO parametroDTO) throws MedmentorException {
         Parametro parametro = parametroMapper.toEntity(parametroDTO);
         
         try {
@@ -39,7 +39,7 @@ public class ParametroServiceImpl implements ParametroService {
     }
 
     @Override
-    public void excluirParametro(Integer id) throws MedmentorException {
+    public void excluiParametro(Integer id) throws MedmentorException {
         try {
             parametroDAO.delete(id);
         } catch (SQLException e) {
@@ -48,7 +48,7 @@ public class ParametroServiceImpl implements ParametroService {
     }
 
     @Override
-    public void alterarParametro(ParametroDTO parametroDTO) throws MedmentorException {
+    public void alteraParametro(ParametroDTO parametroDTO) throws MedmentorException {
         Parametro parametro = parametroMapper.toEntity(parametroDTO);
         try {
             parametroDAO.update(parametro);
@@ -58,7 +58,7 @@ public class ParametroServiceImpl implements ParametroService {
     }
 
     @Override
-    public ParametroDTO recuperarParametroPorId(Integer id) throws MedmentorException {
+    public ParametroDTO recuperaParametroPorId(Integer id) throws MedmentorException {
         Parametro parametro;
         try {
             parametro = parametroDAO.findById(id);
@@ -73,7 +73,7 @@ public class ParametroServiceImpl implements ParametroService {
     }
 
     @Override
-    public List<ParametroDTO> recuperarListaParametro() throws MedmentorException {
+    public List<ParametroDTO> recuperaListaParametro() throws MedmentorException {
         List<ParametroDTO> listaDto = new ArrayList<>();
         try {
             listaDto = parametroMapper.toListDto(parametroDAO.findAll());

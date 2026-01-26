@@ -27,7 +27,7 @@ public class UnidadeFederacaoServiceImpl implements UnidadeFederacaoService {
 	}
     
     @Override
-    public UnidadeFederacaoDTO incluirUnidadeFederacao(UnidadeFederacaoDTO unidadeFederacaoDTO) throws MedmentorException {
+    public UnidadeFederacaoDTO incluiUnidadeFederacao(UnidadeFederacaoDTO unidadeFederacaoDTO) throws MedmentorException {
         UnidadeFederacao unidadeFederacao = unidadeFederacaoMapper.toEntity(unidadeFederacaoDTO);
         
         try {
@@ -40,7 +40,7 @@ public class UnidadeFederacaoServiceImpl implements UnidadeFederacaoService {
     }
 
     @Override
-    public void excluirUnidadeFederacao(Integer id) throws MedmentorException {
+    public void excluiUnidadeFederacao(Integer id) throws MedmentorException {
         try {
             unidadeFederacaoDAO.delete(id);
         } catch (SQLException e) {
@@ -49,7 +49,7 @@ public class UnidadeFederacaoServiceImpl implements UnidadeFederacaoService {
     }
 
     @Override
-    public void alterarUnidadeFederacao(UnidadeFederacaoDTO unidadeFederacaoDTO) throws MedmentorException {
+    public void alteraUnidadeFederacao(UnidadeFederacaoDTO unidadeFederacaoDTO) throws MedmentorException {
         UnidadeFederacao unidadeFederacao = unidadeFederacaoMapper.toEntity(unidadeFederacaoDTO);
         try {
             unidadeFederacaoDAO.update(unidadeFederacao);
@@ -59,7 +59,7 @@ public class UnidadeFederacaoServiceImpl implements UnidadeFederacaoService {
     }
 
     @Override
-    public UnidadeFederacaoDTO recuperarUnidadeFederacaoPorId(Integer id) throws MedmentorException {
+    public UnidadeFederacaoDTO recuperaUnidadeFederacaoPorId(Integer id) throws MedmentorException {
         UnidadeFederacao unidadeFederacao;
         try {
             unidadeFederacao = unidadeFederacaoDAO.findById(id);
@@ -74,7 +74,7 @@ public class UnidadeFederacaoServiceImpl implements UnidadeFederacaoService {
     }    
     
 	@Override
-	public List<UnidadeFederacaoDTO> listarTodos() throws MedmentorException {
+	public List<UnidadeFederacaoDTO> listaTodos() throws MedmentorException {
 		List<UnidadeFederacaoDTO> listaDto = new ArrayList<UnidadeFederacaoDTO>();
 		try {
 			listaDto = unidadeFederacaoMapper.toListDto(unidadeFederacaoDAO.findAll());

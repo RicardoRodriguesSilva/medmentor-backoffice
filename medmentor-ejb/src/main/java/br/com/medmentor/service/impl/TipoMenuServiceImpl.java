@@ -26,7 +26,7 @@ public class TipoMenuServiceImpl implements TipoMenuService {
     }
 
     @Override
-    public TipoMenuDTO incluirTipoMenu(TipoMenuDTO tipoTipoMenuDTO) throws MedmentorException {
+    public TipoMenuDTO incluiTipoMenu(TipoMenuDTO tipoTipoMenuDTO) throws MedmentorException {
         TipoMenu tipoTipoMenu = tipoTipoMenuMapper.toEntity(tipoTipoMenuDTO);
         
         try {
@@ -39,7 +39,7 @@ public class TipoMenuServiceImpl implements TipoMenuService {
     }
 
     @Override
-    public void excluirTipoMenu(Integer id) throws MedmentorException {
+    public void excluiTipoMenu(Integer id) throws MedmentorException {
         try {
             tipoTipoMenuDAO.delete(id);
         } catch (SQLException e) {
@@ -48,7 +48,7 @@ public class TipoMenuServiceImpl implements TipoMenuService {
     }
 
     @Override
-    public void alterarTipoMenu(TipoMenuDTO tipoTipoMenuDTO) throws MedmentorException {
+    public void alteraTipoMenu(TipoMenuDTO tipoTipoMenuDTO) throws MedmentorException {
         TipoMenu tipoTipoMenu = tipoTipoMenuMapper.toEntity(tipoTipoMenuDTO);
         try {
             tipoTipoMenuDAO.update(tipoTipoMenu);
@@ -58,7 +58,7 @@ public class TipoMenuServiceImpl implements TipoMenuService {
     }
 
     @Override
-    public TipoMenuDTO recuperarTipoMenuPorId(Integer id) throws MedmentorException {
+    public TipoMenuDTO recuperaTipoMenuPorId(Integer id) throws MedmentorException {
         TipoMenu tipoTipoMenu;
         try {
             tipoTipoMenu = tipoTipoMenuDAO.findById(id);
@@ -73,7 +73,7 @@ public class TipoMenuServiceImpl implements TipoMenuService {
     }
 
     @Override
-    public List<TipoMenuDTO> recuperarListaTipoMenu() throws MedmentorException {
+    public List<TipoMenuDTO> recuperaListaTipoMenu() throws MedmentorException {
         List<TipoMenuDTO> listaDto = new ArrayList<>();
         try {
             listaDto = tipoTipoMenuMapper.toListDto(tipoTipoMenuDAO.findAll());

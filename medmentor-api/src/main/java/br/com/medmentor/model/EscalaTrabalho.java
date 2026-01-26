@@ -14,6 +14,7 @@ public class EscalaTrabalho implements Serializable {
     private LocalDateTime dataHoraSaida;
     private Boolean bolAtivo;
     private Boolean bolRealizado;
+    private Boolean bolDisponibilizado;
 
     public EscalaTrabalho() {
     	
@@ -21,7 +22,7 @@ public class EscalaTrabalho implements Serializable {
 
 	public EscalaTrabalho(Integer id, EmpresaProfissional empresaProfissional,
 			EmpresaUnidadeGestao empresaUnidadeGestao, LocalDateTime dataHoraEntrada, LocalDateTime dataHoraSaida,
-			Boolean bolAtivo, Boolean bolRealizado) {
+			Boolean bolAtivo, Boolean bolRealizado, Boolean bolDisponibilizado) {
 		super();
 		this.id = id;
 		this.empresaProfissional = empresaProfissional;
@@ -30,7 +31,10 @@ public class EscalaTrabalho implements Serializable {
 		this.dataHoraSaida = dataHoraSaida;
 		this.bolAtivo = bolAtivo;
 		this.bolRealizado = bolRealizado;
+		this.bolDisponibilizado = bolDisponibilizado;
 	}
+
+
 
 	public Integer getId() {
 		return id;
@@ -88,11 +92,19 @@ public class EscalaTrabalho implements Serializable {
 		this.bolRealizado = bolRealizado;
 	}
 
+	public Boolean getBolDisponibilizado() {
+		return bolDisponibilizado;
+	}
+
+	public void setBolDisponibilizado(Boolean bolDisponibilizado) {
+		this.bolDisponibilizado = bolDisponibilizado;
+	}
+
 	@Override
 	public String toString() {
 		return "EscalaTrabalho [id=" + id + ", empresaProfissional=" + empresaProfissional + ", empresaUnidadeGestao="
 				+ empresaUnidadeGestao + ", dataHoraEntrada=" + dataHoraEntrada + ", dataHoraSaida=" + dataHoraSaida
-				+ ", bolAtivo=" + bolAtivo + ", bolRealizado=" + bolRealizado + "]";
+				+ ", bolAtivo=" + bolAtivo + ", bolRealizado=" + bolRealizado + ", bolDisponibilizado="
+				+ bolDisponibilizado + "]";
 	}
-  
 }

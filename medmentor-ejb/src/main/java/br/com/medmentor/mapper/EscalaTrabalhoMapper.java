@@ -29,6 +29,7 @@ public class EscalaTrabalhoMapper {
 	     
      	 dto.setBolAtivo(escalaTrabalho.getBolAtivo());
     	 dto.setBolRealizado(escalaTrabalho.getBolRealizado());
+    	 dto.setBolDisponibilizado(escalaTrabalho.getBolDisponibilizado());
     	 dto.setDataHoraEntrada(escalaTrabalho.getDataHoraEntrada());
     	 dto.setDataHoraSaida(escalaTrabalho.getDataHoraSaida());
     	 dto.setEmpresaProfissionalDTO(empresaProfissionalMapper.toDto(escalaTrabalho.getEmpresaProfissional()));
@@ -56,6 +57,7 @@ public class EscalaTrabalhoMapper {
 	     
 	     escalaTrabalho.setBolAtivo(dto.getBolAtivo());
 	     escalaTrabalho.setBolRealizado(dto.getBolRealizado());
+	     escalaTrabalho.setBolDisponibilizado(dto.getBolDisponibilizado());
 	     escalaTrabalho.setDataHoraEntrada(dto.getDataHoraEntrada());
 	     escalaTrabalho.setDataHoraSaida(dto.getDataHoraSaida());
 	     escalaTrabalho.setEmpresaProfissional(empresaProfissionalMapper.toEntity(dto.getEmpresaProfissionalDTO()));

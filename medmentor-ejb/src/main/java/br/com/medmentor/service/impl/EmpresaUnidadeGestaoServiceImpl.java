@@ -29,7 +29,7 @@ public class EmpresaUnidadeGestaoServiceImpl implements EmpresaUnidadeGestaoServ
 
 	@Override
 	@Transactional
-	public EmpresaUnidadeGestaoDTO incluirEmpresaUnidadeGestao(EmpresaUnidadeGestaoDTO empresaUnidadeGestaoDTO) throws MedmentorException {
+	public EmpresaUnidadeGestaoDTO incluiEmpresaUnidadeGestao(EmpresaUnidadeGestaoDTO empresaUnidadeGestaoDTO) throws MedmentorException {
 		EmpresaUnidadeGestao empresaUnidadeGestao = empresaUnidadeGestaoMapper.toEntity(empresaUnidadeGestaoDTO);
 		
 		try {
@@ -43,7 +43,7 @@ public class EmpresaUnidadeGestaoServiceImpl implements EmpresaUnidadeGestaoServ
 
 	@Override
 	@Transactional
-	public void excluirEmpresaUnidadeGestao(Integer id) throws MedmentorException {
+	public void excluiEmpresaUnidadeGestao(Integer id) throws MedmentorException {
 		try {
 			empresaUnidadeGestaoDAO.delete(id);
 		} catch (SQLException e) {
@@ -53,7 +53,7 @@ public class EmpresaUnidadeGestaoServiceImpl implements EmpresaUnidadeGestaoServ
 
 	@Override
 	@Transactional
-	public void alterarEmpresaUnidadeGestao(EmpresaUnidadeGestaoDTO empresaUnidadeGestaoDTO) throws MedmentorException {
+	public void alteraEmpresaUnidadeGestao(EmpresaUnidadeGestaoDTO empresaUnidadeGestaoDTO) throws MedmentorException {
 		
 		EmpresaUnidadeGestao empresaUnidadeGestao = empresaUnidadeGestaoMapper.toEntity(empresaUnidadeGestaoDTO);
 		try {
@@ -64,7 +64,7 @@ public class EmpresaUnidadeGestaoServiceImpl implements EmpresaUnidadeGestaoServ
 	}
 
 	@Override
-	public EmpresaUnidadeGestaoDTO recuperarEmpresaUnidadeGestaoPorId(Integer id) throws MedmentorException {
+	public EmpresaUnidadeGestaoDTO recuperaEmpresaUnidadeGestaoPorId(Integer id) throws MedmentorException {
 		EmpresaUnidadeGestao empresaUnidadeGestao;
 		try {
 			empresaUnidadeGestao = empresaUnidadeGestaoDAO.findById(id);
@@ -76,7 +76,7 @@ public class EmpresaUnidadeGestaoServiceImpl implements EmpresaUnidadeGestaoServ
 	}
 	
 	@Override
-	public List<EmpresaUnidadeGestaoDTO> recuperarListaEmpresaUnidadeGestao() throws MedmentorException {
+	public List<EmpresaUnidadeGestaoDTO> recuperaListaEmpresaUnidadeGestao() throws MedmentorException {
         List<EmpresaUnidadeGestaoDTO> listaDto = new ArrayList<>();
         try {
             listaDto = empresaUnidadeGestaoMapper.toListDto(empresaUnidadeGestaoDAO.findAll());
@@ -87,7 +87,7 @@ public class EmpresaUnidadeGestaoServiceImpl implements EmpresaUnidadeGestaoServ
 	}
 
 	@Override
-	public List<EmpresaUnidadeGestaoDTO> recuperarListaEmpresaUnidadeGestaoPorIdProfissional(Integer idProfissional)
+	public List<EmpresaUnidadeGestaoDTO> recuperaListaEmpresaUnidadeGestaoPorIdProfissional(Integer idProfissional)
 			throws MedmentorException {
         List<EmpresaUnidadeGestaoDTO> listaDto = new ArrayList<>();
         try {

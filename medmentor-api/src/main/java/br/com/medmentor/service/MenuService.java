@@ -10,15 +10,15 @@ import jakarta.ejb.Local;
 @Local
 public interface MenuService extends GenericService {
     
-    MenuDTO incluirMenu(MenuDTO menuDTO) throws MedmentorException;
+    MenuDTO incluiMenu(MenuDTO menuDTO) throws MedmentorException;
     
-    void excluirMenu(Integer id) throws MedmentorException;
+    void excluiMenu(Integer id) throws MedmentorException;
     
-    void alterarMenu(MenuDTO menuDTO) throws MedmentorException;
+    void alteraMenu(MenuDTO menuDTO) throws MedmentorException;
     
-    MenuDTO recuperarMenuPorId(Integer id) throws MedmentorException;
+    MenuDTO recuperaMenuPorId(Integer id) throws MedmentorException;
     
-    List<MenuDTO> recuperarListaMenu() throws MedmentorException;
+    List<MenuDTO> recuperaListaMenu() throws MedmentorException;
     
     List<AcessoMenuDTO> recuperaMenuPorUsuario(String nome) throws MedmentorException;
     

@@ -33,7 +33,7 @@ public class PerfilMenuAcaoController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            PerfilMenuAcaoDTO novoPerfilMenuAcao = perfilMenuAcaoService.incluirPerfilMenuAcao(perfilMenuAcaoDTO);
+            PerfilMenuAcaoDTO novoPerfilMenuAcao = perfilMenuAcaoService.incluiPerfilMenuAcao(perfilMenuAcaoDTO);
             return Response.created(URI.create("/api/perfil-menu-acao/" + novoPerfilMenuAcao.getId()))
                            .entity(novoPerfilMenuAcao)
                            .build();
@@ -59,7 +59,7 @@ public class PerfilMenuAcaoController {
                                .entity("O ID do perfil menu acao n�o pode ser nulo.")
                                .build();
             }
-            PerfilMenuAcaoDTO perfilMenuAcao = perfilMenuAcaoService.recuperarPerfilMenuAcaoPorId(id);
+            PerfilMenuAcaoDTO perfilMenuAcao = perfilMenuAcaoService.recuperaPerfilMenuAcaoPorId(id);
             if (perfilMenuAcao != null) {
                 return Response.ok(perfilMenuAcao).build();
             } else {
@@ -83,7 +83,7 @@ public class PerfilMenuAcaoController {
     @GET
     public Response recuperarListaPerfilMenuAcao() {
         try {
-            List<PerfilMenuAcaoDTO> perfilMenuAcoes = perfilMenuAcaoService.recuperarListaPerfilMenuAcao();
+            List<PerfilMenuAcaoDTO> perfilMenuAcoes = perfilMenuAcaoService.recuperaListaPerfilMenuAcao();
             if (perfilMenuAcoes.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -110,7 +110,7 @@ public class PerfilMenuAcaoController {
                                .entity("O corpo da requisi��o e o ID do perfil menu acao n�o podem ser vazios.")
                                .build();
             }
-            perfilMenuAcaoService.alterarPerfilMenuAcao(perfilMenuAcaoDTO);
+            perfilMenuAcaoService.alteraPerfilMenuAcao(perfilMenuAcaoDTO);
             return Response.ok().entity("PerfilMenuAcao atualizada com sucesso.").build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar PerfilMenuAcao com ID " + perfilMenuAcaoDTO.getId() + ": " + e.getMessage());
@@ -135,14 +135,14 @@ public class PerfilMenuAcaoController {
                                .build();
             }
 
-            PerfilMenuAcaoDTO perfilMenuAcaoExistente = perfilMenuAcaoService.recuperarPerfilMenuAcaoPorId(id);
+            PerfilMenuAcaoDTO perfilMenuAcaoExistente = perfilMenuAcaoService.recuperaPerfilMenuAcaoPorId(id);
             if (perfilMenuAcaoExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("PerfilMenuAcao com ID " + id + " n�o encontrada para exclus�o.")
                                .build();
             } 
 
-            perfilMenuAcaoService.excluirPerfilMenuAcao(id);
+            perfilMenuAcaoService.excluiPerfilMenuAcao(id);
             return Response.noContent().build(); 
         } catch (MedmentorException e) {
             System.err.println("Erro ao excluir PerfilMenuAcao por ID (" + id + "): " + e.getMessage());

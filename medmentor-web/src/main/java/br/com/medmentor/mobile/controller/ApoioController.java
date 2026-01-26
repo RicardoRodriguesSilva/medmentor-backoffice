@@ -35,7 +35,7 @@ public class ApoioController {
                                .entity("O ID do cidade n�o pode ser nulo.")
                                .build();
             }
-            CidadeDTO cidade = cidadeService.recuperarCidadePorId(id);
+            CidadeDTO cidade = cidadeService.recuperaCidadePorId(id);
             if (cidade != null) {
                 return Response.ok(cidade).build();
             } else {
@@ -60,7 +60,7 @@ public class ApoioController {
     @Path("/cidade/todas")
     public Response recuperarListaCidade() {
         try {
-            List<CidadeDTO> cidades = cidadeService.recuperarListaCidade();
+            List<CidadeDTO> cidades = cidadeService.recuperaListaCidade();
             if (cidades.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -86,7 +86,7 @@ public class ApoioController {
         try {
             System.out.println("Recebida requisição para listar cidades da UF com ID: " + idUnidadeFederacao);
 
-            List<CidadeDTO> cidades = cidadeService.listarTodasPorUnidadeFederacao(idUnidadeFederacao);
+            List<CidadeDTO> cidades = cidadeService.listaTodasPorUnidadeFederacao(idUnidadeFederacao);
 
             if (cidades.isEmpty()) {
                 return Response.noContent().build();
@@ -110,7 +110,7 @@ public class ApoioController {
     @Path("/unidade-federacao/todas")
     public Response listarTodasUnidadesFederacao() {
         try {
-            List<UnidadeFederacaoDTO> unidadesFederacao = unidadeFederacaoService.listarTodos();
+            List<UnidadeFederacaoDTO> unidadesFederacao = unidadeFederacaoService.listaTodos();
 
             if (unidadesFederacao.isEmpty()) {
                 return Response.noContent().build();
@@ -139,7 +139,7 @@ public class ApoioController {
                                .entity("O ID do unidadeFederacao n�o pode ser nulo.")
                                .build();
             }
-            UnidadeFederacaoDTO unidadeFederacao = unidadeFederacaoService.recuperarUnidadeFederacaoPorId(id);
+            UnidadeFederacaoDTO unidadeFederacao = unidadeFederacaoService.recuperaUnidadeFederacaoPorId(id);
             if (unidadeFederacao != null) {
                 return Response.ok(unidadeFederacao).build();
             } else {

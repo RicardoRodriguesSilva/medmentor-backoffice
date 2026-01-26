@@ -26,7 +26,7 @@ public class PerfilMenuAcaoServiceImpl implements PerfilMenuAcaoService {
     }
 
     @Override
-    public PerfilMenuAcaoDTO incluirPerfilMenuAcao(PerfilMenuAcaoDTO perfilMenuAcaoDTO) throws MedmentorException {
+    public PerfilMenuAcaoDTO incluiPerfilMenuAcao(PerfilMenuAcaoDTO perfilMenuAcaoDTO) throws MedmentorException {
         PerfilMenuAcao perfilMenuAcao = perfilMenuAcaoMapper.toEntity(perfilMenuAcaoDTO);
         
         try {
@@ -39,7 +39,7 @@ public class PerfilMenuAcaoServiceImpl implements PerfilMenuAcaoService {
     }
 
     @Override
-    public void excluirPerfilMenuAcao(Integer id) throws MedmentorException {
+    public void excluiPerfilMenuAcao(Integer id) throws MedmentorException {
         try {
             perfilMenuAcaoDAO.delete(id);
         } catch (SQLException e) {
@@ -48,7 +48,7 @@ public class PerfilMenuAcaoServiceImpl implements PerfilMenuAcaoService {
     }
 
     @Override
-    public void alterarPerfilMenuAcao(PerfilMenuAcaoDTO perfilMenuAcaoDTO) throws MedmentorException {
+    public void alteraPerfilMenuAcao(PerfilMenuAcaoDTO perfilMenuAcaoDTO) throws MedmentorException {
         PerfilMenuAcao perfilMenuAcao = perfilMenuAcaoMapper.toEntity(perfilMenuAcaoDTO);
         try {
             perfilMenuAcaoDAO.update(perfilMenuAcao);
@@ -58,7 +58,7 @@ public class PerfilMenuAcaoServiceImpl implements PerfilMenuAcaoService {
     }
 
     @Override
-    public PerfilMenuAcaoDTO recuperarPerfilMenuAcaoPorId(Integer id) throws MedmentorException {
+    public PerfilMenuAcaoDTO recuperaPerfilMenuAcaoPorId(Integer id) throws MedmentorException {
         PerfilMenuAcao perfilMenuAcao;
         try {
             perfilMenuAcao = perfilMenuAcaoDAO.findById(id);
@@ -73,7 +73,7 @@ public class PerfilMenuAcaoServiceImpl implements PerfilMenuAcaoService {
     }
 
     @Override
-    public List<PerfilMenuAcaoDTO> recuperarListaPerfilMenuAcao() throws MedmentorException {
+    public List<PerfilMenuAcaoDTO> recuperaListaPerfilMenuAcao() throws MedmentorException {
         List<PerfilMenuAcaoDTO> listaDto = new ArrayList<>();
         try {
             listaDto = perfilMenuAcaoMapper.toListDto(perfilMenuAcaoDAO.findAll());

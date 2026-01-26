@@ -35,7 +35,7 @@ public class ProfissionalController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            ProfissionalDTO novoProfissional = profissionalService.incluirProfissional(profissionalDTO);
+            ProfissionalDTO novoProfissional = profissionalService.incluiProfissional(profissionalDTO);
             return Response.created(URI.create("/api/profissional/" + novoProfissional.getId()))
                            .entity(novoProfissional)
                            .build();
@@ -61,7 +61,7 @@ public class ProfissionalController {
                                .entity("O ID do profissional n�o pode ser nulo.")
                                .build();
             }
-            ProfissionalDTO profissional = profissionalService.recuperarProfissionalPorId(id);
+            ProfissionalDTO profissional = profissionalService.recuperaProfissionalPorId(id);
             if (profissional != null) {
                 return Response.ok(profissional).build();
             } else {
@@ -86,7 +86,7 @@ public class ProfissionalController {
     @Path("/por-nome") 
     public Response listarTodosPorNome(@QueryParam("nome") String nome) {
         try {
-            List<ProfissionalDTO> profissionais = profissionalService.recuperarListaProfissionalPorNome(nome);
+            List<ProfissionalDTO> profissionais = profissionalService.recuperaListaProfissionalPorNome(nome);
             if (profissionais.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -109,7 +109,7 @@ public class ProfissionalController {
     @Path("todos")
     public Response recuperarListaProfissional() {
         try {
-            List<ProfissionalDTO> profissionais = profissionalService.recuperarListaProfissional();
+            List<ProfissionalDTO> profissionais = profissionalService.recuperaListaProfissional();
             if (profissionais.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -137,7 +137,7 @@ public class ProfissionalController {
                                .entity("O ID da cidade n�o pode ser nulo.")
                                .build();
             }
-            List<ProfissionalDTO> profissionais = profissionalService.recuperarProfissionalPorCidade(idCidade);
+            List<ProfissionalDTO> profissionais = profissionalService.recuperaProfissionalPorCidade(idCidade);
             if (profissionais.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -164,7 +164,7 @@ public class ProfissionalController {
                                .entity("O corpo da requisi��o e o ID do profissional n�o podem ser vazios.")
                                .build();
             }
-            profissionalService.alterarProfissional(profissionalDTO);
+            profissionalService.alteraProfissional(profissionalDTO);
             return Response.ok(profissionalDTO).build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar Profissional com ID " + profissionalDTO.getId() + ": " + e.getMessage());
@@ -189,14 +189,14 @@ public class ProfissionalController {
                                .build();
             }
 
-            ProfissionalDTO profissionalExistente = profissionalService.recuperarProfissionalPorId(id);
+            ProfissionalDTO profissionalExistente = profissionalService.recuperaProfissionalPorId(id);
             if (profissionalExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("Profissional com ID " + id + " n�o encontrado para exclus�o.")
                                .build();
             }
 
-            profissionalService.excluirProfissional(id);
+            profissionalService.excluiProfissional(id);
             return Response.noContent().build(); 
         } catch (MedmentorException e) {
             System.err.println("Erro ao excluir Profissional por ID (" + id + "): " + e.getMessage());

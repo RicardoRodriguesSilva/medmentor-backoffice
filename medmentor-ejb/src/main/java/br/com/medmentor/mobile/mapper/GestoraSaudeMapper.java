@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.medmentor.dto.EmpresaGestaoDTO;
 import br.com.medmentor.dto.EmpresaUnidadeGestaoDTO;
 import br.com.medmentor.mobile.dto.GestoraSaudeDTO;
 import br.com.medmentor.mobile.dto.UnidadeSaudeDTO;
@@ -15,7 +16,7 @@ import jakarta.inject.Named;
 @ApplicationScoped
 public class GestoraSaudeMapper {
 
-    public List<GestoraSaudeDTO> toListDTO(List<EmpresaUnidadeGestaoDTO> listaDTO) {
+    public List<GestoraSaudeDTO> toListDto(List<EmpresaUnidadeGestaoDTO> listaDTO) {
     	List<GestoraSaudeDTO> listaGestoraSaudeDTO = new ArrayList<GestoraSaudeDTO>();
     	Map<Integer, GestoraSaudeDTO> mapaGestoraSaude = new HashMap<Integer, GestoraSaudeDTO>();
     	
@@ -47,6 +48,19 @@ public class GestoraSaudeMapper {
     	}
     	
     	return listaGestoraSaudeDTO;    	
+    }
+    
+    public GestoraSaudeDTO toGestoraSaudeDto(EmpresaGestaoDTO empresaGestaoDTO) {
+    	
+    	if(empresaGestaoDTO == null) {
+    		return null;
+    	}    	
+    	
+		GestoraSaudeDTO gestoraSaudeDTO = new GestoraSaudeDTO();
+		gestoraSaudeDTO.setId(empresaGestaoDTO.getId());
+		gestoraSaudeDTO.setNome(empresaGestaoDTO.getEmpresaDTO().getNomeFantasia());    	
+		
+		return gestoraSaudeDTO;
     }
 
 

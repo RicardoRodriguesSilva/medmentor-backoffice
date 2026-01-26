@@ -35,7 +35,7 @@ public class UsuarioController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            UsuarioDTO novoUsuario = usuarioService.incluirUsuario(usuarioDTO);
+            UsuarioDTO novoUsuario = usuarioService.incluiUsuario(usuarioDTO);
             return Response.created(URI.create("/api/usuario/" + novoUsuario.getId()))
                            .entity(novoUsuario)
                            .build();
@@ -61,7 +61,7 @@ public class UsuarioController {
                                .entity("O ID do usu�rio n�o pode ser nulo.")
                                .build();
             }
-            UsuarioDTO usuario = usuarioService.recuperarUsuarioPorId(id);
+            UsuarioDTO usuario = usuarioService.recuperaUsuarioPorId(id);
             if (usuario != null) {
             	usuario.setSenhaUsuario("**********");
                 return Response.ok(usuario).build();
@@ -92,7 +92,7 @@ public class UsuarioController {
                                .entity("O nome do usu�rio n�o pode ser nulo.")
                                .build();
             }
-            UsuarioDTO usuario = usuarioService.recuperarUsuarioPorNome(nome);
+            UsuarioDTO usuario = usuarioService.recuperaUsuarioPorNome(nome);
             if (usuario != null) {
             	usuario.setSenhaUsuario("**********");
                 return Response.ok(usuario).build();
@@ -118,7 +118,7 @@ public class UsuarioController {
     @Path("todos")
     public Response recuperarListaUsuario() {
         try {
-            List<UsuarioDTO> usuarios = usuarioService.recuperarListaUsuario();
+            List<UsuarioDTO> usuarios = usuarioService.recuperaListaUsuario();
             if (usuarios.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -153,7 +153,7 @@ public class UsuarioController {
                                .entity("O corpo da requisi��o e o ID do usu�rio n�o podem ser vazios.")
                                .build();
             }
-            usuarioService.alterarUsuario(usuarioDTO);
+            usuarioService.alteraUsuario(usuarioDTO);
             return Response.ok().entity("Usu�rio atualizado com sucesso.").build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar Usu�rio com ID " + usuarioDTO.getId() + ": " + e.getMessage());
@@ -178,14 +178,14 @@ public class UsuarioController {
                                .build();
             }
 
-            UsuarioDTO usuarioExistente = usuarioService.recuperarUsuarioPorId(id);
+            UsuarioDTO usuarioExistente = usuarioService.recuperaUsuarioPorId(id);
             if (usuarioExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("Usu�rio com ID " + id + " n�o encontrado para exclus�o.")
                                .build();
             }
 
-            usuarioService.excluirUsuario(id);
+            usuarioService.excluiUsuario(id);
             return Response.noContent().build(); 
         } catch (MedmentorException e) {
             System.err.println("Erro ao excluir Usu�rio por ID (" + id + "): " + e.getMessage());
@@ -204,7 +204,7 @@ public class UsuarioController {
     @Path("/gerar-login")
     public Response gerarLoginUsuario(@QueryParam("nome") String nome) {
         try {        	
-        	String nomeUsuario = usuarioService.gerarLoginUsuario(nome);
+        	String nomeUsuario = usuarioService.geraLoginUsuario(nome);
             if (nomeUsuario.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -227,7 +227,7 @@ public class UsuarioController {
     @Path("/gerar-senha")
     public Response gerarSenhaUsuario(@QueryParam("nome") String nome) {
         try {        	
-        	String senhaUsuario = usuarioService.gerarSenha(nome);     
+        	String senhaUsuario = usuarioService.geraSenha(nome);     
             if (senhaUsuario.isEmpty()) {
                 return Response.noContent().build(); 
             } else {

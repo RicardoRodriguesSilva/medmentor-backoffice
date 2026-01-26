@@ -9,14 +9,14 @@ import jakarta.ejb.Local;
 @Local
 public interface PerfilMenuAcaoService extends GenericService {
     
-    PerfilMenuAcaoDTO incluirPerfilMenuAcao(PerfilMenuAcaoDTO perfilMenuAcaoDTO) throws MedmentorException;
+    PerfilMenuAcaoDTO incluiPerfilMenuAcao(PerfilMenuAcaoDTO perfilMenuAcaoDTO) throws MedmentorException;
     
-    void excluirPerfilMenuAcao(Integer id) throws MedmentorException;
+    void excluiPerfilMenuAcao(Integer id) throws MedmentorException;
     
-    void alterarPerfilMenuAcao(PerfilMenuAcaoDTO perfilMenuAcaoDTO) throws MedmentorException;
+    void alteraPerfilMenuAcao(PerfilMenuAcaoDTO perfilMenuAcaoDTO) throws MedmentorException;
     
-    PerfilMenuAcaoDTO recuperarPerfilMenuAcaoPorId(Integer id) throws MedmentorException;
+    PerfilMenuAcaoDTO recuperaPerfilMenuAcaoPorId(Integer id) throws MedmentorException;
     
-    List<PerfilMenuAcaoDTO> recuperarListaPerfilMenuAcao() throws MedmentorException;
+    List<PerfilMenuAcaoDTO> recuperaListaPerfilMenuAcao() throws MedmentorException;
     
 } 

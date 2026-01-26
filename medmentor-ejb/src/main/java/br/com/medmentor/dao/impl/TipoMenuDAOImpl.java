@@ -31,7 +31,7 @@ public class TipoMenuDAOImpl implements TipoMenuDAO {
 		String sql = "INSERT INTO \"MED\".TIPOMENU (NOMETIPOMENU, BOLATIVO) VALUES (?, ?) RETURNING IDTIPOMENU";
 		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setString(1, tipoMenu.getNomeTipoMenu());
-			stmt.setBoolean(6, tipoMenu.getBolAtivo());
+			stmt.setBoolean(2, tipoMenu.getBolAtivo());
 
 			try (ResultSet rs = stmt.executeQuery()) {
 				if (rs.next()) {
@@ -64,11 +64,11 @@ public class TipoMenuDAOImpl implements TipoMenuDAO {
 
 	@Override
 	public TipoMenu update(TipoMenu tipoMenu) throws SQLException {
-		String sql = "UPDATE \"MED\".TIPOMENU SET NOMETIPOMENU = ?, DESCRICAOTIPOMENU = ?, NOMECAMINHOTIPOMENU = ?, IDTIPOTIPOMENU = ?, NUMEROORDEM = ?, BOLATIVO = ? WHERE IDTIPOMENU = ?";
+		String sql = "UPDATE \"MED\".TIPOMENU SET NOMETIPOMENU = ?, BOLATIVO = ? WHERE IDTIPOMENU = ?";
 		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setString(1, tipoMenu.getNomeTipoMenu());	
-			stmt.setBoolean(4, tipoMenu.getBolAtivo());
-			stmt.setInt(5, tipoMenu.getId());
+			stmt.setBoolean(2, tipoMenu.getBolAtivo());
+			stmt.setInt(3, tipoMenu.getId());
 			int affectedRows = stmt.executeUpdate();
 			if (affectedRows == 0) {
 				throw new SQLException(

@@ -27,7 +27,7 @@ public class UsuarioPerfilServiceImpl implements UsuarioPerfilService {
     }
 
     @Override
-    public UsuarioPerfilDTO incluirUsuarioPerfil(UsuarioPerfilDTO usuarioPerfilDTO) throws MedmentorException {
+    public UsuarioPerfilDTO incluiUsuarioPerfil(UsuarioPerfilDTO usuarioPerfilDTO) throws MedmentorException {
         UsuarioPerfil usuarioPerfil = usuarioPerfilMapper.toEntity(usuarioPerfilDTO);
         
         try {
@@ -40,7 +40,7 @@ public class UsuarioPerfilServiceImpl implements UsuarioPerfilService {
     }
 
     @Override
-    public void excluirUsuarioPerfil(Integer id) throws MedmentorException {
+    public void excluiUsuarioPerfil(Integer id) throws MedmentorException {
         try {
             usuarioPerfilDAO.delete(id);
         } catch (SQLException e) {
@@ -49,7 +49,7 @@ public class UsuarioPerfilServiceImpl implements UsuarioPerfilService {
     }
 
     @Override
-    public void alterarUsuarioPerfil(UsuarioPerfilDTO usuarioPerfilDTO) throws MedmentorException {
+    public void alteraUsuarioPerfil(UsuarioPerfilDTO usuarioPerfilDTO) throws MedmentorException {
         UsuarioPerfil usuarioPerfil = usuarioPerfilMapper.toEntity(usuarioPerfilDTO);
         try {
             usuarioPerfilDAO.update(usuarioPerfil);
@@ -59,7 +59,7 @@ public class UsuarioPerfilServiceImpl implements UsuarioPerfilService {
     }
 
     @Override
-    public UsuarioPerfilDTO recuperarUsuarioPerfilPorId(Integer id) throws MedmentorException {
+    public UsuarioPerfilDTO recuperaUsuarioPerfilPorId(Integer id) throws MedmentorException {
         UsuarioPerfil usuarioPerfil;
         try {
             usuarioPerfil = usuarioPerfilDAO.findById(id);
@@ -74,7 +74,7 @@ public class UsuarioPerfilServiceImpl implements UsuarioPerfilService {
     }
 
     @Override
-    public List<UsuarioPerfilDTO> recuperarListaUsuarioPerfil() throws MedmentorException {
+    public List<UsuarioPerfilDTO> recuperaListaUsuarioPerfil() throws MedmentorException {
         List<UsuarioPerfilDTO> listaDto = new ArrayList<>();
         try {
             listaDto = usuarioPerfilMapper.toListDto(usuarioPerfilDAO.findAll());
@@ -85,7 +85,7 @@ public class UsuarioPerfilServiceImpl implements UsuarioPerfilService {
     }
 
 	@Override
-	public List<UsuarioPerfilDTO> recuperarListaUsuarioPerfilPorFiltro(FiltroUsuarioPerfilDTO filtroUsuarioPerfilDTO)
+	public List<UsuarioPerfilDTO> recuperaListaUsuarioPerfilPorFiltro(FiltroUsuarioPerfilDTO filtroUsuarioPerfilDTO)
 			throws MedmentorException {
         List<UsuarioPerfilDTO> listaDto = new ArrayList<>();
         try {

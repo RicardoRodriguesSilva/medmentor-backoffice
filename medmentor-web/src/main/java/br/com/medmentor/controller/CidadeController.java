@@ -33,7 +33,7 @@ public class CidadeController {
                                .entity("O corpo da requisi��o n�o pode ser vazio.")
                                .build();
             }
-            CidadeDTO novoCidade = cidadeService.incluirCidade(cidadeDTO);
+            CidadeDTO novoCidade = cidadeService.incluiCidade(cidadeDTO);
             return Response.created(URI.create("/api/cidade/" + novoCidade.getId()))
                            .entity(novoCidade)
                            .build();
@@ -59,7 +59,7 @@ public class CidadeController {
                                .entity("O ID do cidade n�o pode ser nulo.")
                                .build();
             }
-            CidadeDTO cidade = cidadeService.recuperarCidadePorId(id);
+            CidadeDTO cidade = cidadeService.recuperaCidadePorId(id);
             if (cidade != null) {
                 return Response.ok(cidade).build();
             } else {
@@ -84,7 +84,7 @@ public class CidadeController {
     @Path("todas")
     public Response recuperarListaCidade() {
         try {
-            List<CidadeDTO> cidades = cidadeService.recuperarListaCidade();
+            List<CidadeDTO> cidades = cidadeService.recuperaListaCidade();
             if (cidades.isEmpty()) {
                 return Response.noContent().build(); 
             } else {
@@ -111,7 +111,7 @@ public class CidadeController {
                                .entity("O corpo da requisi��o e o ID do cidade n�o podem ser vazios.")
                                .build();
             }
-            cidadeService.alterarCidade(cidadeDTO);
+            cidadeService.alteraCidade(cidadeDTO);
             return Response.ok().entity("Cidade atualizado com sucesso.").build();
         } catch (MedmentorException e) {
             System.err.println("Erro ao alterar Cidade com ID " + cidadeDTO.getId() + ": " + e.getMessage());
@@ -136,14 +136,14 @@ public class CidadeController {
                                .build();
             }
 
-            CidadeDTO cidadeExistente = cidadeService.recuperarCidadePorId(id);
+            CidadeDTO cidadeExistente = cidadeService.recuperaCidadePorId(id);
             if (cidadeExistente == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("Cidade com ID " + id + " n�o encontrado para exclus�o.")
                                .build();
             }
 
-            cidadeService.excluirCidade(id);
+            cidadeService.excluiCidade(id);
             return Response.noContent().build(); 
         } catch (MedmentorException e) { 
             System.err.println("Erro ao excluir Cidade por ID (" + id + "): " + e.getMessage());
@@ -164,7 +164,7 @@ public class CidadeController {
         try {
             System.out.println("Recebida requisição para listar cidades da UF com ID: " + idUnidadeFederacao);
 
-            List<CidadeDTO> cidades = cidadeService.listarTodasPorUnidadeFederacao(idUnidadeFederacao);
+            List<CidadeDTO> cidades = cidadeService.listaTodasPorUnidadeFederacao(idUnidadeFederacao);
 
             if (cidades.isEmpty()) {
                 return Response.noContent().build();
@@ -191,7 +191,7 @@ public class CidadeController {
         try {
             System.out.println("Recebida requisição para listar cidades da UF com ID: " + idUnidadeFederacao);
 
-            List<CidadeDTO> cidades = cidadeService.listarTodasPorUnidadeFederacaoENome(idUnidadeFederacao, nome);
+            List<CidadeDTO> cidades = cidadeService.listaTodasPorUnidadeFederacaoENome(idUnidadeFederacao, nome);
 
             if (cidades.isEmpty()) {
                 return Response.noContent().build();
