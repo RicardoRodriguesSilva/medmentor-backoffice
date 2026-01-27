@@ -22,5 +22,7 @@ public interface MovimentacaoService extends GenericService {
 	
 	void disponibilzaEscalaTrabalho(Integer id) throws MedmentorException;
 	
-	void confirmaEscalaTrabalhoEfetuado(Integer id) throws MedmentorException;
+	void confirmaEscalaTrabalho(Integer id) throws MedmentorException;
+	
+	void cancelaEscalaTrabalho(Integer id) throws MedmentorException;
 }

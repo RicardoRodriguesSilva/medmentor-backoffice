@@ -253,15 +253,29 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
 	
 
 	@Override
-	public void confirmaEscalaTrabalhoEfetuado(Integer id) throws SQLException {
-		String sql = "update \"MED\".escalatrabalho SET bolrealizado = true WHERE idescalatrabalho = ?";
+	public void confirmaEscalaTrabalho(Integer id) throws SQLException {
+		String sql = "update \"MED\".escalatrabalho SET bolrealizado = true, bolativa = true WHERE idescalatrabalho = ?";
 		try (Connection conn = dataSource.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setInt(1, id);
 
 	        int affectedRows = ps.executeUpdate();
 	        if (affectedRows == 0) {
-	            throw new SQLException("Falha ao confirmar escala de trabalho, nenhuma linha encontrada para o ID: " + id);
+	            throw new SQLException("Falha ao confirmar a presenca escala de trabalho, nenhuma linha encontrada para o ID: " + id);
+	        }
+		}	
+	}	
+	
+	@Override
+	public void cancelaEscalaTrabalho(Integer id) throws SQLException {
+		String sql = "update \"MED\".escalatrabalho SET bolrealizado = false, bolativa = false WHERE idescalatrabalho = ?";
+		try (Connection conn = dataSource.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, id);
+
+	        int affectedRows = ps.executeUpdate();
+	        if (affectedRows == 0) {
+	            throw new SQLException("Falha ao confirmar a ausencia na escala de trabalho, nenhuma linha encontrada para o ID: " + id);
 	        }
 		}	
 	}	

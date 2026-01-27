@@ -228,7 +228,7 @@ public class EscalaTrabalhoServiceImpl implements EscalaTrabalhoService {
 	}
 
 	@Override
-	public void confirmaEscalaTrabalhoEfetuado(Integer id) throws MedmentorException {
+	public void confirmaEscalaTrabalho(Integer id) throws MedmentorException {
 		try {
 			
 			EscalaTrabalho escalaTrabalho = escalaTrabalhoDAO.findById(id);
@@ -241,11 +241,31 @@ public class EscalaTrabalhoServiceImpl implements EscalaTrabalhoService {
 				throw new MedmentorException("Não é possível confirmar uma escala de trabalho com data superior a hoje!");
 			}
 			
-			escalaTrabalhoDAO.confirmaEscalaTrabalhoEfetuado(id);
+			escalaTrabalhoDAO.confirmaEscalaTrabalho(id);
 		} catch (SQLException e) {
 			throw new MedmentorException(e.getMessage(), e.getCause());
 		}	
 	}
+	
+	@Override
+	public void cancelaEscalaTrabalho(Integer id) throws MedmentorException {
+		try {
+			
+			EscalaTrabalho escalaTrabalho = escalaTrabalhoDAO.findById(id);
+			
+			if (!escalaTrabalho.getBolAtivo()) {
+				throw new MedmentorException("Não é possível confirmar uma escala inativa!");
+			}	
+			
+			if (escalaTrabalho.getDataHoraSaida().isAfter(LocalDateTime.now())) {
+				throw new MedmentorException("Não é possível confirmar uma escala de trabalho com data superior a hoje!");
+			}
+			
+			escalaTrabalhoDAO.cancelaEscalaTrabalho(id);
+		} catch (SQLException e) {
+			throw new MedmentorException(e.getMessage(), e.getCause());
+		}	
+	}	
 	
 
 	@Override

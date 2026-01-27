@@ -28,5 +28,7 @@ public interface EscalaTrabalhoDAO {
 	
 	void disponibilzaEscalaTrabalho(Integer id) throws SQLException;
 	
-	void confirmaEscalaTrabalhoEfetuado(Integer id) throws SQLException;
+	void confirmaEscalaTrabalho(Integer id) throws SQLException;
+	
+	void cancelaEscalaTrabalho(Integer id) throws SQLException;
 }

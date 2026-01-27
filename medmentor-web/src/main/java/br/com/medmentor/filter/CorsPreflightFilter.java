@@ -31,7 +31,10 @@ public class CorsPreflightFilter implements ContainerRequestFilter {
 
             // --- 1. Access-Control-Allow-Origin ---
             // IMPORTANTE: Adicionar APENAS UMA VEZ com o valor correto.
-            responseBuilder.header("Access-Control-Allow-Origin", "http://localhost:4200");
+            //responseBuilder.header("Access-Control-Allow-Origin", "http://localhost:4200");
+            //nao aceitou multiplus
+            //responseBuilder.header("Access-Control-Allow-Origin", "http://localhost:4200, http://localhost:8100");
+            responseBuilder.header("Access-Control-Allow-Origin", "*");
 
             // --- 2. Access-Control-Allow-Credentials ---
             responseBuilder.header("Access-Control-Allow-Credentials", "true");

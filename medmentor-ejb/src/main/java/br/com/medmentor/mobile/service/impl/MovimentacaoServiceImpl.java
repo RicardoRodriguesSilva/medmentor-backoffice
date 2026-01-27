@@ -91,12 +91,21 @@ public class MovimentacaoServiceImpl implements MovimentacaoService {
 	}
 
 	@Override
-	public void confirmaEscalaTrabalhoEfetuado(Integer id) throws MedmentorException {
+	public void confirmaEscalaTrabalho(Integer id) throws MedmentorException {
 		try {
-			escalaTrabalhoService.confirmaEscalaTrabalhoEfetuado(id);
+			escalaTrabalhoService.confirmaEscalaTrabalho(id);
 		} catch (MedmentorException e) {
 			throw new MedmentorException(e.getMessage(), e.getCause());
 		}			
 	}
+	
+	@Override
+	public void cancelaEscalaTrabalho(Integer id) throws MedmentorException {
+		try {
+			escalaTrabalhoService.cancelaEscalaTrabalho(id);
+		} catch (MedmentorException e) {
+			throw new MedmentorException(e.getMessage(), e.getCause());
+		}			
+	}	
 
 }

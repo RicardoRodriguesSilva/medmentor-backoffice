@@ -93,9 +93,9 @@ public class MovimentacaoController {
     
     @PUT
     @Path("/escala/confirma/{id}")
-    public Response confirmaEscalaTrabalhoEfetuado(@PathParam("id") Integer id) {
+    public Response confirmaEscalaTrabalho(@PathParam("id") Integer id) {
         try {
-        	movimentoService.confirmaEscalaTrabalhoEfetuado(id);
+        	movimentoService.confirmaEscalaTrabalho(id);
             return Response.noContent().build(); 
         } catch (MedmentorException e) {
             System.err.println("Erro ao excluir Escala de Trabalho por ID (" + id + "): " + e.getMessage());
@@ -108,7 +108,26 @@ public class MovimentacaoController {
                            .entity("Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.")
                            .build();
         }
-    }      
+    }    
+    
+    @PUT
+    @Path("/escala/cancela/{id}")
+    public Response cancelaEscalaTrabalho(@PathParam("id") Integer id) {
+        try {
+        	movimentoService.cancelaEscalaTrabalho(id);
+            return Response.noContent().build(); 
+        } catch (MedmentorException e) {
+            System.err.println("Erro ao excluir Escala de Trabalho por ID (" + id + "): " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("Erro interno do servidor ao confirmar escala: " + e.getMessage())
+                           .build();
+        } catch (Exception e) {
+            System.err.println("Erro inesperado ao processar requisi��o de confirma��o: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.")
+                           .build();
+        }
+    }     
     
     @GET
     @Path("/horas/por-filtros")

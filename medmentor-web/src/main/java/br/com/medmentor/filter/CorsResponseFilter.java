@@ -30,7 +30,8 @@ public class CorsResponseFilter implements ContainerResponseFilter {
         if (!requestContext.getMethod().equalsIgnoreCase("OPTIONS")) {
             System.out.println("CorsResponseFilter: Adicionando headers CORS para requisição real.");
 
-            responseContext.getHeaders().add("Access-Control-Allow-Origin", "http://localhost:4200");
+            //responseContext.getHeaders().add("Access-Control-Allow-Origin", "http://localhost:4200");
+            responseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
             responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");
 
             // Para requisições POST/PUT/DELETE, o navegador pode enviar Content-Type
