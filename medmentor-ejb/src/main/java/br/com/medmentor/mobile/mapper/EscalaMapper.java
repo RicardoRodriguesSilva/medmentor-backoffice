@@ -34,6 +34,8 @@ public class EscalaMapper {
     			} else {
     				escalaDTO.setBolAtivo(true);
     			}
+    			
+    			listaEscalaDTO.add(escalaDTO);
     		}
     	}
    	
