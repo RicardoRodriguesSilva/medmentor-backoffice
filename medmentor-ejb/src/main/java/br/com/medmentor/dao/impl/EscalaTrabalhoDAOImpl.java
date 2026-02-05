@@ -294,7 +294,7 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
 	
 	@Override
 	public void confirmaEscalaTrabalho(Integer id) throws SQLException {
-		String sql = "update \"MED\".escalatrabalho SET bolrealizado = true, bolativa = true WHERE idescalatrabalho = ?";
+		String sql = "update \"MED\".escalatrabalho SET bolrealizado = true, bolativo = true WHERE idescalatrabalho = ?";
 		try (Connection conn = dataSource.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setInt(1, id);
@@ -308,7 +308,7 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
 	
 	@Override
 	public void cancelaEscalaTrabalho(Integer id) throws SQLException {
-		String sql = "update \"MED\".escalatrabalho SET bolrealizado = false, bolativa = false WHERE idescalatrabalho = ?";
+		String sql = "update \"MED\".escalatrabalho SET bolrealizado = false, bolativo = false WHERE idescalatrabalho = ?";
 		try (Connection conn = dataSource.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setInt(1, id);
