@@ -105,6 +105,28 @@ public class EscalaTrabalhoServiceImpl implements EscalaTrabalhoService {
 		}
 		return listaDto;
 	}
+	
+	@Override
+	public List<EscalaTrabalhoDTO> recuperaListaEscalaTrabalhoDisponivel(FiltroEscalaDTO filtroEscalaDTO) throws MedmentorException {
+		List<EscalaTrabalhoDTO> listaDto = new ArrayList<EscalaTrabalhoDTO>();
+		try {
+			
+			LocalDate dataInicio = null;
+			if (filtroEscalaDTO.getDataInicio()!=null) {
+				dataInicio = LocalDate.parse(filtroEscalaDTO.getDataInicio());
+			}
+			
+			LocalDate dataFim = null;
+			if (filtroEscalaDTO.getDataFim()!=null) {
+				dataFim = LocalDate.parse(filtroEscalaDTO.getDataFim());
+			}			
+			
+			listaDto = escalaTrabalhoMapper.toListDto(escalaTrabalhoDAO.findByDisponiveis(filtroEscalaDTO.getIdUnidadeSaude(), dataInicio, dataFim));
+		} catch (SQLException e) {
+			throw new MedmentorException(e.getMessage(), e.getCause());
+		}
+		return listaDto;
+	}	
 
 	@Override
 	public List<EscalaTrabalhoDTO> recuperaListaEscalaTrabalhoPorFiltro(FiltroEscalaTrabalhoDTO filtroEscalaTrabalhoDTO)
@@ -308,5 +330,46 @@ public class EscalaTrabalhoServiceImpl implements EscalaTrabalhoService {
 		} catch (SQLException e) {
 			throw new MedmentorException(e.getMessage(), e.getCause());
 		}	
+	}
+
+	@Override
+	public void indisponibilzaEscalaTrabalho(Integer id) throws MedmentorException {
+		try {
+			EscalaTrabalho escalaTrabalho = escalaTrabalhoDAO.findById(id);
+			
+			if (!escalaTrabalho.getBolAtivo()) {
+				throw new MedmentorException("Não é possível indisponibilizar uma escala inativa!");
+			}	
+			
+			if (escalaTrabalho.getDataHoraEntrada().isBefore(LocalDateTime.now())) {
+				throw new MedmentorException("Não é possível indisponibilizar uma escala de trabalho com data inferior a hoje!");
+			}
+			
+			List<EmpresaProfissional> listaProfssionais = empresaProfissionalDAO.findByEmpresaUnidadeGestao(
+					escalaTrabalho.getEmpresaUnidadeGestao().getId());
+			
+			if ((listaProfssionais!=null)&&(listaProfssionais.size()>0)) {
+				for (EmpresaProfissional empresaProfissional: listaProfssionais)
+					if (empresaProfissional.getId()!=escalaTrabalho.getEmpresaProfissional().getId()) {
+						
+						DateTimeFormatter formatacao = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+						
+						Notificacao notificacao = new Notificacao();
+						notificacao.setBolLida(false);
+						notificacao.setDataHora(LocalDateTime.now());
+						notificacao.setDescricao("Indisponibilização da escala de trabalho com inicio em " + escalaTrabalho.getDataHoraEntrada().format(formatacao) 
+								+ " e fim em " + escalaTrabalho.getDataHoraSaida().format(formatacao) 
+								+ ", na unidade de saúde " 
+								+ escalaTrabalho.getEmpresaUnidadeGestao().getEmpresa().getNomeFantasia() + ".");
+						notificacao.setEmpresaProfissional(escalaTrabalho.getEmpresaProfissional());
+						notificacao.setEmpresaUnidadeGestao(escalaTrabalho.getEmpresaUnidadeGestao());
+						notificacaoDAO.create(notificacao);
+					}					
+			}			
+			
+			escalaTrabalhoDAO.indisponibilzaEscalaTrabalho(id);
+		} catch (SQLException e) {
+			throw new MedmentorException(e.getMessage(), e.getCause());
+		}
 	}	
 }

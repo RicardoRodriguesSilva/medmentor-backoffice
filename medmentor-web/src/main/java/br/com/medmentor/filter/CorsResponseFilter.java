@@ -47,9 +47,10 @@ public class CorsResponseFilter implements ContainerResponseFilter {
             // das respostas de OPTIONS.
             responseContext.getHeaders().add("Access-Control-Max-Age", "600");
             
-            String loginPath = "/mobile/auth/login";
+            //String loginPath = "/mobile/auth/login";
+            String loginPath = "/auth/login";
             String requestPath = requestContext.getUriInfo().getPath().trim();
-            if (!requestPath.equals(loginPath)) {            
+            if (!requestPath.contains(loginPath)) {            
 	            JwtUtil jwtUtil = new JwtUtil();
 	            String authorizationHeader  = requestContext.getHeaderString("Authorization");
 	            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {

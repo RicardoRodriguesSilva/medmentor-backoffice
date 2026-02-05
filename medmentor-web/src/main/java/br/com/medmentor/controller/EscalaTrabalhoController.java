@@ -230,7 +230,7 @@ public class EscalaTrabalhoController {
             escalaTrabalhoService.disponibilzaEscalaTrabalho(id);
             return Response.noContent().build(); 
         } catch (MedmentorException e) {
-            System.err.println("Erro ao excluir Escala de Trabalho por ID (" + id + "): " + e.getMessage());
+            System.err.println("Erro ao disponibilizar Escala de Trabalho por ID (" + id + "): " + e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                            .entity("Erro interno do servidor ao disponibilizar escala: " + e.getMessage())
                            .build();
@@ -240,7 +240,39 @@ public class EscalaTrabalhoController {
                            .entity("Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.")
                            .build();
         }
-    }  
+    }
+    
+    @PUT
+    @Path("/indisponibilza/{id}")
+    public Response indisponibilizaEscalaTrabalho(@PathParam("id") Integer id) {
+        try {
+            if (id == null) {
+                return Response.status(Response.Status.BAD_REQUEST)
+                               .entity("O ID da escala n�o pode ser nulo para indisponibiliza��o.")
+                               .build();
+            }
+
+            EscalaTrabalhoDTO escalaExistente = escalaTrabalhoService.recuperaEscalaTrabalhoPorId(id);
+            if (escalaExistente == null) {
+                return Response.status(Response.Status.NOT_FOUND)
+                               .entity("Escala de Trabalho com ID " + id + " n�o encontrada para indisponibiliza��o.")
+                               .build();
+            }
+
+            escalaTrabalhoService.disponibilzaEscalaTrabalho(id);
+            return Response.noContent().build(); 
+        } catch (MedmentorException e) {
+            System.err.println("Erro ao indisponibilizar Escala de Trabalho por ID (" + id + "): " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("Erro interno do servidor ao indisponibilizar escala: " + e.getMessage())
+                           .build();
+        } catch (Exception e) {
+            System.err.println("Erro inesperado ao processar requisi��o de indisponibiliza��o: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity("Um erro inesperado ocorreu. Por favor, tente novamente mais tarde.")
+                           .build();
+        }
+    }     
     
     @PUT
     @Path("/confirma/{id}")

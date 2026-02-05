@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.medmentor.dao.EmpresaProfissionalDAO;
 import br.com.medmentor.dao.EscalaTrabalhoDAO;
 import br.com.medmentor.dao.NotificacaoDAO;
 import br.com.medmentor.dao.SolicitacaoMudancaEscalaDAO;
@@ -15,6 +16,8 @@ import br.com.medmentor.enums.TipoSolicitacaoMudancaEscala;
 import br.com.medmentor.exception.MedmentorException;
 import br.com.medmentor.filtro.dto.FiltroSolicitacaoMudancaEscalaDTO;
 import br.com.medmentor.mapper.SolicitacaoMudancaEscalaMapper;
+import br.com.medmentor.mobile.filtro.dto.FiltroSolicitacaoMudancaDTO;
+import br.com.medmentor.model.EmpresaProfissional;
 import br.com.medmentor.model.EscalaTrabalho;
 import br.com.medmentor.model.Notificacao;
 import br.com.medmentor.model.SolicitacaoMudancaEscala;
@@ -26,6 +29,9 @@ import jakarta.transaction.Transactional;
 @Stateless 
 public class SolicitacaoMudancaEscalaServiceImpl implements SolicitacaoMudancaEscalaService {
 	
+	@Inject 
+    private EmpresaProfissionalDAO empresaProfissionalDAO;
+    
 	@Inject
 	private EscalaTrabalhoDAO escalaTrabalhoDAO;
 	
@@ -84,6 +90,52 @@ public class SolicitacaoMudancaEscalaServiceImpl implements SolicitacaoMudancaEs
 
 		return solicitacaoMudancaEscalaMapper.toDto(solicitacaoMudancaEscala);
 	}
+	
+	@Override
+	public void incluiSolicitacaoMudancaEscala(Integer idProfissional, Integer idEscala) throws MedmentorException {
+		
+		SolicitacaoMudancaEscala solicitacaoMudancaEscala = new SolicitacaoMudancaEscala();	
+		
+		try {			
+			
+			EscalaTrabalho escalaTrabalho = escalaTrabalhoDAO.findById(solicitacaoMudancaEscala.getEscalaTrabalhoSolicitada().getId());
+			solicitacaoMudancaEscala.setEscalaTrabalhoSolicitada(escalaTrabalho);
+
+			EmpresaProfissional empresaProfissional = empresaProfissionalDAO.findByProfissional(idProfissional);
+			solicitacaoMudancaEscala.setEmpresaProfissionalSolicitante(empresaProfissional);
+			
+			if (escalaTrabalho.getEmpresaProfissional()!=null) {
+			
+				if (!escalaTrabalho.getBolAtivo()) {
+					throw new MedmentorException("Não é possível solicitar uma escala inativa!");
+				}	
+				
+				if (escalaTrabalho.getDataHoraEntrada().isBefore(LocalDateTime.now())) {
+					throw new MedmentorException("Não é possível solicitar uma escala de trabalho com data inferior a hoje!");
+				}
+				
+				if (this.isPossuiSolicitacaoMudanca(solicitacaoMudancaEscala)) {
+					throw new MedmentorException("Não é possível solicitar uma escala de trabalho que ja tenha sido solicitada anteriormente!");
+				}				
+			} else {
+				
+				solicitacaoMudancaEscala.setBolAcatada(true);
+				
+				EscalaTrabalho novaEscalaTrabalho = escalaTrabalho;
+				novaEscalaTrabalho.setEmpresaProfissional(solicitacaoMudancaEscala.getEmpresaProfissionalSolicitante());
+				escalaTrabalhoDAO.create(novaEscalaTrabalho);
+				
+				escalaTrabalho.setBolAtivo(false);
+				escalaTrabalho.setBolRealizado(false);
+				escalaTrabalhoDAO.update(novaEscalaTrabalho);
+			}
+			
+			this.geraNotificacaoParaSolicitacaoMundanca(solicitacaoMudancaEscala, escalaTrabalho, TipoSolicitacaoMudancaEscala.INCLUSAO);
+			solicitacaoMudancaEscala = solicitacaoMudancaEscalaDAO.create(solicitacaoMudancaEscala);
+		} catch (SQLException e) {
+			throw new MedmentorException(e.getMessage(), e.getCause());
+		}
+	}	
 
 	@Override
 	public void excluiSolicitacaoMudancaEscala(Integer id) throws MedmentorException {
@@ -202,6 +254,31 @@ public class SolicitacaoMudancaEscalaServiceImpl implements SolicitacaoMudancaEs
 		
 		return listaDto;
 	}
+	
+
+	@Override
+	public List<SolicitacaoMudancaEscalaDTO> recuperaListaSolicitacaoMudancaEscalaPorFiltro(
+			FiltroSolicitacaoMudancaDTO filtroSolicitacaoEscalaDTO) throws MedmentorException {
+		List<SolicitacaoMudancaEscalaDTO> listaDto = new ArrayList<SolicitacaoMudancaEscalaDTO>();
+		try {
+			LocalDate dataInicio = null;
+			if (filtroSolicitacaoEscalaDTO.getDataInicio()!=null) {
+				dataInicio = LocalDate.parse(filtroSolicitacaoEscalaDTO.getDataInicio());
+			}
+			
+			LocalDate dataFim = null;
+			if (filtroSolicitacaoEscalaDTO.getDataFim()!=null) {
+				dataFim = LocalDate.parse(filtroSolicitacaoEscalaDTO.getDataFim());
+			}
+			
+			listaDto = solicitacaoMudancaEscalaMapper.toListDto(solicitacaoMudancaEscalaDAO.
+					findByFiltros(filtroSolicitacaoEscalaDTO.getIdUnidadeSaude(), dataInicio, dataFim));
+		} catch (SQLException e) {
+			throw new MedmentorException(e.getMessage(), e.getCause());
+		}
+		
+		return listaDto;
+	}	
 	
 	private Boolean isPossuiSolicitacaoMudanca(SolicitacaoMudancaEscala solicitacaoMudancaEscala) throws MedmentorException {
 		

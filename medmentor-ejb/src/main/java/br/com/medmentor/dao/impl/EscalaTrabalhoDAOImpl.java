@@ -151,11 +151,38 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
 	}
 	
 	@Override
+	public List<EscalaTrabalho> findByDisponiveis(Integer idEmpresaUnidadeGestao,
+			LocalDate dataInicio, LocalDate dataFim) throws SQLException {
+		List<EscalaTrabalho> listaEscala = new ArrayList<EscalaTrabalho>();
+        
+        String sql = this.recuperaEscalaTrabalhoSQL() + " where 1 = 1 AND esc.boldisponibilizado";      
+        
+        if ((idEmpresaUnidadeGestao !=null)&&(idEmpresaUnidadeGestao!=0)) {
+        	sql = sql + " AND esc.idEmpresaUnidadeGestao = " + idEmpresaUnidadeGestao;
+        }
+        
+        if ((dataInicio!=null)&&(dataFim!=null)) {
+            sql = sql + " AND esc.datahoraentrada between '" + dataInicio + "' and '" + dataFim + "'";
+        }        
+        
+        sql = sql + " order by pju2.nomerazaosocial, pju1.nomerazaosocial, esc.datahoraentrada, pes.nomepessoa";
+        try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+			try (ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					EscalaTrabalho escalaTrabalho = this.recuperaEscalaTrabalho(rs);
+					listaEscala.add(escalaTrabalho);
+				}
+			}
+		}
+        return listaEscala;
+	}	
+	
+	@Override
 	public List<EscalaTrabalho> findByFiltros(Integer idEmpresaProfissional, Integer idEmpresaUnidadeGestao, LocalDate dataInicio, LocalDate dataFim) throws SQLException {
         
 		List<EscalaTrabalho> listaEscala = new ArrayList<EscalaTrabalho>();
                 
-        String sql = this.recuperaEscalaTrabalhoSQL() + " where 1 = 1 ";
+        String sql = this.recuperaEscalaTrabalhoSQL() + " where 1 = 1 AND ";
         if ((idEmpresaProfissional !=null)&&(idEmpresaProfissional!=0)) {
         	sql = sql + " AND esc.idEmpresaProfissional = " + idEmpresaProfissional;
         }        
@@ -249,9 +276,22 @@ public class EscalaTrabalhoDAOImpl implements EscalaTrabalhoDAO {
 	            throw new SQLException("Falha ao disponibilizar escala de trabalho, nenhuma linha encontrada para o ID: " + id);
 	        }
 		}	
+	}
+	
+	@Override
+	public void indisponibilzaEscalaTrabalho(Integer id) throws SQLException {
+		String sql = "update \"MED\".escalatrabalho SET boldisponibilizado = false WHERE idescalatrabalho = ?";
+		try (Connection conn = dataSource.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, id);
+
+	        int affectedRows = ps.executeUpdate();
+	        if (affectedRows == 0) {
+	            throw new SQLException("Falha ao indisponibilizar escala de trabalho, nenhuma linha encontrada para o ID: " + id);
+	        }
+		}
 	}	
 	
-
 	@Override
 	public void confirmaEscalaTrabalho(Integer id) throws SQLException {
 		String sql = "update \"MED\".escalatrabalho SET bolrealizado = true, bolativa = true WHERE idescalatrabalho = ?";

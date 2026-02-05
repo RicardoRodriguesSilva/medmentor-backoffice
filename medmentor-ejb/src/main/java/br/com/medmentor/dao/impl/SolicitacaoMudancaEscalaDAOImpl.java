@@ -138,6 +138,34 @@ public class SolicitacaoMudancaEscalaDAOImpl implements SolicitacaoMudancaEscala
 	}
 	
 	@Override
+	public List<SolicitacaoMudancaEscala> findByFiltros(Integer idEmpresaUnidadeGestao, LocalDate dataInicio,
+			LocalDate dataFim) throws SQLException {
+		List<SolicitacaoMudancaEscala> listaEscala = new ArrayList<SolicitacaoMudancaEscala>();
+        
+        String sql = this.recuperaSolicitacaoMudancaEscalaSQL() + " where 1 = 1 ";     
+        
+        if ((idEmpresaUnidadeGestao !=null)&&(idEmpresaUnidadeGestao!=0)) {
+        	sql = sql + " AND uni.idempresaunidadegestaoa = " + idEmpresaUnidadeGestao;
+        }
+        
+        if ((dataInicio!=null)&&(dataFim!=null)) {
+            sql = sql + " AND sme.datahorasolicitacao between '" + dataInicio + "' and '" + dataFim + "'";
+        }        
+        
+        //sql = sql + " AND esc.bolativo = true ";
+        sql = sql + " order by sme.datahorasolicitacao";
+        try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+			try (ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					SolicitacaoMudancaEscala solicitacaoMudancaEscala = this.recuperaSolicitacaoMudancaEscala(rs);
+					listaEscala.add(solicitacaoMudancaEscala);
+				}
+			}
+		}
+        return listaEscala;
+	}	
+	
+	@Override
 	public List<SolicitacaoMudancaEscala> findByFiltros(Integer idEmpresaProfissional, Integer idEscalaTrabalho, LocalDate dataInicio, LocalDate dataFim) throws SQLException {
         
 		List<SolicitacaoMudancaEscala> listaEscala = new ArrayList<SolicitacaoMudancaEscala>();

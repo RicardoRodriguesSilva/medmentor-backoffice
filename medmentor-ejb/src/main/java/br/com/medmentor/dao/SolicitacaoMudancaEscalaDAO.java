@@ -18,5 +18,7 @@ public interface SolicitacaoMudancaEscalaDAO {
 	
 	List<SolicitacaoMudancaEscala> findAll() throws SQLException;
 	
-	List<SolicitacaoMudancaEscala> findByFiltros(Integer idEmpresaProfissional, Integer idEscalaTrabalho, LocalDate dataInicio, LocalDate dataFim) throws SQLException;	
+	List<SolicitacaoMudancaEscala> findByFiltros(Integer idEmpresaUnidadeGestao, LocalDate dataInicio, LocalDate dataFim) throws SQLException;	
+	
+	List<SolicitacaoMudancaEscala> findByFiltros(Integer idEmpresaProfissional, Integer idEscalaTrabalho, LocalDate dataInicio, LocalDate dataFim) throws SQLException;
 }

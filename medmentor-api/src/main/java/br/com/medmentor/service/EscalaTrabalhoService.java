@@ -23,6 +23,8 @@ public interface EscalaTrabalhoService extends GenericService {
 	
 	List<EscalaTrabalhoDTO> recuperaListaEscalaTrabalho() throws MedmentorException;
 	
+	List<EscalaTrabalhoDTO> recuperaListaEscalaTrabalhoDisponivel(FiltroEscalaDTO filtroEscalaDTO) throws MedmentorException;
+	
 	List<EscalaTrabalhoDTO> recuperaListaEscalaTrabalhoPorFiltro(FiltroEscalaTrabalhoDTO filtroEscalaTrabalhoDTO) throws MedmentorException;
 	
 	List<EscalaTrabalhoDTO> recuperaListaEscalaTrabalhoPorFiltro(FiltroEscalaDTO filtroEscalaDTO) throws MedmentorException;		
@@ -30,6 +32,8 @@ public interface EscalaTrabalhoService extends GenericService {
 	List<HorasEscalaTrabalhoDTO> recuperaListaHorasEscalaTrabalhoPorFiltro(FiltroHorasEscalaTrabalhoDTO filtroHorasTrabalhadasDTO) throws MedmentorException;
 	
 	void disponibilzaEscalaTrabalho(Integer id) throws MedmentorException;
+	
+	void indisponibilzaEscalaTrabalho(Integer id) throws MedmentorException;
 	
 	void confirmaEscalaTrabalho(Integer id) throws MedmentorException;
 	
