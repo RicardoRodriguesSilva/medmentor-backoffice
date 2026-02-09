@@ -5,6 +5,7 @@ import java.util.List;
 import br.com.medmentor.dto.NotificacaoDTO;
 import br.com.medmentor.exception.MedmentorException;
 import br.com.medmentor.filtro.dto.FiltroNotificacaoDTO;
+import br.com.medmentor.mobile.filtro.dto.FiltroMensagemDTO;
 import jakarta.ejb.Local;
 
 @Local
@@ -21,5 +22,7 @@ public interface NotificacaoService extends GenericService {
 	List<NotificacaoDTO> recuperaListaNotificacao() throws MedmentorException;
 	
 	List<NotificacaoDTO> recuperaListaNotificacaoPorFiltro(FiltroNotificacaoDTO filtroNotificacaoDTO) throws MedmentorException;
+	
+	List<NotificacaoDTO> recuperaListaNotificacaoPorFiltro(FiltroMensagemDTO filtroMensagemDTO) throws MedmentorException;
 	
 }

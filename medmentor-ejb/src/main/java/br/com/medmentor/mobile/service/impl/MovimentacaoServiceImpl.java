@@ -27,7 +27,6 @@ import jakarta.inject.Inject;
 
 public class MovimentacaoServiceImpl implements MovimentacaoService {
 
-
 	@Inject
 	private EmpresaUnidadeGestaoService empresaUnidadeGestaoService;
 	
