@@ -98,7 +98,7 @@ public class SolicitacaoMudancaEscalaServiceImpl implements SolicitacaoMudancaEs
 		
 		try {			
 			
-			EscalaTrabalho escalaTrabalho = escalaTrabalhoDAO.findById(solicitacaoMudancaEscala.getEscalaTrabalhoSolicitada().getId());
+			EscalaTrabalho escalaTrabalho = escalaTrabalhoDAO.findById(idEscala);
 			solicitacaoMudancaEscala.setEscalaTrabalhoSolicitada(escalaTrabalho);
 
 			EmpresaProfissional empresaProfissional = empresaProfissionalDAO.findByProfissional(idProfissional);

@@ -15,17 +15,20 @@ public class EmpresaMapper {
     	}
     	
     	EmpresaDTO dto = new EmpresaDTO();
-    	dto.setCidadeDTO(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getPessoaDTO().getCidadeDTO());
-    	dto.setDescricaoBairro(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getPessoaDTO().getDescricaoBairro());
-    	dto.setDescricaoComplemento(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getPessoaDTO().getDescricaoComplemento());
-    	dto.setDescricaoEndereco(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getPessoaDTO().getDescricaoEndereco());
+    	if(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getPessoaDTO() != null) {
+	    	dto.setCidadeDTO(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getPessoaDTO().getCidadeDTO());
+	    	dto.setDescricaoBairro(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getPessoaDTO().getDescricaoBairro());
+	    	dto.setDescricaoComplemento(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getPessoaDTO().getDescricaoComplemento());
+	    	dto.setDescricaoEndereco(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getPessoaDTO().getDescricaoEndereco());
+	    	dto.setNumeroCep(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getPessoaDTO().getNumeroCep());
+	    	dto.setDescricaoEmail(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getPessoaDTO().getDescricaoEmail());
+	    	dto.setNumeroCelular(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getPessoaDTO().getNumeroCelular());
+    	}
     	dto.setId(empresaProfissionalDTO.getId());
     	dto.setNomeFantasia(empresaProfissionalDTO.getEmpresaDTO().getNomeFantasia());
-    	dto.setNumeroCep(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getPessoaDTO().getNumeroCep());
     	dto.setNumeroCnpf(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getCnpj());
     	dto.setRazaoSocial(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getRazaoSocial());
-    	dto.setDescricaoEmail(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getPessoaDTO().getDescricaoEmail());
-    	dto.setNumeroCelular(empresaProfissionalDTO.getEmpresaDTO().getPessoaJuridicaDTO().getPessoaDTO().getNumeroCelular());
+    	
     	return dto;
     }
 
