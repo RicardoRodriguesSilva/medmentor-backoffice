@@ -29,6 +29,7 @@ public class MensagemMapper {
     			mensagemDTO.setId(dto.getId());
     			mensagemDTO.setDataHora(dto.getDataHora());
     			mensagemDTO.setDescricao(dto.getDescricao());
+    			mensagemDTO.setBolLida(dto.getBolLida());
     			
     			listaMensagemDTO.add(mensagemDTO);
     		}
@@ -46,6 +47,7 @@ public class MensagemMapper {
 		mensagemDTO.setId(notificacaoDTO.getId());
 		mensagemDTO.setDataHora(notificacaoDTO.getDataHora());
 		mensagemDTO.setDescricao(notificacaoDTO.getDescricao());
+		mensagemDTO.setBolLida(notificacaoDTO.getBolLida());
 
     	return mensagemDTO;
     }    
